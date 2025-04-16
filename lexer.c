@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/04/16 14:51:07 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:54:36 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,7 @@ void    add_token(t_token **tokens_list,t_token *new_token)
     temp->next = new_token;
     return ;
 }
-char   *read_word(char *str, int *i)
-{
-    int start;
-    start = *i;
-    while(str[*i] && str[*i] != ' ' && str[*i] != '|')
-    {
-        (*i)++;
-    }
-    return(ft_strndup(str + start,*i - start));
-}
+
 t_token **lexer(t_token **tokens_list, char *str)
 {
     int i;
@@ -65,22 +56,19 @@ t_token **lexer(t_token **tokens_list, char *str)
         if(str[i] == ' ')
             i++;
         else if(str[i] == '|')
-        {
-            token = create_token("|",PIPE);
-            add_token(tokens_list,token);
-            i++;
-        }
+            ft_pipe(tokens_list, &i);
+        else if(str[i] == '<' || str[i] == '>')
+            ft_redir(str, tokens_list, &i);
+        else if(ft_strncmp(str + i, "<<", 2) == 0 || ft_strncmp(str + i, ">>", 2) == 0)
+            ft_heredoc_or_append(str, tokens_list, &i);
         else
-        {
-            token = create_token(read_word(str, &i),WORD);
-            add_token(tokens_list,token);
-        }
+            ft_read_word(tokens_list, str, &i);
         token = NULL;
     }
     return (tokens_list);
 }
 
-int main(int argc,char **argv, char **env)
+int main()
 {
     int i;
     i = 0;

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "libft/libft.h"
 
 typedef enum e_token_type
 {
@@ -24,5 +25,15 @@ typedef struct s_token
 }   t_token;
 
 char *ft_strndup(char *str,int size);
+
+// Lexer
+t_token    *create_token(char *str, t_token_type type);
+void        add_token(t_token **tokens_list,t_token *new_token);
+
+// Lex_checker
+void    ft_read_word(t_token **tokens_list, char *str, int *i);
+void    ft_pipe(t_token **tokens_list, int *i);
+void	ft_redir(char *str, t_token **tokens_list, int *i);
+void	ft_heredoc_or_append(char *str, t_token **tokens_list, int *i);
 
 #endif

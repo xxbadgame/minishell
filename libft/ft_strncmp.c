@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 13:57:09 by engiusep          #+#    #+#             */
-/*   Updated: 2025/04/16 15:05:13 by engiusep         ###   ########.fr       */
+/*   Created: 2025/04/16 15:30:21 by engiusep          #+#    #+#             */
+/*   Updated: 2025/04/16 15:33:32 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-
-
-char *ft_strndup(char *str,int size)
+int	ft_strncmp(const char *s1, const char *s2, int n)
 {
-	int i;
-	char *new;
-	
-	i = 0;
-	new = malloc(size * sizeof(char) + 1);
-	while(i < size)
+	if (n == 0)
+		return (0);
+	n = n - 1;
+	while ((*s1 || *s2) && n--)
 	{
-		new[i] = str[i];
-		i++;
+		if (*s1 != *s2)
+			return ((unsigned char)*s1 - (unsigned char)*s2);
+		s1++;
+		s2++;
 	}
-	new[i] = '\0';
-	return (new);
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
