@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/04/23 12:17:42 by yannis           ###   ########.fr       */
+/*   Updated: 2025/04/23 12:28:48 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	execute_command(char **cmd, char **envp)
 		perror("pid");
 	else if (pid == 0)
 	{
-		printf("path : %s\n", path);
 		if (execve(path, cmd, envp) == -1)
 		{
 			perror("execve");
@@ -77,10 +76,9 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	(void)envp;
-
-	printf("path : %s\n", get_path_command("ls"));
 	
-	//char *cmd[] = {"ls", "-l", "-a", NULL}; 
-	//execute_command(cmd, envp);
+	char *cmd[] = {"ls", "-l", "-a", NULL}; 
+	execute_command(cmd, envp);
+	
 	return (0);
 }
