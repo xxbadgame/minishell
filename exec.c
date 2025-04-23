@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/04/23 08:09:08 by yannis           ###   ########.fr       */
+/*   Updated: 2025/04/23 08:11:21 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int get_path_command()
 
     return 0;
 }
-
+//test
 int	execute_command(char **cmd, char **envp)
 {
 	get_path_command();
