@@ -13,12 +13,14 @@
 NAME = lexer
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-HEADERS = lexer.h libft/libft.h
+HEADERS = lexer.h libft/libft.h parsing/parsing.h
 RM = rm -f
 
-FILES = lexer.c \
-		lexer_utils.c \
-		symbol.c
+FILES = d_lexer/lexer.c \
+		d_lexer/lexer_utils.c \
+		d_lexer/symbol.c \
+		parsing/parsing_utils.c \
+		parsing/parsing.c 
 
 OBJS = $(FILES:.c=.o)
 LIBFT = libft/libft.a

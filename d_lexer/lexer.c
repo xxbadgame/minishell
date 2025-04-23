@@ -26,9 +26,7 @@ t_token    *create_token(char *str, t_token_type type)
 
 void    add_token(t_token **tokens_list,t_token *new_token)
 {
-    int i;
     t_token *temp;
-    i = 0;
     
     if(!tokens_list || !new_token)
         return ;
@@ -47,8 +45,6 @@ void    add_token(t_token **tokens_list,t_token *new_token)
 t_token **lexer(t_token **tokens_list, char *str)
 {
     int i;
-    t_token *token;
-    token = NULL;
     i = 0;
     
     while(str[i])
@@ -63,24 +59,26 @@ t_token **lexer(t_token **tokens_list, char *str)
             ft_heredoc_or_append(str, tokens_list, &i);
         else
             ft_read_word(tokens_list, str, &i);
-        token = NULL;
     }
     return (tokens_list);
 }
 
-int main()
-{
-    int i;
-    i = 0;
-    t_token **tokens;
-    tokens = malloc(sizeof(t_token *));
-    lexer(tokens,"echo salut | grep ok");
-    t_token *temp;
-    temp = *tokens;
-   while(temp != NULL)
-   {
-        printf("token[%d], value %s, type %d\n",i, temp->value,temp->type);
-        i++;
-        temp = temp->next;
-   }
-}
+// int main()
+// {
+//     int i;
+//     i = 0;
+//    t_token **tokens;
+//     tokens = malloc(sizeof(t_token *)); 
+//     if(!tokens)
+//         return 0;
+//     lexer(tokens,"echo salut | grep ok");
+//     t_token *temp;
+//     temp = *tokens;
+//    while(temp != NULL)
+//    {
+//         printf("token[%d], value %s, type %d\n",i, temp->value,temp->type);
+//         i++;
+//         temp = temp->next;
+//    }
+   
+// }

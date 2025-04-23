@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "libft/libft.h"
+#include "../libft/libft.h"
 
 typedef enum e_token_type
 {
