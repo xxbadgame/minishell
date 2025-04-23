@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/04/23 14:17:29 by yannis           ###   ########.fr       */
+/*   Updated: 2025/04/23 15:01:50 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ int redirect_right(const char *filename)
 	int fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (fd < 0)
 		return (-1);
-    dup2(fd, 1);
-    close(fd);
+    if (dup2(fd, 1) == -1)
+        return (-1);
+    if(close(fd) == -1)
+        return (-1);
 	return(0);
 }
 
@@ -27,8 +29,47 @@ int redirect_left(const char *filename)
 	int fd = open(filename, O_RDONLY, 0644);
     if (fd < 0)
         return (-1);
-    dup2(fd, 0);
-    close(fd);
+    if(dup2(fd, 0) == -1)
+        return(-1);
+    if(close(fd) == -1)
+        return(-1);
+	return (0);
+}
+
+int double_redirect_right(const char *filename)
+{
+    int fd = open(filename, O_CREAT | O_WRONLY, 0644);
+    if (fd < 0)
+		return (-1);
+    if (dup2(fd, 1) == -1)
+        return (-1);
+    if(close(fd) == -1)
+        return (-1);
+	return(0);
+}
+
+int heredoc()
+{
+	char	*line;
+    char    *stop_word;
+
+	while (1)
+	{
+		write(1, "> ", 2);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+			return (-1);
+		if (ft_strncmp(line, stop_word, ft_strlen(stop_word)) == 0
+			&& ft_strlen(stop_word) == (ft_strlen(line) - 1))
+		{
+			free(line);
+			break ;
+		}
+		write(1, line, ft_strlen(line));
+		free(line);
+	}
+	if (dup2(0, STDIN_FILENO) == -1)
+		return (-1);
 	return (0);
 }
 
