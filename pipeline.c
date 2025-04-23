@@ -1,19 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 14:57:12 by yannis            #+#    #+#             */
-/*   Updated: 2025/04/23 13:45:36 by yannis           ###   ########.fr       */
+/*   Created: 2025/04/23 13:19:31 by yannis            #+#    #+#             */
+/*   Updated: 2025/04/23 13:20:26 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include "libft/libft.h"
-
-void free_split(char **split);
+// mettre le wait ici car sinon les commandes attendes les autres pour travailler
+// il faut le mettre dans la focntion générale pipe pour permettre l'execution parallèle 
+// waitpid(pid, NULL, 0);
