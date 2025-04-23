@@ -4,7 +4,9 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -f
 
-FILES = ft_split.c
+FILES = ft_split.c \
+		ft_strlen.c \
+		ft_strncat.c \
 
 OBJS = $(FILES:.c=.o)
 

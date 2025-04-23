@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 14:57:12 by yannis            #+#    #+#             */
-/*   Updated: 2025/04/23 09:38:29 by yannis           ###   ########.fr       */
+/*   Created: 2025/04/23 09:12:56 by yannis            #+#    #+#             */
+/*   Updated: 2025/04/23 12:09:29 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft/libft.h"
+#include "exec.h"
 
-void free_split(char **split);
+void free_split(char **split)
+{
+    int i;
+
+    i = 0;
+    while (split[i])
+        free(split[i++]);
+}
