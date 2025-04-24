@@ -1,5 +1,16 @@
-#include "parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
+/*   Updated: 2025/04/24 14:51:16 by engiusep         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "parsing.h"
 
 t_cmd *init_cmd(int count_elem)
 {
@@ -16,7 +27,6 @@ t_cmd *init_cmd(int count_elem)
     new_cmd->outfile = NULL;
     return (new_cmd);
 }
-
 
 int count_elem_cmd(t_token *current)
 {
@@ -116,5 +126,3 @@ int main()
    // free_cmds(cmds); // Implémentez une fonction pour libérer cmds et ses éléments
     return (0);
 }
-
-

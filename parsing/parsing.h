@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../libft/libft.h"
-#include "../d_lexer/lexer.h"
+#include "../lexer/lexer.h"
 
 
 typedef struct s_cmd
