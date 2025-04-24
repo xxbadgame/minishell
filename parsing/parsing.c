@@ -1,26 +1,15 @@
 #include "parsing.h"
 
-void  add_cmd(t_cmd **cmds, t_cmd *new_cmd)
-{
-    t_cmd  *tmp;
 
-    tmp = *cmds;
-    if(*cmds == NULL)
-        *cmds = new_cmd;
-    else
-    {
-        while(tmp->next)
-            tmp = tmp->next;
-         tmp->next = new_cmd; 
-    }
-}
-t_cmd *init_cmd()
+t_cmd *init_cmd(int count_elem)
 {
     t_cmd *new_cmd;
     new_cmd = malloc(sizeof(t_cmd));
     if(!new_cmd)
         return NULL;
-    new_cmd->argv = NULL;
+    new_cmd->argv = malloc(sizeof(char *) * (count_elem + 1));
+    if (!new_cmd->argv)
+        return (free(new_cmd), NULL);
     new_cmd->append = 0;
     new_cmd->infile = NULL;
     new_cmd->next = NULL;
@@ -28,88 +17,104 @@ t_cmd *init_cmd()
     return (new_cmd);
 }
 
-t_cmd *parsing_token(t_token **tokens_list)
+
+int count_elem_cmd(t_token *current)
 {
-   t_cmd *cmds;
-   char **args; 
+    t_token *tmp;
+    int count_elem;
+    
+
+    tmp = current;
+    count_elem = 0;
+    while (tmp && tmp->type != PIPE)
+    {
+        count_elem++;
+        tmp = tmp->next;
+    }
+    return (count_elem);
+}
+
+t_cmd **parsing_token(t_token **tokens_list)
+{
+   t_cmd **cmds;
    t_token *tmp;
    t_cmd *current;
-   int argc; 
-   cmds = NULL;
-   current = init_cmd();
-   tmp = *tokens_list;
+   int argc;
+   
    argc = 0;
-   args = malloc(sizeof(char *) * 100);
-
+   tmp = *tokens_list;
+   current = init_cmd(count_elem_cmd(tmp));
+   cmds = malloc(sizeof(t_cmd *));
+    *cmds = current;
    while(tmp)
    {
-        if(tmp->type == WORD)
-        {
-            args[argc++] = ft_strdup(tmp->value);
-            tmp = tmp->next;
-        }
-        else if(tmp->type == REDIR_IN || tmp->type == REDIR_OUT)
-        {
-             for_redir(current,&tmp);
-        }
-        else    if(tmp->type == REDIR_APPEND)
-        {
-           for_append(current, &tmp);
-        }
-        else if(tmp->type == PIPE)
-        {
-            args[argc] = NULL;
-            current->argv = args;
-            add_cmd(&cmds,current);
-
-            current = init_cmd();
-            args = malloc(sizeof(char *) * 100);
-            argc = 0;
-            tmp = tmp->next;
-        }
-   }
-
-   if(argc > 0)
-   {
-    args[argc] = NULL;
-    current->argv = args;
-    add_cmd(&cmds, current);
-   }
+        command_checker(&argc, &tmp, &current);
+        tmp = tmp->next;
+    }
    return (cmds);
 }
 
 int main()
 {
     t_token **tokens;
-    t_cmd *cmds;
-   tokens = malloc(sizeof(t_token *));
-   tokens = lexer(tokens,"echo salut | grep > ok ");
+    t_cmd **cmds;
+    t_cmd *current_cmd;
+    int i;
+
+    tokens = malloc(sizeof(t_token *));
+    if (!tokens)
+    {
+        perror("Malloc failed for tokens");
+        return (1);
+    }
+
+    tokens = lexer(tokens, "cat echo | salut | fichier.txt hf");
+    if (!tokens)
+    {
+        fprintf(stderr, "Lexer failed\n");
+        free(tokens);
+        return (1);
+    }
+
     cmds = parsing_token(tokens);
-    int i = 0;
-    while (cmds)
+    if (!cmds)
+    {
+        fprintf(stderr, "Parsing failed\n");
+        free(tokens);
+        return (1);
+    }
+
+    i = 0;
+    current_cmd = *cmds;
+    while (current_cmd)
     {
         printf("Commande %d\n", i++);
-        if (cmds->argv)
+        if (current_cmd->argv)
         {
-            for (int j = 0; cmds->argv[j]; j++)
-                printf("Arg[%d]: %s\n", j, cmds->argv[j]);
+            for (int j = 0; current_cmd->argv[j]; j++)
+                printf("Arg[%d]: %s\n", j, current_cmd->argv[j]);
         }
 
-        if (cmds->infile)
-            printf("Infile: %s\n", cmds->infile);
+        if (current_cmd->infile)
+            printf("Infile: %s\n", current_cmd->infile);
         else
             printf("Infile: (none)\n");
 
-        if (cmds->outfile)
-            printf("Outfile: %s\n", cmds->outfile);
+        if (current_cmd->outfile)
+            printf("Outfile: %s\n", current_cmd->outfile);
         else
             printf("Outfile: (none)\n");
 
-        printf("Append: %d\n", cmds->append);
+        printf("Append: %d\n", current_cmd->append);
         printf("\n");
 
-        cmds = cmds->next;
+        current_cmd = current_cmd->next;
     }
+
+    // Libération de la mémoire
+   // free(tokens);
+   // free_cmds(cmds); // Implémentez une fonction pour libérer cmds et ses éléments
+    return (0);
 }
 
 
