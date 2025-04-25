@@ -87,7 +87,6 @@ char *get_next_line(int fd)
     if (!result)
         return (NULL);
     result[0] = '\0';
-    
     if (buffer[0] != '\0')
     {
         temp = ft_strjoin(result, buffer);
@@ -96,18 +95,10 @@ char *get_next_line(int fd)
             return (NULL);
         result = temp;
     }
-        
     build(fd, buffer, &result);
-    
-    // Si result est vide après build, rien à lire
     if (result && result[0] == '\0')
-    {
-        free(result);
-        return (NULL);
-    }
-    
+        return (free(result), NULL);
     catch(&result, buffer);
-    
     return (result);
 }
 
