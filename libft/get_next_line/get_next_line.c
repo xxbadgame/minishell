@@ -102,10 +102,22 @@ char *get_next_line(int fd)
     return (result);
 }
 
-int	main(void)
+int main(void)
 {
-	int fd = open("test.txt", O_RDONLY);
-	printf("%s", get_next_line(fd));
-    printf("%s", get_next_line(fd));
-    printf("%s", get_next_line(fd));
+    int fd = open("test.txt", O_RDONLY);
+    char *line;
+    
+    if (fd < 0)
+    {
+        perror("Error opening file");
+        return (1);
+    }
+    
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("%s", line);
+        free(line);
+    }
+    close(fd);
+    return (0);
 }
