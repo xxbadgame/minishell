@@ -1,21 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 07:57:29 by yannis            #+#    #+#             */
-/*   Updated: 2025/04/25 15:19:54 by yannis           ###   ########.fr       */
+/*   Created: 2025/04/25 08:27:33 by yannis            #+#    #+#             */
+/*   Updated: 2025/04/25 08:27:34 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
-
-char	**ft_split(char const *s, char c);
-char	*ft_strncat(char *dest, const char *src, size_t n);
-size_t	ft_strlen(const char *str);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-size_t	ft_strlcpy(char *dest, const char *src, size_t size);
