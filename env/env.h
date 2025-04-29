@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   terminal.c                                         :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 10:00:59 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/04/29 15:08:08 by ynzue-es         ###   ########.fr       */
+/*   Created: 2025/04/29 10:46:41 by ynzue-es          #+#    #+#             */
+/*   Updated: 2025/04/29 14:53:31 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "terminal.h"
+#ifndef ENV_H
+# define ENV_H
 
-int main(int argc, char **argv, char **envp)
+#include "../libft/libft.h"
+
+typedef struct s_env
 {
-	(void)argc;
-	(void)argv;
-	t_env *env;
-	int i = 0;
-	
-	env = init_env(envp);
-	env->path_edit = create_path(env->env_cpy);
-	ft_get_path(env);
-	
-	while (env->env_cpy[i])
-	{
-		printf("%s\n", env->env_cpy[i++]);
-	}
-}
+	char **env_cpy;
+	char **path_edit;
+} 	t_env;
+
+t_env *init_env(char **envp);
+char **create_path(char **env_cpy);
+void ft_get_path(t_env *env);
+
+#endif

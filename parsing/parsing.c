@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/04/24 14:51:16 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/04/29 12:00:00 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_cmd **parsing_token(t_token **tokens_list)
     }
    return (cmds);
 }
-
+/*
 int main()
 {
     t_token **tokens;
@@ -126,3 +126,4 @@ int main()
    // free_cmds(cmds); // Implémentez une fonction pour libérer cmds et ses éléments
     return (0);
 }
+*/

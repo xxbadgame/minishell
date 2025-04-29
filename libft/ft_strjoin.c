@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   terminal.c                                         :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 10:00:59 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/04/29 15:08:08 by ynzue-es         ###   ########.fr       */
+/*   Created: 2025/04/29 13:54:21 by ynzue-es          #+#    #+#             */
+/*   Updated: 2025/04/29 14:55:36 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "terminal.h"
+#include "libft.h"
 
-int main(int argc, char **argv, char **envp)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	(void)argc;
-	(void)argv;
-	t_env *env;
-	int i = 0;
-	
-	env = init_env(envp);
-	env->path_edit = create_path(env->env_cpy);
-	ft_get_path(env);
-	
-	while (env->env_cpy[i])
+	int		len_s1;
+	int		len_s2;
+	char	*strjoin;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	strjoin = malloc(len_s1 + len_s2 + 1);
+	if (!strjoin)
+		return (NULL);
+	while (s1[i])
 	{
-		printf("%s\n", env->env_cpy[i++]);
+		strjoin[i] = s1[i];
+		i++;
 	}
+	while (s2[j])
+		strjoin[i++] = s2[j++];
+	strjoin[i] = '\0';
+	return (strjoin);
 }

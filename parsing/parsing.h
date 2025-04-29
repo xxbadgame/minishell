@@ -19,7 +19,6 @@ typedef struct s_cmd
 
 }   t_cmd;
 
-char *ft_strdup(const char *s);
 t_token **lexer(t_token **tokens_list, char *str);
 int  for_redir(t_cmd *current, t_token *tmp);
 void    for_append(t_cmd *current, t_token *tmp);

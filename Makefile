@@ -3,27 +3,36 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
+#    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/04/24 15:08:54 by engiusep         ###   ########.fr        #
+#    Updated: 2025/04/29 14:52:04 by ynzue-es         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell_prog
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-HEADERS = lexer/lexer.h libft/libft.h parsing/parsing.h
+HEADERS = terminal.h \
+		lexer/lexer.h \
+		libft/libft.h \
+		parsing/parsing.h \
+		env/env.h \
+
 RM = rm -f
 
-FILES = lexer/lexer.c \
+FILES = terminal.c \
+	lexer/lexer.c \
 	lexer/lexer_utils.c \
 	lexer/symbol.c \
 	parsing/parsing_utils.c \
-	parsing/parsing.c 
+	parsing/parsing.c \
+	env/env.c \
+	env/env_path.c \
+	env/env_edit.c \
 
 OBJ_DIR = obj
-DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing)
+DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing env)
 OBJS = $(addprefix $(OBJ_DIR)/, $(FILES:.c=.o))
 LIBFT = libft/libft.a
 

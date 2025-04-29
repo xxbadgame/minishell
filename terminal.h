@@ -6,7 +6,9 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:01:10 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/04/16 10:01:11 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:21:44 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env/env.h"
+#include "libft/libft.h"
