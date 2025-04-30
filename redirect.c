@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/04/23 15:01:50 by yannis           ###   ########.fr       */
+/*   Updated: 2025/04/27 10:53:33 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,29 +48,33 @@ int double_redirect_right(const char *filename)
 	return(0);
 }
 
-int heredoc()
+int heredoc(char *stop_word)
 {
-	char	*line;
-    char    *stop_word;
+    int		pipefd[2];
+    char	*line;
 
-	while (1)
-	{
-		write(1, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			return (-1);
-		if (ft_strncmp(line, stop_word, ft_strlen(stop_word)) == 0
-			&& ft_strlen(stop_word) == (ft_strlen(line) - 1))
-		{
-			free(line);
-			break ;
-		}
-		write(1, line, ft_strlen(line));
-		free(line);
-	}
-	if (dup2(0, STDIN_FILENO) == -1)
-		return (-1);
-	return (0);
+    if (pipe(pipefd) == -1)
+        return (-1);
+
+    while (1)
+    {
+        write(1, "heredoc> ", 9);
+        line = get_next_line(STDIN_FILENO);
+        if (!line)
+            return (-1);
+        if (ft_strncmp(line, stop_word, ft_strlen(stop_word)) == 0
+            && ft_strlen(stop_word) == (ft_strlen(line) - 1))
+        {
+            free(line);
+            break ;
+        }
+        write(pipefd[1], line, ft_strlen(line));
+        free(line);
+    }
+    close(pipefd[1]);
+    dup2(pipefd[0], 0);
+    close(pipefd[0]);
+    return (0);
 }
 
 int main()
@@ -93,7 +97,7 @@ int main()
     /*
     int saved_stdin = dup(0);
 
-    redirect_left("fichier.txt");
+    heredoc("STOP");
 
     char *argv[] = {"cat", NULL};
     execvp("cat", argv);
