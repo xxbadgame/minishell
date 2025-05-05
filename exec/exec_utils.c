@@ -6,18 +6,18 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 09:12:56 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/05 10:07:03 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:53:42 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void free_split(char **split)
+void	free_split(char **split)
 {
-    int i;
+	int i;
 
-    i = 0;
-    while (split[i])
-        free(split[i++]);
-    free(split);
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
 }

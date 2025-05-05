@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 08:17:11 by yannis            #+#    #+#             */
-/*   Updated: 2025/04/23 08:20:07 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/05 11:17:02 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncat(char *dest, const char *src, size_t n)
+char	*ft_strncat(char *dest, char *src, int n)
 {
-	size_t	i;
-	size_t	len_dest;
+	int i;
+	int len_dest;
 
 	i = 0;
 	len_dest = ft_strlen(dest);

@@ -8,9 +8,12 @@ FILES = ft_strncmp.c \
 		ft_strlen.c \
 		ft_strdup.c \
 		ft_split.c \
-		ft_tablen.c \
 		ft_strjoin.c \
-		ft_strjoin3.c \
+		ft_strncat.c \
+		ft_strlcpy.c \
+		ft_substr.c \
+		get_next_line/get_next_line.c \
+
 
 OBJS = $(FILES:.c=.o)
 

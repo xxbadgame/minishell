@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   symbol.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/04/16 16:03:02 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:54:56 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_pipe(t_token **tokens_list, int *i)
 	t_token	*token;
 
 	token = NULL;
-	token = create_token(ft_strndup("|",1), PIPE);
+	token = create_token(ft_strndup("|", 1), PIPE);
 	add_token(tokens_list, token);
 	(*i)++;
 }

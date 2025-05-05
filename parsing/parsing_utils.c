@@ -27,7 +27,8 @@ void	for_append(t_cmd *current, t_token *tmp)
 
 void	command_checker(int *argc, t_token **tmp, t_cmd **current)
 {
-    t_cmd *new_current;
+	t_cmd	*new_current;
+
 	if ((*tmp)->type == WORD)
 		(*current)->argv[(*argc)++] = ft_strdup((*tmp)->value);
 	else if ((*tmp)->type == REDIR_IN || (*tmp)->type == REDIR_OUT)

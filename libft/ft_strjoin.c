@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:54:21 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/05 10:08:33 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:56:06 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int		len_s1;
-	int		len_s2;
-	char	*strjoin;
-	int		i;
-	int		j;
+	int len_s1;
+	int len_s2;
+	char *strjoin;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;

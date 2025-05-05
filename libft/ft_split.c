@@ -6,13 +6,13 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:40:29 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/05 10:08:23 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:18:16 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_count_word(char const *s, char sep)
+int	ft_count_word(char *s, char sep)
 {
 	int	i;
 	int	count;
@@ -21,15 +21,15 @@ int	ft_count_word(char const *s, char sep)
 	count = 0;
 	while (s[i])
 	{
-		if ((s[i] != sep && s[i + 1] == sep)
-			|| (s[i] != sep && s[i + 1] == '\0'))
+		if ((s[i] != sep && s[i + 1] == sep) || (s[i] != sep && s[i
+				+ 1] == '\0'))
 			count++;
 		i++;
 	}
 	return (count);
 }
 
-int	ft_len_words(char const *s, char sep)
+int	ft_len_words(char *s, char sep)
 {
 	int	i;
 
@@ -39,7 +39,7 @@ int	ft_len_words(char const *s, char sep)
 	return (i);
 }
 
-char	*allocate_copy(char const *str, char sep)
+char	*allocate_copy(char *str, char sep)
 {
 	int		i;
 	char	*copy_word;
@@ -67,11 +67,11 @@ void	ft_free_all(char **spl, int i)
 	free(spl);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
-	int		nb_words;
-	char	**split;
-	int		i;
+	int nb_words;
+	char **split;
+	int i;
 
 	i = 0;
 	nb_words = ft_count_word(s, c);

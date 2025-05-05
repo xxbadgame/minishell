@@ -6,18 +6,25 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:32:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/05 10:16:04 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:19:57 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+#ifndef LIBFT_H
+# define LIBFT_H
 
-int		ft_strncmp(const char *s1, const char *s2, int n);
-char 	*ft_strdup(char *s);
-int 	ft_strlen(char *str);
-char	**ft_split(char const *s, char c);
-int		ft_tablen(char **tab);
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include "get_next_line/get_next_line.h"
+
+int		ft_strncmp(char *s1, char *s2, int n);
+char	*ft_strdup(char *s);
+int		ft_strlen(char *str);
+char	**ft_split(char *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strjoin3(char *s1, char c, char *s2);
+char	*ft_substr(char *s, int start, int len);
+char	*ft_strncat(char *dest, char *src, int n);
+int		ft_strlcpy(char *dest, char *src, int size);
+
+#endif

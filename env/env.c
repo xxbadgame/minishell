@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:46:02 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/04/29 13:11:34 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:53:26 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	env_size(char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env[i])
@@ -22,11 +22,11 @@ int	env_size(char **env)
 	return (i);
 }
 
-char **envcpy(char **envp)
+char	**envcpy(char **envp)
 {
-	int i;
-	char **env_cpy;
-	
+	int		i;
+	char	**env_cpy;
+
 	i = 0;
 	env_cpy = malloc(sizeof(char *) * (env_size(envp) + 1));
 	if (!env_cpy)
@@ -40,8 +40,7 @@ char **envcpy(char **envp)
 	return (env_cpy);
 }
 
-
-t_env *init_env(char **envp)
+t_env	*init_env(char **envp)
 {
 	t_env *env;
 
@@ -49,6 +48,5 @@ t_env *init_env(char **envp)
 	if (!env)
 		return (NULL);
 	env->env_cpy = envcpy(envp);
-	env->path_edit = NULL;
 	return (env);
 }
