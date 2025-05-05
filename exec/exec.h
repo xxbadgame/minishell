@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   terminal.c                                         :+:      :+:    :+:   */
+/*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 10:00:59 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/04/29 15:08:08 by ynzue-es         ###   ########.fr       */
+/*   Created: 2025/05/05 10:10:31 by ynzue-es          #+#    #+#             */
+/*   Updated: 2025/05/05 10:12:50 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "terminal.h"
+#ifndef EXEC_H
+#define EXEC_H
 
-int main(int argc, char **argv, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	t_env *env;
-	int i = 0;
-	
-	env = init_env(envp);
-	env->path_edit = create_path(env->env_cpy);
-	ft_get_path(env);
-	
-	while (env->env_cpy[i])
-	{
-		printf("%s\n", env->env_cpy[i++]);
-	}
-}
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include "libft/libft.h"
+
+void free_split(char **split);
+
+#endif

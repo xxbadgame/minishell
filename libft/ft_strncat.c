@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 10:08:54 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/05 10:09:00 by ynzue-es         ###   ########.fr       */
+/*   Created: 2025/04/23 08:17:11 by yannis            #+#    #+#             */
+/*   Updated: 2025/04/23 08:20:07 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+char	*ft_strncat(char *dest, const char *src, size_t n)
 {
 	size_t	i;
+	size_t	len_dest;
 
 	i = 0;
-	while (str[i])
+	len_dest = ft_strlen(dest);
+	while (src[i] && i < (n - 1))
+	{
+		dest[len_dest + i] = src[i];
 		i++;
-	return (i);
+	}
+	dest[len_dest + i] = '\0';
+	return (dest);
 }
