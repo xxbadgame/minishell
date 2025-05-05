@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/05 15:31:04 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:40:00 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ int	ft_read_word(t_token **tokens_list, char *str, int *i)
 		(*i)++;
 	temp = ft_strndup(str + start, *i - start);
 	if(!temp)
-		free(temp);
+		return(-1);
 	token = create_token(temp, WORD);
+	if(!token)
+		return(free(temp),-1);
 	add_token(tokens_list, token);
 	return (0);
 }
@@ -35,9 +37,14 @@ int	ft_read_word(t_token **tokens_list, char *str, int *i)
 int	ft_pipe(t_token **tokens_list, int *i)
 {
 	t_token	*token;
-
+	char *temp;
 	token = NULL;
-	token = create_token(ft_strndup("|", 1), PIPE);
+	temp = ft_strndup("|", 1);
+	if(!temp)
+		return(-1);
+	token = create_token(temp, PIPE);
+	if(!token)
+		return(free(temp),-1);
 	add_token(tokens_list, token);
 	(*i)++;
 	return (0);
@@ -46,27 +53,57 @@ int	ft_pipe(t_token **tokens_list, int *i)
 int	ft_redir(char *str, t_token **tokens_list, int *i)
 {
 	t_token	*token;
+	char *temp;
 
+	
 	token = NULL;
 	if (str[*i] == '<')
-		token = create_token(ft_strndup("<", 1), REDIR_IN);
+	{
+		temp = ft_strndup("<", 1);
+		if(!temp)
+			return (-1);
+		token = create_token(temp, REDIR_IN);
+		if(!token)
+			return(free(temp),-1);
+	}
 	else if (str[*i] == '>')
-		token = create_token(ft_strndup(">", 1), REDIR_OUT);
-	add_token(tokens_list, token);
+	{
+		temp = ft_strndup(">", 1);
+		if(!temp)
+			return (-1);
+		token = create_token(temp, REDIR_OUT);
+		if(!token)
+			return(free(temp),-1);
+	}
 	(*i)++;
-	return (0);
+	return (add_token(tokens_list, token),0);
 }
 
 int	ft_heredoc_or_append(char *str, t_token **tokens_list, int *i)
 {
-	t_token *token;
+    t_token *token;
+    char *temp;
 
-	token = NULL;
-	if (ft_strncmp(str + *i, "<<", 2) == 0)
-		token = create_token(ft_strndup("<<", 2), HEREDOC);
-	else if (ft_strncmp(str + *i, ">>", 2) == 0)
-		token = create_token(ft_strndup(">>", 2), REDIR_APPEND);
-	add_token(tokens_list, token);
-	(*i) += 2;
-	return (0);
+    token = NULL;
+    temp = NULL;
+    if (ft_strncmp(str + *i, "<<", 2) == 0)
+    {
+        temp = ft_strndup("<<", 2);
+        if (!temp)
+            return (-1);
+        token = create_token(temp, HEREDOC);
+        if (!token)
+            return (free(temp), -1);
+    }
+    else if (ft_strncmp(str + *i, ">>", 2) == 0)
+    {
+        temp = ft_strndup(">>", 2);
+        if (!temp)
+            return (-1);
+        token = create_token(temp, REDIR_APPEND);
+        if (!token)
+            return (free(temp), -1);
+    }
+    (*i) += 2;
+    return (add_token(tokens_list, token),0);
 }
