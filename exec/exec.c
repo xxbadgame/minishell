@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/05 14:03:16 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:23:21 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ char	*get_path_command(char *cmd)
 	{
 		path = malloc(path_len(all_path[i], cmd));
 		if (!path)
-			return (free_split(all_path), NULL);
+			return (free_tab(all_path), NULL);
 		path[0] = '\0';
 		ft_strncat(path, all_path[i], ft_strlen(all_path[i]) + 1);
 		ft_strncat(path, "/", ft_strlen(all_path[i]) + 2);
 		ft_strncat(path, cmd, path_len(all_path[i], cmd));
 		if (access(path, X_OK) == 0)
-			return (free_split(all_path), path);
+			return (free_tab(all_path), path);
 		free(path);
 		i++;
 	}
-	free_split(all_path);
+	free_tab(all_path);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/05 10:54:12 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:23:56 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int	heredoc(char *stop_word)
 		free(line);
 	}
 	close(pipefd[1]);
-	dup2(pipefd[0], 0);
+	if (dup2(pipefd[0], 0) ==-1)
+		return(close(pipefd[0]),-1);
 	close(pipefd[0]);
 	return (0);
 }

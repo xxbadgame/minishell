@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   free_tab.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 13:57:09 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/05 10:54:21 by ynzue-es         ###   ########.fr       */
+/*   Created: 2025/05/05 14:12:24 by ynzue-es          #+#    #+#             */
+/*   Updated: 2025/05/05 15:20:54 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "libft.h"
 
-char	*ft_strndup(char *str, int size)
+void	free_tab(char **tab)
 {
 	int i;
-	char *new;
-
+	
 	i = 0;
-	new = malloc(size * sizeof(char) + 1);
-	while (i < size)
-	{
-		new[i] = str[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
+	while(tab[i])
+		free(tab[i++]);
+	free(tab);
 }

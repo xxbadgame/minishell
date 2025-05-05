@@ -24,13 +24,12 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
-char				*ft_strndup(char *str, int size);
 t_token				*create_token(char *str, t_token_type type);
 void				add_token(t_token **tokens_list, t_token *new_token);
-void				ft_read_word(t_token **tokens_list, char *str, int *i);
-void				ft_pipe(t_token **tokens_list, int *i);
-void				ft_redir(char *str, t_token **tokens_list, int *i);
-void				ft_heredoc_or_append(char *str, t_token **tokens_list,
+int				ft_read_word(t_token **tokens_list, char *str, int *i);
+int				ft_pipe(t_token **tokens_list, int *i);
+int				ft_redir(char *str, t_token **tokens_list, int *i);
+int				ft_heredoc_or_append(char *str, t_token **tokens_list,
 						int *i);
 
 #endif

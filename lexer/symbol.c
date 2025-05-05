@@ -6,28 +6,33 @@
 /*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/05 10:54:56 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:31:04 by ynzue-es         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-void	ft_read_word(t_token **tokens_list, char *str, int *i)
+int	ft_read_word(t_token **tokens_list, char *str, int *i)
 {
 	int		start;
 	t_token	*token;
-
+	char *temp;
+	
 	token = NULL;
 	start = *i;
 	while (str[*i] && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
 		&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
 		&& ft_strncmp(str + *i, "<<", 2) != 0)
 		(*i)++;
-	token = create_token(ft_strndup(str + start, *i - start), WORD);
+	temp = ft_strndup(str + start, *i - start);
+	if(!temp)
+		free(temp);
+	token = create_token(temp, WORD);
 	add_token(tokens_list, token);
+	return (0);
 }
 
-void	ft_pipe(t_token **tokens_list, int *i)
+int	ft_pipe(t_token **tokens_list, int *i)
 {
 	t_token	*token;
 
@@ -35,9 +40,10 @@ void	ft_pipe(t_token **tokens_list, int *i)
 	token = create_token(ft_strndup("|", 1), PIPE);
 	add_token(tokens_list, token);
 	(*i)++;
+	return (0);
 }
 
-void	ft_redir(char *str, t_token **tokens_list, int *i)
+int	ft_redir(char *str, t_token **tokens_list, int *i)
 {
 	t_token	*token;
 
@@ -48,9 +54,10 @@ void	ft_redir(char *str, t_token **tokens_list, int *i)
 		token = create_token(ft_strndup(">", 1), REDIR_OUT);
 	add_token(tokens_list, token);
 	(*i)++;
+	return (0);
 }
 
-void	ft_heredoc_or_append(char *str, t_token **tokens_list, int *i)
+int	ft_heredoc_or_append(char *str, t_token **tokens_list, int *i)
 {
 	t_token *token;
 
@@ -61,4 +68,5 @@ void	ft_heredoc_or_append(char *str, t_token **tokens_list, int *i)
 		token = create_token(ft_strndup(">>", 2), REDIR_APPEND);
 	add_token(tokens_list, token);
 	(*i) += 2;
+	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/05 11:22:56 by ynzue-es         ###   ########.fr        #
+#    Updated: 2025/05/05 15:24:37 by ynzue-es         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,13 +24,11 @@ RM = rm -f
 
 FILES = terminal.c \
 		lexer/lexer.c \
-		lexer/lexer_utils.c \
 		lexer/symbol.c \
 		parsing/parsing_utils.c \
 		parsing/parsing.c \
 		env/env.c \
 		exec/exec.c \
-		exec/exec_utils.c \
 		exec/redirect.c \
 
 OBJ_DIR = obj
