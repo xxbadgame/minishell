@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/23 07:58:54 by yannis            #+#    #+#              #
-#    Updated: 2025/04/23 09:38:22 by yannis           ###   ########.fr        #
+#    Updated: 2025/05/06 11:51:59 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ RM = rm -f
 
 FILES = exec.c \
 		exec_utils.c \
+		pipeline.c \
 
 OBJS = $(FILES:.c=.o)
 LIBFT = libft/libft.a

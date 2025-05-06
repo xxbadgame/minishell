@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/04/23 13:19:45 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/06 14:21:31 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,46 @@ char *get_path_command(char *cmd)
     return NULL;
 }
 
-int	execute_command(char **cmd, char **envp)
+int	launch_execve(t_cmd *cmd, char **envp)
 {
-	char *path = get_path_command(cmd[0]);
-	int pid;
-
-	pid = fork();
-	if (pid < 0)
-		perror("pid");
-	else if (pid == 0)
+	char *path = get_path_command(cmd->argv[0]);
+	if (execve(path, cmd->argv, envp) == -1)
 	{
-		if (execve(path, cmd, envp) == -1)
-		{
-			perror("execve");
-			free(path);
-			return (-1);
-		}
+		perror("exec failed");
+		free(path);
+		exit (-1);
 	}
 	free(path);
 	return (0);
 }
 
+int exec_single_command(t_cmd *cmd, char **envp)
+{
+	int pid;
+
+	pid = fork();
+	if (pid < 0)
+		return(perror("pid"), -1);
+	else if (pid == 0)
+		launch_execve(cmd, envp);
+	return(0);
+}
+
+int pipe_checker(t_cmd **cmds, char **envp)
+{
+	t_cmd *cmd;
+
+	cmd = *cmds;
+	if (cmd->next != NULL)
+		pipeline(cmds, envp);
+	else
+		exec_single_command(cmd, envp);
+	return(0);
+	
+}
+
+
+/*
 int main(int argc, char **argv, char **envp) 
 {
 	(void)argv;
@@ -82,3 +101,4 @@ int main(int argc, char **argv, char **envp)
 	
 	return (0);
 }
+	*/

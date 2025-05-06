@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/04/27 10:53:33 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/06 11:51:32 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,10 @@ int heredoc(char *stop_word)
     close(pipefd[0]);
     return (0);
 }
-
+/*
 int main()
 {
     // test 1
-    /*
 	int saved_stdout = dup(1);
 
 	redirect_right("fichier.txt");
@@ -91,10 +90,9 @@ int main()
     close(saved_stdout);
 
     write(1, "test 2\n", 7);
-    */
+   
 
     // test 2
-    /*
     int saved_stdin = dup(0);
 
     heredoc("STOP");
@@ -105,5 +103,6 @@ int main()
     perror("execvp");
     dup2(saved_stdin, 0);
     close(saved_stdin);
-    */
+    
 }
+*/
