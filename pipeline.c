@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:31 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/06 14:21:46 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/06 14:41:57 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int wait_all_process()
 
 int command_pipeline(t_cmd *cmd, int in_fd, int *pipefd, char **envp)
 {
+    if(cmd->infile)
+        in_fd = open(cmd->infile, O_RDONLY);
     if (in_fd != 0) {
         dup2(in_fd, 0);
         close(in_fd);
