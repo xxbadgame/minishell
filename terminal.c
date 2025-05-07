@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/07 15:20:05 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:39:10 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int main(int argc, char **argv, char **envp)
 	i = 0;
 
 	shell = malloc(sizeof(t_shell));
+	shell->cmds = NULL;
+	shell->tokens = NULL;
 	argc = 0;
 	shell->env = init_env(envp);
 	if(!shell->env)
@@ -71,8 +73,10 @@ int main(int argc, char **argv, char **envp)
 		free(line);
 		i++;
 	}
-	//free_env(shell->env);
-	//free_cmds(shell->cmds);
-	//free_tokens(shell->tokens);
+	free_env(&shell);
+	free_cmds(&shell);
+	free_tokens(&shell);
+	free(shell);
+	rl_clear_history();
 	return 0;
 }

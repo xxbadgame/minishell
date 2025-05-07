@@ -6,24 +6,28 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:13:27 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/07 13:42:35 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:34:25 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-void free_env(t_env	*env)
+void free_env(t_shell **shell)
 {
-	free_tab(env->env_cpy);
-	free(env);
+	if (!(*shell)->env)
+		return;
+	free_tab((*shell)->env->env_cpy);
+	free((*shell)->env);
 }
 
-void free_tokens(t_token **tokens_list)
+void free_tokens(t_shell **shell)
 {
 	t_token *token;
 	t_token *token_tmp;
 
-	token = *tokens_list;
+	if (!(*shell)->tokens)
+		return;
+	token = *((*shell)->tokens);
 	while (token)
 	{
 		free(token->value);	
@@ -33,12 +37,14 @@ void free_tokens(t_token **tokens_list)
 	}
 }
 
-void free_cmds(t_cmd **cmds)
+void free_cmds(t_shell **shell)
 {
 	t_cmd *cmd;
 	t_cmd *cmd_tmp;
 
-	cmd = *cmds;
+	if (!(*shell)->cmds)
+		return;
+	cmd = *((*shell)->cmds);
 	while (cmd)
 	{
 		free_tab(cmd->argv);

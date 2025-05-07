@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/07 15:16:33 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:33:38 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ int handle_word(int *argc, t_token **tmp, t_cmd **current);
 int handle_redirection(t_cmd **current, t_token **tmp);
 
 //free
-void free_cmds(t_cmd **cmds);
-void free_tokens(t_token **tokens_list);
-void free_env(t_env	*env);
+void free_cmds(t_shell **shell);
+void free_tokens(t_shell **shell);
+void free_env(t_shell **shell);
 
 #endif
