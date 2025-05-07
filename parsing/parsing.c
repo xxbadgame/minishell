@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/07 10:06:45 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:06:32 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,27 @@ int	count_elem_cmd(t_token *current)
 	return (count_elem);
 }
 
-t_cmd	**parsing_token(t_token **tokens_list)
+t_cmd	**parsing_token(t_shell **shell)
 {
-	t_cmd	**cmds;
 	t_token	*tmp;
 	t_cmd	*current;
 	int		argc;
 
 	argc = 0;
-	tmp = *tokens_list;
+	tmp = *((*shell)->tokens);
+	
 	current = init_cmd(count_elem_cmd(tmp));
 	if(!current)
 		return (NULL);
-	cmds = malloc(sizeof(t_cmd *));
-	if(!cmds)
+	(*shell)->cmds = malloc(sizeof(t_cmd *));
+	if(!(*shell)->cmds)
 		return(free(current),free_tab(current->argv),NULL);
-	*cmds = current;
+	*((*shell)->cmds) = current;
 	while (tmp)
 	{
 		if(command_checker(&argc, &tmp, &current) == -1)
-			return(free(cmds),free(current),free_tab(current->argv),NULL);
+			return(free((*shell)->cmds),free(current),free_tab(current->argv),NULL);
 		tmp = tmp->next;
 	}
-	return (cmds);
+	return ((*shell)->cmds);
 }

@@ -6,7 +6,7 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/07 10:38:13 by engiusep         ###   ########.fr        #
+#    Updated: 2025/05/07 14:16:18 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,10 @@ FILES = terminal.c \
 		exec/redirect.c \
 		exec/exec_utils.c \
 		exec/pipeline.c \
+		free/freedom.c\
 
 OBJ_DIR = obj
-DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing env exec)
+DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing env exec free)
 OBJS = $(addprefix $(OBJ_DIR)/, $(FILES:.c=.o))
 LIBFT = libft/libft.a
 
