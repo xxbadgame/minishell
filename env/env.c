@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:46:02 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/07 09:56:09 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:38:17 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ t_env	*init_env(char **envp)
 		return (NULL);
 	env->env_cpy = envcpy(envp);
 	if(!env->env_cpy)
-		return (NULL);
+		return (free(env),NULL);
 	return (env);
 }

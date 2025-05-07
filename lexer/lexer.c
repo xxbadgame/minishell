@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/07 10:04:58 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:59:38 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,34 @@ void	add_token(t_token **tokens_list, t_token *new_token)
 	return ;
 }
 
+int conditional_lexer(t_token **tokens_list, char *str, int *i)
+{
+	if (str[*i] == ' ')
+		(*i)++;
+	else if (str[*i] == '|')
+	{	
+		if(ft_pipe(tokens_list, i) == -1)
+			return (-1);
+	}
+	else if (str[*i] == '<' || str[*i] == '>')
+	{
+		if(ft_redir(str, tokens_list, i) == -1)
+			return(-1);
+	}
+	else if (ft_strncmp(str + *i, "<<", 2) == 0 || ft_strncmp(str + *i, ">>",
+			2) == 0)
+	{
+		if(ft_heredoc_or_append(str, tokens_list, i) == -1)
+			return (-1);
+	}
+	else
+	{
+		if(ft_read_word(tokens_list, str, i) == -1)
+			return(-1);
+	}
+	return (0);
+}
+
 t_token	**lexer(t_token **tokens_list, char *str)
 {
 	int	i;
@@ -51,17 +79,8 @@ t_token	**lexer(t_token **tokens_list, char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == ' ')
-			i++;
-		else if (str[i] == '|')
-			ft_pipe(tokens_list, &i);
-		else if (str[i] == '<' || str[i] == '>')
-			ft_redir(str, tokens_list, &i);
-		else if (ft_strncmp(str + i, "<<", 2) == 0 || ft_strncmp(str + i, ">>",
-				2) == 0)
-			ft_heredoc_or_append(str, tokens_list, &i);
-		else
-			ft_read_word(tokens_list, str, &i);
+		if(conditional_lexer(tokens_list, str, &i) == -1)
+			return (NULL);
 	}
 	return (tokens_list);
 }
