@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/05 10:57:14 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:06:45 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../terminal.h"
 
 t_cmd	*init_cmd(int count_elem)
 {
@@ -54,11 +54,16 @@ t_cmd	**parsing_token(t_token **tokens_list)
 	argc = 0;
 	tmp = *tokens_list;
 	current = init_cmd(count_elem_cmd(tmp));
+	if(!current)
+		return (NULL);
 	cmds = malloc(sizeof(t_cmd *));
+	if(!cmds)
+		return(free(current),free_tab(current->argv),NULL);
 	*cmds = current;
 	while (tmp)
 	{
-		command_checker(&argc, &tmp, &current);
+		if(command_checker(&argc, &tmp, &current) == -1)
+			return(free(cmds),free(current),free_tab(current->argv),NULL);
 		tmp = tmp->next;
 	}
 	return (cmds);

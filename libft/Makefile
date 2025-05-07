@@ -13,6 +13,7 @@ FILES = ft_strncmp.c \
 		ft_strlcpy.c \
 		free_tab.c \
 		ft_substr.c \
+		ft_strndup.c \
 		get_next_line/get_next_line.c \
 
 

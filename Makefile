@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+         #
+#    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/05 15:24:37 by ynzue-es         ###   ########.fr        #
+#    Updated: 2025/05/07 10:38:13 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,22 +14,21 @@ NAME = minishell_prog
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 HEADERS = terminal.h \
-		lexer/lexer.h \
 		libft/libft.h \
-		parsing/parsing.h \
-		env/env.h \
-		exec/exec.h \
 
 RM = rm -f
 
 FILES = terminal.c \
 		lexer/lexer.c \
 		lexer/symbol.c \
+		parsing/handle_parsing.c \
 		parsing/parsing_utils.c \
 		parsing/parsing.c \
 		env/env.c \
 		exec/exec.c \
 		exec/redirect.c \
+		exec/exec_utils.c \
+		exec/pipeline.c \
 
 OBJ_DIR = obj
 DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing env exec)

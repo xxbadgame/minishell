@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/05 15:23:21 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:29:54 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "../terminal.h"
 
 int	path_len(char *path_env, char *cmd)
 {
@@ -50,24 +50,41 @@ char	*get_path_command(char *cmd)
 	return (NULL);
 }
 
-int	execute_command(char **cmd, char **envp)
+int	launch_execve(t_cmd *cmd, char **envp)
 {
-	char *path = get_path_command(cmd[0]);
+	char *path = get_path_command(cmd->argv[0]);
+	if (execve(path, cmd->argv, envp) == -1)
+	{
+		perror("exec failed");
+		free(path);
+		exit (-1);
+	}
+	free(path);
+	return (0);
+}
+
+int exec_single_command(t_cmd *cmd, char **envp)
+{
 	int pid;
 
 	pid = fork();
 	if (pid < 0)
-		perror("pid");
+		return(perror("pid"), -1);
 	else if (pid == 0)
-	{
-		if (execve(path, cmd, envp) == -1)
-		{
-			perror("execve");
-			free(path);
-			return (-1);
-		}
-	}
+		launch_execve(cmd, envp);
 	waitpid(pid, NULL, 0);
-	free(path);
-	return (0);
+	return(0);
+}
+
+int pipe_checker(t_cmd **cmds, char **envp)
+{
+	t_cmd *cmd;
+
+	cmd = *cmds;
+	if (cmd->next != NULL)
+		pipeline(cmds, envp);
+	else
+		exec_single_command(cmd, envp);
+	return(0);
+	
 }

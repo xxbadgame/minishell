@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 10:46:41 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/05 10:53:31 by ynzue-es         ###   ########.fr       */
+/*   Created: 2025/05/07 10:00:12 by engiusep          #+#    #+#             */
+/*   Updated: 2025/05/07 10:01:20 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+# include "../terminal.h"
 
-# include "../libft/libft.h"
-
-typedef struct s_env
+int ft_listlen(t_cmd **cmds)
 {
-	char	**env_cpy;
-}			t_env;
+    int i;
+    t_cmd *cmd;
 
-t_env		*init_env(char **envp);
-char		**create_path(char **env_cpy);
-void		ft_get_path(t_env *env);
-
-#endif
+    i = 0;
+    cmd = *cmds;
+    while (cmd)
+    {
+        cmd = cmd->next;
+        i++;
+    }
+    return (i);
+}

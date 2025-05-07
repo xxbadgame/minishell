@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/05 13:29:15 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:12:50 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void exec(char *line, char **env)
 	cmd = *lexer_and_parsing(line);
 	while(cmd != NULL)
 	{
-		execute_command(cmd->argv, env);
+		exec_single_command(cmd, env);
 		cmd = cmd->next;
 	}
 }

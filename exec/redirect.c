@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/05 15:23:56 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:05:20 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "../terminal.h"
 
 int	redirect_right(const char *filename)
 {
