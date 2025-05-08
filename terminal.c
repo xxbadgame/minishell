@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/08 13:42:16 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:44:31 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int lexer_and_parsing(char *line, t_shell *shell)
 		return (free(shell->tokens),-1);
 	if (parsing_token(shell) == -1)
 		return(free(shell->tokens),-1);
-	return (0);
+	return (0); 
 }
 
 int exec(char *line, t_shell *shell)
