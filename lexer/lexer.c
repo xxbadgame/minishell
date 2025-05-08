@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/07 15:01:24 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/08 12:49:22 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,15 @@ int conditional_lexer(t_token **tokens_list, char *str, int *i)
 	return (0);
 }
 
-t_token	**lexer(t_shell **shell, char *str)
+int lexer(t_shell *shell, char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if(conditional_lexer((*shell)->tokens, str, &i) == -1)
-			return (NULL);
+		if(conditional_lexer(&(shell->tokens), str, &i) == -1)
+			return (-1);
 	}
-	return ((*shell)->tokens);
+	return (0);
 }

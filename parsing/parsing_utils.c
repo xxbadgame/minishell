@@ -6,23 +6,23 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:40:57 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/07 10:39:57 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:38:43 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int	for_redir(t_cmd *current, t_token *tmp)
+int	for_redir(t_cmd *current, t_token *token)
 {
-    if (tmp->type == REDIR_IN && tmp->next && tmp->next->type == WORD)
+    if (token->type == REDIR_IN && token->next && token->next->type == WORD)
     {
-        current->infile = ft_strdup(tmp->next->value);
+        current->infile = ft_strdup(token->next->value);
         if (!current->infile)
             return (-1);
     }
-    else if (tmp->type == REDIR_OUT && tmp->next && tmp->next->type == WORD)
+    else if (token->type == REDIR_OUT && token->next && token->next->type == WORD)
     {
-        current->outfile = ft_strdup(tmp->next->value);
+        current->outfile = ft_strdup(token->next->value);
         if (!current->outfile)
             return (-1);
         current->append = 0;
@@ -35,32 +35,33 @@ int	for_redir(t_cmd *current, t_token *tmp)
     return (0);
 }
 
-int	for_append(t_cmd *current, t_token *tmp)
+int	for_append(t_cmd *current, t_token *token)
 {
-    current->outfile = ft_strdup(tmp->value);
+    current->outfile = ft_strdup(token->value);
     if (!current->outfile)
         return (-1);
     current->append = 1;
     return (0);
 }
 
-int command_checker(int *argc, t_token **tmp, t_cmd **current)
+int command_checker(int *argc, t_token **tokens_list, t_cmd **current)
 {
-    if ((*tmp)->type == WORD)
+    if ((*tokens_list)->type == WORD)
     {
-        if (handle_word(argc, tmp, current))
+        if (handle_word(argc, tokens_list, current))
             return (-1);
     }
-    else if ((*tmp)->type == REDIR_IN || (*tmp)->type == REDIR_OUT || (*tmp)->type == REDIR_APPEND)
+    else if ((*tokens_list)->type == REDIR_IN || (*tokens_list)->type == REDIR_OUT || (*tokens_list)->type == REDIR_APPEND)
     {
-        if (handle_redirection(current, tmp))
+        if (handle_redirection(current, tokens_list))
             return (-1);
     }
-    else if ((*tmp)->type == PIPE || (*tmp)->next == NULL)
+    else if ((*tokens_list)->type == PIPE || (*tokens_list)->next == NULL)
     {
-        if (handle_pipe_or_end(argc, tmp, current))
+        if (handle_pipe_or_end(argc, tokens_list, current))
             return (-1);
     }
     (*current)->argv[(*argc)] = NULL;
+    *tokens_list = (*tokens_list)->next;
     return (0);
 }

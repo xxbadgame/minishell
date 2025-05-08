@@ -6,13 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/07 15:06:32 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:40:54 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-t_cmd	*init_cmd(int count_elem)
+t_cmd	*create_cmd(int count_elem)
 {
 	t_cmd	*new_cmd;
 
@@ -44,27 +44,23 @@ int	count_elem_cmd(t_token *current)
 	return (count_elem);
 }
 
-t_cmd	**parsing_token(t_shell **shell)
+int	parsing_token(t_shell *shell)
 {
-	t_token	*tmp;
 	t_cmd	*current;
 	int		argc;
 
 	argc = 0;
-	tmp = *((*shell)->tokens);
-	
-	current = init_cmd(count_elem_cmd(tmp));
+	current = create_cmd(count_elem_cmd(shell->tokens));
 	if(!current)
-		return (NULL);
-	(*shell)->cmds = malloc(sizeof(t_cmd *));
-	if(!(*shell)->cmds)
-		return(free(current),free_tab(current->argv),NULL);
-	*((*shell)->cmds) = current;
-	while (tmp)
+		return (-1);
+	shell->cmds = malloc(sizeof(t_cmd));
+	if(!shell->cmds)
+		return(free(current),free_tab(current->argv), -1);
+	shell->cmds = current;
+	while (shell->tokens)
 	{
-		if(command_checker(&argc, &tmp, &current) == -1)
-			return(free((*shell)->cmds),free(current),free_tab(current->argv),NULL);
-		tmp = tmp->next;
+		if(command_checker(&argc, &(shell->tokens), &current) == -1)
+		  	return(free(shell->cmds),free(current),free_tab(current->argv), -1);
 	}
-	return ((*shell)->cmds);
+	return (0);
 }

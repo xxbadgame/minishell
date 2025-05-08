@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/07 15:33:38 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/08 12:59:40 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ typedef struct s_cmd
 typedef struct s_shell
 {
 	t_env		*env;
-    t_token		**tokens;
-    t_cmd		**cmds;
+    t_token		*tokens;
+    t_cmd		*cmds;
 }	t_shell;
 
 
@@ -77,7 +77,7 @@ int exec_single_command(t_cmd *cmd, char **envp);
 int pipe_checker(t_cmd **cmds, char **envp);
 
 // lexer
-t_token	**lexer(t_shell **shell, char *str);
+int lexer(t_shell *shell, char *str);
 t_token				*create_token(char *str, t_token_type type);
 void				add_token(t_token **tokens_list, t_token *new_token);
 int				ft_read_word(t_token **tokens_list, char *str, int *i);
@@ -87,20 +87,20 @@ int				ft_heredoc_or_append(char *str, t_token **tokens_list,
 						int *i);
 
 // parsing
-int					for_redir(t_cmd *current, t_token *tmp);
-int					for_append(t_cmd *current, t_token *tmp);
-int					for_pipe(t_cmd *current, t_token **tmp);
-int					command_checker(int *argc, t_token **tmp, t_cmd **current);
-t_cmd				*init_cmd(int count_elem);
+int					for_redir(t_cmd *current, t_token *tokens_list);
+int					for_append(t_cmd *current, t_token *tokens_list);
+int					for_pipe(t_cmd *current, t_token **tokens_list);
+int					command_checker(int *argc, t_token **tokens_list, t_cmd **current);
+t_cmd				*create_cmd(int count_elem);
 int					count_elem_cmd(t_token *current);
-t_cmd		**parsing_token(t_shell **shell);
-int	handle_pipe_or_end(int *argc, t_token **tmp, t_cmd **current);
-int handle_word(int *argc, t_token **tmp, t_cmd **current);
-int handle_redirection(t_cmd **current, t_token **tmp);
+int parsing_token(t_shell *shell);
+int	handle_pipe_or_end(int *argc, t_token **token, t_cmd **current);
+int handle_word(int *argc, t_token **token, t_cmd **current);
+int handle_redirection(t_cmd **current, t_token **token);
 
 //free
-void free_cmds(t_shell **shell);
-void free_tokens(t_shell **shell);
-void free_env(t_shell **shell);
+void free_cmds(t_shell *shell);
+void free_tokens(t_shell *shell);
+void free_env(t_shell *shell);
 
 #endif
