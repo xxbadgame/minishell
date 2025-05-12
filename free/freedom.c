@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:13:27 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/08 12:44:52 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:02:24 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@ void free_tokens(t_shell *shell)
 	token = shell->tokens;
 	while (token)
 	{
+		token_tmp = token->next;
 		free(token->value);	
-		token_tmp = token;
-		token = token->next;
-		free(token_tmp);
+		free(token);
+		token = token_tmp;
 	}
-	free(token);
 }
 
 void free_cmds(t_shell *shell)
@@ -48,12 +47,11 @@ void free_cmds(t_shell *shell)
 	cmd = shell->cmds;
 	while (cmd)
 	{
+		cmd_tmp = cmd->next;
 		free_tab(cmd->argv);
 		free(cmd->infile);
 		free(cmd->outfile);
-		cmd_tmp = cmd;
-		cmd = cmd->next;
-		free(cmd_tmp);
+		free(cmd);
+		cmd = cmd_tmp;
 	}
-	free(cmd);
 }

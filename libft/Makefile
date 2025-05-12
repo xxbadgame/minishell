@@ -15,6 +15,8 @@ FILES = ft_strncmp.c \
 		ft_substr.c \
 		ft_strndup.c \
 		get_next_line/get_next_line.c \
+		tab_len.c \
+		ft_strchr.c \
 
 
 OBJS = $(FILES:.c=.o)

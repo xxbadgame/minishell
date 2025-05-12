@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/08 13:40:54 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:43:45 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,11 @@ int	parsing_token(t_shell *shell)
 	current = create_cmd(count_elem_cmd(shell->tokens));
 	if(!current)
 		return (-1);
-	shell->cmds = malloc(sizeof(t_cmd));
-	if(!shell->cmds)
-		return(free(current),free_tab(current->argv), -1);
 	shell->cmds = current;
 	while (shell->tokens)
 	{
 		if(command_checker(&argc, &(shell->tokens), &current) == -1)
-		  	return(free(shell->cmds),free(current),free_tab(current->argv), -1);
+		  	return(free_cmds(shell),free(current),free_tab(current->argv), -1);
 	}
 	return (0);
 }
