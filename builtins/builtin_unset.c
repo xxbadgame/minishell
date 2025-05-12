@@ -6,13 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:19:21 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/12 13:40:36 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:15:04 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int	unset(t_cmd *cmd,t_env *env)
+int	builtin_unset(t_cmd *cmd,t_env *env)
 {
 	char **new_env;
 	char **temp;
@@ -40,19 +40,19 @@ int	unset(t_cmd *cmd,t_env *env)
 	env->env_cpy = new_env;
 	return (free_tab(temp), 0);
 }
-int main(int argc,char **argv,char **envp)
-{
-	t_env *env;
-	t_cmd cmd;
-	int i;
-	i = 0;
-	env = init_env(envp);
-	cmd.argv = (char *[]){"unset", "salut", NULL};
-	unset(&cmd,env);
-	while(env->env_cpy[i])
-	{
-		printf("%s\n",env->env_cpy[i++]);
-	}
-	free_tab(env->env_cpy);
-	free(env);
-}
+// int main(int argc,char **argv,char **envp)
+// {
+// 	t_env *env;
+// 	t_cmd cmd;
+// 	int i;
+// 	i = 0;
+// 	env = init_env(envp);
+// 	cmd.argv = (char *[]){"unset", "salut", NULL};
+// 	unset(&cmd,env);
+// 	while(env->env_cpy[i])
+// 	{
+// 		printf("%s\n",env->env_cpy[i++]);
+// 	}
+// 	free_tab(env->env_cpy);
+// 	free(env);
+// }

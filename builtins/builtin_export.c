@@ -6,13 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:17:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/12 13:07:16 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:15:13 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int	export(t_cmd *cmd,t_env *env)
+int	builtin_export(t_cmd *cmd,t_env *env)
 {
 	char **new_env;
 	char **temp;

@@ -6,16 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/12 12:16:28 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:15:24 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-
-
-
-int cd(t_cmd *cmd)
+int builtin_cd(t_cmd *cmd)
 {
 	char *cwd;
 	char *new_path;
