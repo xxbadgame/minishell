@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/12 14:23:40 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/13 09:31:09 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,11 @@ int	exec(char *line, t_shell *shell)
 	if (lexer_and_parsing(line, shell) == -1)
 		return (-1);
 	cmd = shell->cmds;
-	while (cmd != NULL)
-	{
-	// 	if(is_builtins(cmd) == -1)
-	// 		return(free_tokens(shell), free_cmds(shell), -1);
+	if (cmd->next != NULL)
+		pipeline(cmd, shell->env->env_cpy);
+	else
 		if (exec_single_command(cmd, shell->env->env_cpy) == -1)
-			return (free_tokens(shell), free_cmds(shell), -1);
-		cmd = cmd->next;
-	}
+	 		return (free_tokens(shell), free_cmds(shell), -1);
 	return (0);
 }
 

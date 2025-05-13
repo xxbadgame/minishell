@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/07 10:29:54 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/13 09:29:38 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,4 @@ int exec_single_command(t_cmd *cmd, char **envp)
 		launch_execve(cmd, envp);
 	waitpid(pid, NULL, 0);
 	return(0);
-}
-
-int pipe_checker(t_cmd **cmds, char **envp)
-{
-	t_cmd *cmd;
-
-	cmd = *cmds;
-	if (cmd->next != NULL)
-		pipeline(cmds, envp);
-	else
-		exec_single_command(cmd, envp);
-	return(0);
-	
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
+#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/07 14:16:18 by engiusep         ###   ########.fr        #
+#    Updated: 2025/05/13 09:29:27 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ FILES = terminal.c \
 		env/env.c \
 		exec/exec.c \
 		exec/redirect.c \
-		exec/exec_utils.c \
 		exec/pipeline.c \
 		free/freedom.c\
 

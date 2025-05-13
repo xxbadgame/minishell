@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/08 12:59:40 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/13 09:28:35 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,10 @@ char		**create_path(char **env_cpy);
 void		ft_get_path(t_env *env);
 
 // exec
-int pipeline(t_cmd **cmds, char **envp);
+int pipeline(t_cmd *cmds, char **envp);
 int	launch_execve(t_cmd *cmd, char **envp);
 int ft_listlen(t_cmd **cmds);
 int exec_single_command(t_cmd *cmd, char **envp);
-int pipe_checker(t_cmd **cmds, char **envp);
 
 // lexer
 int lexer(t_shell *shell, char *str);
