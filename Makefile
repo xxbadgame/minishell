@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
+#    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/13 09:29:27 by yannis           ###   ########.fr        #
+#    Updated: 2025/05/14 13:36:34 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell_prog
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 HEADERS = terminal.h \
 		libft/libft.h \
 
@@ -28,10 +28,18 @@ FILES = terminal.c \
 		exec/exec.c \
 		exec/redirect.c \
 		exec/pipeline.c \
-		free/freedom.c\
+		free/freedom.c \
+		builtins/builtin_cd.c \
+		builtins/builtin_env.c \
+		builtins/builtin_exit.c \
+		builtins/builtin_pwd.c \
+		builtins/builtin_unset.c \
+		builtins/builtin_echo.c \
+		builtins/check_builtins.c \
+		
 
 OBJ_DIR = obj
-DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing env exec free)
+DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing env exec free builtins)
 OBJS = $(addprefix $(OBJ_DIR)/, $(FILES:.c=.o))
 LIBFT = libft/libft.a
 

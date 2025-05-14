@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/08 12:49:22 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 10:44:29 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,3 +84,38 @@ int lexer(t_shell *shell, char *str)
 	}
 	return (0);
 }
+
+// int	main(void)
+// {
+// 	t_shell	shell;
+// 	t_token *token;
+	
+// 	// Initialisation
+// 	shell.tokens = NULL;
+// 	shell.cmds = NULL;
+// 	shell.env = NULL;
+
+// 	// Exemple d'entrée utilisateur
+// 	char *input = "echo hello | grep h";
+
+// 	if (lexer(&shell, input) == -1)
+// 	{
+// 		fprintf(stderr, "Erreur de parsing.\n");
+// 		return (1);
+// 	}
+
+// 	// Affichage du résultat du lexer
+// 	printf("Tokens générés :\n");
+// 	token = shell.tokens;
+// 	while (token)
+// 	{
+// 		printf("Type: %d, Value: [%s]\n", token->type, token->value);
+// 		token = token->next;
+// 	}
+
+// 	// Libération de la mémoire
+// 	free_tokens(&shell);
+
+// 	return (0);
+// }
+

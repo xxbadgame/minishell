@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/12 14:15:24 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 09:57:33 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int builtin_cd(t_cmd *cmd)
 	int i;
 
 	i = 0;
-	if (cmd->argv[1][0] == '/')
+	if (cmd->cmds[1][0] == '/')
 	{
-		if(chdir(cmd->argv[1]) == -1)
+		if(chdir(cmd->cmds[1]) == -1)
 			return(perror("dir"), -1);
 		return (0);
 	}
@@ -31,21 +31,11 @@ int builtin_cd(t_cmd *cmd)
 	if(!new_path)
 		return(free(cwd), -1);
 	temp = new_path;
-	new_path = ft_strjoin(temp,cmd->argv[1]);
+	new_path = ft_strjoin(temp,cmd->cmds[1]);
 	if(!new_path)
 		return(free(temp), free(cwd), -1);
 	free(temp);
 	if(chdir(new_path) == -1)
 		return(free(cwd),free(new_path),perror("dir"), -1);
 	return(free(new_path),free(cwd),0);
-}
-
-int main()
-{
-	t_cmd cmd;
-	//char *cwd 
-	cmd.argv = (char *[]){"cd","..",NULL};
-	//printf("Avant: %s\n", getcwd(NULL, 0));
-	cd(&cmd);
-	//printf("Après: %s\n", getcwd(NULL, 0));
 }

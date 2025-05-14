@@ -6,7 +6,6 @@ RM = rm -f
 
 FILES = ft_strncmp.c \
 		ft_strlen.c \
-		ft_strdup.c \
 		ft_split.c \
 		ft_strjoin.c \
 		ft_strncat.c \

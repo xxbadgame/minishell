@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/13 09:31:09 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:47:22 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	exec(char *line, t_shell *shell)
 		return (-1);
 	cmd = shell->cmds;
 	if (cmd->next != NULL)
-		pipeline(cmd, shell->env->env_cpy);
+		pipeline(cmd, shell->env);
 	else
-		if (exec_single_command(cmd, shell->env->env_cpy) == -1)
+		if (exec_single_command(cmd, shell->env) == -1)
 	 		return (free_tokens(shell), free_cmds(shell), -1);
 	return (0);
 }
@@ -68,12 +68,12 @@ int	main(int argc, char **argv, char **envp)
 			add_history(line);
 			exec(line, shell);
 		}
+		free_tokens(shell);
+		free_cmds(shell);
 		free(line);
 		i++;
 	}
 	free_env(shell);
-	free_cmds(shell);
-	free_tokens(shell);
 	free(shell);
 	clear_history();
 	return (0);

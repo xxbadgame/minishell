@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/13 09:28:35 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:46:38 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char			**argv;
+	char			**cmds;
 	char			*infile;
 	char			*outfile;
 	int				append;
@@ -63,17 +63,27 @@ typedef struct s_shell
     t_cmd		*cmds;
 }	t_shell;
 
+//builtins
+int builtin_cd(t_cmd *cmd);
+int	builtin_echo(t_cmd *cmd);
+int	builtin_env(t_env *env);
+int builtin_exit();
+int builtin_pwd();
+int	builtin_unset(t_cmd *cmd,t_env *env);
+int	builtin_export(t_cmd *cmd, t_env *env);
+int is_builtin(t_cmd *cmd, t_env *env);
 
 // env
 t_env		*init_env(char **envp);
 char		**create_path(char **env_cpy);
 void		ft_get_path(t_env *env);
+void add_in_env(char **origin_env, char **dest_env, int *i);
 
 // exec
-int pipeline(t_cmd *cmds, char **envp);
-int	launch_execve(t_cmd *cmd, char **envp);
+int pipeline(t_cmd *cmds, t_env *env);
+int	launch_execve(t_cmd *cmd, t_env *env);
 int ft_listlen(t_cmd **cmds);
-int exec_single_command(t_cmd *cmd, char **envp);
+int exec_single_command(t_cmd *cmd, t_env *env);
 
 // lexer
 int lexer(t_shell *shell, char *str);
@@ -88,14 +98,14 @@ int				ft_heredoc_or_append(char *str, t_token **tokens_list,
 // parsing
 int					for_redir(t_cmd *current, t_token *tokens_list);
 int					for_append(t_cmd *current, t_token *tokens_list);
-int					for_pipe(t_cmd *current, t_token **tokens_list);
-int					command_checker(int *argc, t_token **tokens_list, t_cmd **current);
+int					for_pipe(t_cmd *current, t_token *tokens_list);
+int 				command_checker(int *i, t_token *tokens_list, t_cmd **current);
 t_cmd				*create_cmd(int count_elem);
 int					count_elem_cmd(t_token *current);
 int parsing_token(t_shell *shell);
-int	handle_pipe_or_end(int *argc, t_token **token, t_cmd **current);
-int handle_word(int *argc, t_token **token, t_cmd **current);
-int handle_redirection(t_cmd **current, t_token **token);
+int	handle_pipe_or_end(int *argc, t_token *token, t_cmd **current);
+int handle_word(int *argc, t_token *token, t_cmd **current);
+int handle_redirection(t_cmd **current, t_token *token);
 
 //free
 void free_cmds(t_shell *shell);

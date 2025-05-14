@@ -6,13 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:20:44 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/12 14:24:23 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:29:13 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int builtin_exit(t_shell *shell)
+int builtin_exit()
 {
 	return (-1);
 }

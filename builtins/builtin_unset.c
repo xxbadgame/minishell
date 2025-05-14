@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:19:21 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/12 14:15:04 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 09:55:41 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	builtin_unset(t_cmd *cmd,t_env *env)
 		return(-1);
 	while(env->env_cpy[i])
 	{
-		if(ft_strncmp(env->env_cpy[i],cmd->argv[1],ft_strlen(cmd->argv[1])) != 0)
+		if(ft_strncmp(env->env_cpy[i],cmd->cmds[1],ft_strlen(cmd->cmds[1])) != 0)
 		{
-			new_env[j] = ft_strdup(env->env_cpy[i]);
+			new_env[j] = ft_strndup(env->env_cpy[i], ft_strlen(env->env_cpy[i]));
 			if(!new_env)
 				return(free_tab(new_env), -1);
 			j++;
