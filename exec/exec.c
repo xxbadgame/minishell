@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/14 15:01:58 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:08:19 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 				launch_execve(cmd, shell->env);
 			else
 			{
-				if(is_builtin(cmd, shell) == -1)
+				if(exec_builtin(cmd, shell) == -1)
 					return(-1);
 			}
 		}

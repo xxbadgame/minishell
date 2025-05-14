@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/14 15:03:34 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:11:38 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	exec(char *line, t_shell *shell)
 		return (-1);
 	cmd = shell->cmds;
 	if (cmd->next != NULL)
-		pipeline(shell, 1);
+		pipeline(shell, is_builtin(cmd));
 	else
-		if (exec_single_command(cmd, shell, 1) == -1)
+		if (exec_single_command(cmd, shell, is_builtin(cmd)) == -1)
 	 		return (free_tokens(shell), free_cmds(shell), -1);
 	return (0);
 }

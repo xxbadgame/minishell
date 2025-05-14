@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 15:04:22 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:08:19 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int command_pipeline_builtins(t_cmd *cmd, int in_fd, int *pipefd,t_shell *shell)
         close(pipefd[0]);
         close(pipefd[1]);
     }
-    if(is_builtin(cmd,shell) == -1)
+    if(exec_builtin(cmd,shell) == -1)
         return(-1);
     return(0);
 }

@@ -6,13 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:06:45 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 15:00:21 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:11:44 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int is_builtin(t_cmd *cmd, t_shell *shell)
+int exec_builtin(t_cmd *cmd, t_shell *shell)
 {
 	if(ft_strncmp(cmd->cmds[0],"echo", 4) == 0)
 		builtin_echo(cmd);
@@ -31,5 +31,18 @@ int is_builtin(t_cmd *cmd, t_shell *shell)
 	free_env(shell);
 	free(shell);
 	exit(EXIT_SUCCESS);
+	return(0);
+}
+
+int is_builtin(t_cmd *cmd)
+{
+	if(ft_strncmp(cmd->cmds[0],"echo", 4) == 0
+	|| ft_strncmp(cmd->cmds[0],"cd", 2) == 0
+	|| ft_strncmp(cmd->cmds[0],"env", 3) == 0
+	|| ft_strncmp(cmd->cmds[0],"exit", 4) == 0
+	|| ft_strncmp(cmd->cmds[0],"pwd", 4) == 0
+	|| ft_strncmp(cmd->cmds[0],"unset", 4) == 0
+	)
+		return(1);
 	return(0);
 }
