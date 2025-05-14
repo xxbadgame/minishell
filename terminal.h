@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/14 13:46:38 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:03:23 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int builtin_exit();
 int builtin_pwd();
 int	builtin_unset(t_cmd *cmd,t_env *env);
 int	builtin_export(t_cmd *cmd, t_env *env);
-int is_builtin(t_cmd *cmd, t_env *env);
+int is_builtin(t_cmd *cmd, t_shell *shell);
 
 // env
 t_env		*init_env(char **envp);
@@ -80,10 +80,10 @@ void		ft_get_path(t_env *env);
 void add_in_env(char **origin_env, char **dest_env, int *i);
 
 // exec
-int pipeline(t_cmd *cmds, t_env *env);
+int pipeline(t_shell *shell, int flag_builtin);
 int	launch_execve(t_cmd *cmd, t_env *env);
 int ft_listlen(t_cmd **cmds);
-int exec_single_command(t_cmd *cmd, t_env *env);
+int exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin);
 
 // lexer
 int lexer(t_shell *shell, char *str);

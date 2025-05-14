@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:07:33 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/12 14:18:32 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:37:50 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,4 @@ int	builtin_env(t_env *env)
 // 	i = 0;
 // 	env = init_env(envp);
 // 	builtin_env(env);
-
 // }

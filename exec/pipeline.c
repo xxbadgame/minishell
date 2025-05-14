@@ -6,13 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 13:46:02 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:04:22 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int command_pipeline(t_cmd *cmd, int in_fd, int *pipefd, t_env *env)
+int command_pipeline_basic(t_cmd *cmd, int in_fd, int *pipefd, t_shell *shell)
 {
     if(cmd->infile)
         in_fd = open(cmd->infile, O_RDONLY);
@@ -25,15 +25,36 @@ int command_pipeline(t_cmd *cmd, int in_fd, int *pipefd, t_env *env)
         close(pipefd[0]);
         close(pipefd[1]);
     }
-    launch_execve(cmd, env);
+    launch_execve(cmd, shell->env);
     return(0);
 }
 
-int pipeline(t_cmd *cmd, t_env *env)
+int command_pipeline_builtins(t_cmd *cmd, int in_fd, int *pipefd,t_shell *shell)
+{
+    
+    if(cmd->infile)
+        in_fd = open(cmd->infile, O_RDONLY);
+    if (in_fd != 0) {
+        dup2(in_fd, 0);
+        close(in_fd);
+    }
+    if (cmd->next) {
+        dup2(pipefd[1], 1);
+        close(pipefd[0]);
+        close(pipefd[1]);
+    }
+    if(is_builtin(cmd,shell) == -1)
+        return(-1);
+    return(0);
+}
+
+int pipeline(t_shell *shell, int flag_builtin)
 {
     int pipefd[2];
     int in_fd = 0;
     int pid;
+    t_cmd *cmd;
+    cmd = shell->cmds;
 
     while (cmd)
     {
@@ -41,10 +62,16 @@ int pipeline(t_cmd *cmd, t_env *env)
             pipe(pipefd);
         pid = fork();
         if (pid == 0)
-            command_pipeline(cmd, in_fd, pipefd, env);
+        {
+            if (flag_builtin == 0)
+                command_pipeline_basic(cmd, in_fd, pipefd,shell);
+            else
+                command_pipeline_builtins(cmd, in_fd, pipefd,shell);
+        }
         if (in_fd != 0)
             close(in_fd);
-        if (cmd->next) {
+        if (cmd->next) 
+        {
             close(pipefd[1]);
             in_fd = pipefd[0];
         }

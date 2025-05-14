@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/14 13:48:07 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:01:58 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,7 @@ char	*get_path_command(char *cmd)
 int	launch_execve(t_cmd *cmd, t_env *env)
 {
 	char *path = get_path_command(cmd->cmds[0]);
-	//int built;
 	
-	// built = is_builtin(cmd, env);
-	// if (built == -1)
-	// 	return(-1);
-	// else if (built == 0)
-	// 	return(0);
 	if (execve(path, cmd->cmds, env->env_cpy) == -1)
 	{
 		perror("exec failed");
@@ -70,15 +64,23 @@ int	launch_execve(t_cmd *cmd, t_env *env)
 	return (0);
 }
 
-int exec_single_command(t_cmd *cmd, t_env *env)
+int exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 {
 	int pid;
 
-	pid = fork();
-	if (pid < 0)
-		return(perror("pid"), -1);
-	else if (pid == 0)
-		launch_execve(cmd, env);
-	waitpid(pid, NULL, 0);
+		pid = fork();
+		if (pid < 0)
+			return(perror("pid"), -1);
+		else if (pid == 0)
+		{
+			if (flag_builtin == 0)
+				launch_execve(cmd, shell->env);
+			else
+			{
+				if(is_builtin(cmd, shell) == -1)
+					return(-1);
+			}
+		}
+		waitpid(pid, NULL, 0);
 	return(0);
 }
