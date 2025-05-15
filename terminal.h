@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/15 09:21:31 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:34:33 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	builtin_unset(t_cmd *cmd,t_env *env);
 int	builtin_export(t_cmd *cmd, t_env *env);
 int exec_builtin(t_cmd *cmd, t_shell *shell);
 int is_builtin(t_cmd *cmd);
+int builtin_export_env(t_env *env);
 
 // env
 t_env		*init_env(char **envp);

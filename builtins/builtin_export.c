@@ -6,26 +6,44 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:17:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/15 13:03:35 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:34:21 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int replace_var_env(t_cmd *cmd,t_env *env)
+int replace_var_env(t_cmd *cmd,t_env *env,int *i)
 {
+	char *temp;
 	
+	if (ft_strchr(cmd->cmds[1], '=') != 0)
+	{
+		temp = env->env_cpy[*i];
+		env->env_cpy[*i] = ft_strndup(cmd->cmds[1],
+				ft_strlen(cmd->cmds[1]));
+		free(temp);
+		if (!env->env_cpy[*i])
+			return (-1);
+	}
+	else
+	{
+		temp = env->env_cpy[*i];
+		env->env_cpy[*i] = ft_strjoin(cmd->cmds[1], "=");
+		free(temp);
+		if (!env->env_cpy[*i])
+			return (-1);
+	}
+	return (0);
 }
 int	find_var_env(t_cmd *cmd, t_env *env)
 {
 	int		i;
-	char	*temp;
 	char	*sub_cmd;
 	char	*sub_env_var;
 	int size_cmd;
 
-	i = 0;
-	while (env->env_cpy[i])
+	i = -1;
+	while (env->env_cpy[++i])
 	{
 		size_cmd = ft_strchr(cmd->cmds[1], '=');
 		if (size_cmd == 0)
@@ -36,28 +54,12 @@ int	find_var_env(t_cmd *cmd, t_env *env)
 		if (ft_strncmp(sub_cmd, sub_env_var, ft_strlen(sub_env_var)) == 0
 		&& ft_strlen(sub_cmd) == ft_strlen(sub_env_var))
 		{
-			if (ft_strchr(cmd->cmds[1], '=') != 0)
-			{
-				temp = env->env_cpy[i];
-				env->env_cpy[i] = ft_strndup(cmd->cmds[1],
-						ft_strlen(cmd->cmds[1]));
-				free(temp);
-				if (!env->env_cpy[i])
-					return (free_tab(env->env_cpy),free(sub_cmd),free(sub_env_var), -1);
-			}
-			else
-			{
-				temp = env->env_cpy[i];
-				env->env_cpy[i] = ft_strjoin(cmd->cmds[1], "=");
-				free(temp);
-				if (!env->env_cpy[i])
-					return (free_tab(env->env_cpy),free(sub_cmd),free(sub_env_var), -1);
-			}
-			return (free(sub_cmd),free(sub_env_var),1);
+			if(replace_var_env(cmd,env,&i) == -1)
+				return (free_tab(env->env_cpy),free(sub_cmd),free(sub_env_var),-1);
+			return (1);
 		}
 		free(sub_cmd);
 		free(sub_env_var);
-		i++;
 	}
 	return (0);
 }
@@ -87,7 +89,9 @@ int	builtin_export(t_cmd *cmd, t_env *env)
 	int		i;
 
 	i = 0;
-	if (replace_same_var(cmd, env) == 1)
+	if(!cmd->cmds[1])
+		return(builtin_export_env(env),0);
+	if (find_var_env(cmd, env) == 1)
 		return (0);
 	new_env = malloc(sizeof(char *) * (tab_len(env->env_cpy) + 2));
 	if (!new_env)
