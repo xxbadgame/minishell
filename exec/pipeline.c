@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/15 09:21:17 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:19:21 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,14 @@ int pipeline(t_shell *shell)
 
     while (cmd)
     {
-        if (cmd->next)
-            pipe(pipefd);
         if(ft_strncmp(cmd->cmds[0], "exit", 4) == 0)
 			builtin_exit(shell);
+        if(ft_strncmp(cmd->cmds[0], "export", 6) == 0)
+            cmd = cmd->next;
+        if(ft_strncmp(cmd->cmds[0], "unset", 5) == 0)
+            return(builtin_unset(cmd, shell->env), 0);
+        if (cmd->next)
+            pipe(pipefd);
         pid = fork();
         if (pid == 0)
         {

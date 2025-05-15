@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:41:17 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/12 12:42:50 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:38:05 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_strchr(char *str,char c)
 	while(str[i])
 	{
 		if(str[i] == c)
-			return (1);
+			return (i);
 		i++;
 	}
 	return (0);

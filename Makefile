@@ -6,7 +6,7 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/14 13:36:34 by engiusep         ###   ########.fr        #
+#    Updated: 2025/05/15 09:52:28 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ FILES = terminal.c \
 		builtins/builtin_pwd.c \
 		builtins/builtin_unset.c \
 		builtins/builtin_echo.c \
+		builtins/builtin_export.c \
 		builtins/check_builtins.c \
 		
 

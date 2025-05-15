@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/14 15:08:19 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:18:58 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,25 @@ int exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 {
 	int pid;
 
-		pid = fork();
-		if (pid < 0)
-			return(perror("pid"), -1);
-		else if (pid == 0)
+	if(ft_strncmp(cmd->cmds[0], "exit", 4) == 0)
+		builtin_exit(shell);
+	if(ft_strncmp(cmd->cmds[0], "export", 6) == 0)
+		return(builtin_export(cmd, shell->env), 0);
+	if(ft_strncmp(cmd->cmds[0], "unset", 5) == 0)
+		return(builtin_unset(cmd, shell->env), 0);
+	pid = fork();
+	if (pid < 0)
+		return(perror("pid"), -1);
+	else if (pid == 0)
+	{
+		if (flag_builtin == 0)
+			launch_execve(cmd, shell->env);
+		else
 		{
-			if (flag_builtin == 0)
-				launch_execve(cmd, shell->env);
-			else
-			{
-				if(exec_builtin(cmd, shell) == -1)
-					return(-1);
-			}
+			if(exec_builtin(cmd, shell) == -1)
+				return(-1);
 		}
-		waitpid(pid, NULL, 0);
+	}
+	waitpid(pid, NULL, 0);
 	return(0);
 }
