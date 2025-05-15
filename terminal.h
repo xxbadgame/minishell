@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/14 15:11:51 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/15 09:21:31 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void		ft_get_path(t_env *env);
 void add_in_env(char **origin_env, char **dest_env, int *i);
 
 // exec
-int pipeline(t_shell *shell, int flag_builtin);
+int pipeline(t_shell *shell);
 int	launch_execve(t_cmd *cmd, t_env *env);
 int ft_listlen(t_cmd **cmds);
 int exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin);

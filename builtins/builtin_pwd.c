@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:59:49 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 15:12:23 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/15 09:00:42 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int builtin_pwd()
 	char *cwd;
 	
 	cwd = getcwd(NULL,0);
-	printf("%sMOI\n",cwd);
+	printf("%s\n",cwd);
 	free(cwd);
 	return (0);
 }

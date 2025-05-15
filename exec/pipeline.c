@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 15:08:19 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/15 09:21:17 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int command_pipeline_builtins(t_cmd *cmd, int in_fd, int *pipefd,t_shell *shell)
     return(0);
 }
 
-int pipeline(t_shell *shell, int flag_builtin)
+int pipeline(t_shell *shell)
 {
     int pipefd[2];
     int in_fd = 0;
@@ -60,10 +60,12 @@ int pipeline(t_shell *shell, int flag_builtin)
     {
         if (cmd->next)
             pipe(pipefd);
+        if(ft_strncmp(cmd->cmds[0], "exit", 4) == 0)
+			builtin_exit(shell);
         pid = fork();
         if (pid == 0)
         {
-            if (flag_builtin == 0)
+            if (is_builtin(cmd) == 0)
                 command_pipeline_basic(cmd, in_fd, pipefd,shell);
             else
                 command_pipeline_builtins(cmd, in_fd, pipefd,shell);

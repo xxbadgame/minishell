@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:06:45 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 15:11:44 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/15 09:10:48 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int exec_builtin(t_cmd *cmd, t_shell *shell)
 	if(ft_strncmp(cmd->cmds[0],"env", 3) == 0)
 		builtin_env(shell->env);
 	if(ft_strncmp(cmd->cmds[0],"exit", 4) == 0)
-		builtin_exit();
+		builtin_exit(shell);
 	if(ft_strncmp(cmd->cmds[0],"pwd", 4) == 0)
 		builtin_pwd();
 	if(ft_strncmp(cmd->cmds[0],"unset", 4) == 0)
