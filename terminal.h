@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/15 13:34:33 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:17:18 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,21 @@ typedef struct s_shell
 //builtins
 int builtin_cd(t_cmd *cmd);
 int	builtin_echo(t_cmd *cmd);
-int	builtin_env(t_env *env);
+int	builtin_export(t_cmd *cmd, t_env *env);
 int builtin_exit();
 int builtin_pwd();
 int	builtin_unset(t_cmd *cmd,t_env *env);
-int	builtin_export(t_cmd *cmd, t_env *env);
 int exec_builtin(t_cmd *cmd, t_shell *shell);
 int is_builtin(t_cmd *cmd);
 int builtin_export_env(t_env *env);
+int	builtin_env(t_env *env,t_cmd *cmd);
 
 // env
 t_env		*init_env(char **envp);
 char		**create_path(char **env_cpy);
 void		ft_get_path(t_env *env);
 void add_in_env(char **origin_env, char **dest_env, int *i);
+char *clean_str(char *str);
 
 // exec
 int pipeline(t_shell *shell);

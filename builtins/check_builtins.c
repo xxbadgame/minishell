@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:06:45 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/15 10:18:11 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:17:06 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int exec_builtin(t_cmd *cmd, t_shell *shell)
 	if(ft_strncmp(cmd->cmds[0],"cd", 2) == 0)
 		builtin_cd(cmd);
 	if(ft_strncmp(cmd->cmds[0],"env", 3) == 0)
-		builtin_env(shell->env);
+		builtin_env(shell->env,cmd);
 	if(ft_strncmp(cmd->cmds[0],"pwd", 3) == 0)
 		builtin_pwd();
 	free_tokens(shell);
