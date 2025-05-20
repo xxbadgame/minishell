@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 10:23:01 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:08:37 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_heredoc_or_append(char *str, t_token **tokens_list, int *i)
 
     token = NULL;
     temp = NULL;
-    if (ft_strncmp(str + *i, "<<", 2) == 0)
+    if (str[*i] == '<' && str[*i + 1] == '<')
     {
         temp = ft_strndup("<<", 2);
         if (!temp)
@@ -95,7 +95,7 @@ int	ft_heredoc_or_append(char *str, t_token **tokens_list, int *i)
         if (!token)
             return (free(temp), -1);
     }
-    else if (ft_strncmp(str + *i, ">>", 2) == 0)
+    else if ((str[*i] == '>' && str[*i + 1] == '>'))
     {
         temp = ft_strndup(">>", 2);
         if (!temp)

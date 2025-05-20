@@ -6,35 +6,37 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:17:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/20 09:48:16 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/20 10:00:37 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int	find_var_env(t_cmd *cmd, char **env, int *j)
-{
-	int		i;
-	char	**sub_cmd;
-	char	**sub_env_var;
 
-	i = 0;
-	while (env[i])
+
+
+int count_add_var(t_cmd *cmd,t_env *env)
+{
+	int nb_var;
+	int var_pos;
+	int i;
+
+	i = 1;
+	var_pos = 0;
+	nb_var = 0;
+	
+	while (cmd->cmds[nb_var])
+		nb_var++;
+	nb_var -= 1;
+	while(cmd->cmds[i])
 	{
-		sub_cmd = ft_split(cmd->cmds[*j], '=');
-		sub_env_var = ft_split(env[i], '=');
-		if (ft_strncmp(sub_cmd[0], sub_env_var[0], ft_strlen(sub_env_var[0])) == 0
-			&& ft_strlen(sub_cmd[0]) == ft_strlen(sub_env_var[0]))
-		{
-			free_tab(sub_cmd);
-			free_tab(sub_env_var);
-			return (i);
-		}
-		free_tab(sub_cmd);
-		free_tab(sub_env_var);
+		var_pos = find_var_env(cmd, env->env_cpy, &i);
+		if (var_pos != -1)
+			nb_var -= 1;
 		i++;
 	}
-	return (-1);
+	return (nb_var);
+	
 }
 
 int	replace_var_env(t_cmd *cmd, char **new_env, int var_pos ,int *j)
@@ -60,59 +62,46 @@ int	find_equal(t_cmd *cmd, char **new_env, int *i, int *j)
 	(*i)++;
 	return (0);
 }
+int	parse_cmd_arg(t_cmd *cmd,char **new_env, int *i)
+{
+	int j;
+	int var_pos;
 
+	j = 1;
+	var_pos = 0;
+	while(cmd->cmds[j])
+	{
+		var_pos = find_var_env(cmd, new_env, &j);
+		if (var_pos == -1)
+			find_equal(cmd, new_env, i, &j);
+		else
+			replace_var_env(cmd,new_env,var_pos,&j);
+		j++;
+	}
+	return (0);
+}
 int	builtin_export(t_cmd *cmd, t_env *env)
 {
 	char	**new_env;
 	char	**temp;
 	int		i;
-	int		j;
 	int	nb_var;
-	int var_pos;
-	int x;
-	x = 0;
+	
 	i = 0;
-	j = 1;
 	nb_var = 0;
 	if (!cmd->cmds[1])
 		return (builtin_export_env(env), 0);
-	while (cmd->cmds[nb_var])
-		nb_var++;
-	nb_var -= 1;
-	while(cmd->cmds[j])
-	{
-		var_pos = find_var_env(cmd, env->env_cpy, &j);
-		if (var_pos != -1)
-			nb_var -= 1;
-		j++;
-	}
-	j = 1;
+	nb_var = count_add_var(cmd,env);
 	new_env = malloc(sizeof(char *) * (tab_len(env->env_cpy) + 1 + nb_var));
 	if (!new_env)
 		return (-1);
-	while(x < (tab_len(env->env_cpy) + 1 + nb_var))
-	{
-		new_env[x] = NULL;
-		x++;
-	}
-	
+	while(i < (tab_len(env->env_cpy) + 1 + nb_var))
+		new_env[i++] = NULL;
+	i = 0;
 	add_in_env(env->env_cpy, new_env, &i);
 	if (!new_env)
 		return (free_tab(new_env), -1);
-	while(cmd->cmds[j])
-	{
-		var_pos = find_var_env(cmd, new_env, &j);
-		if (var_pos == -1)
-		{
-			find_equal(cmd, new_env, &i, &j);
-		}
-		else
-		{
-			replace_var_env(cmd,new_env,var_pos,&j);
-		}
-		
-		j++;
-	}
+	parse_cmd_arg(cmd,new_env,&i);
 	temp = env->env_cpy;
 	env->env_cpy = new_env;
 	return (free_tab(temp), 0);

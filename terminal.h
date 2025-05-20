@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/19 13:17:18 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:13:10 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int exec_builtin(t_cmd *cmd, t_shell *shell);
 int is_builtin(t_cmd *cmd);
 int builtin_export_env(t_env *env);
 int	builtin_env(t_env *env,t_cmd *cmd);
+int	find_var_env(t_cmd *cmd, char **env, int *j);
 
 // env
 t_env		*init_env(char **envp);
@@ -87,6 +88,10 @@ int pipeline(t_shell *shell);
 int	launch_execve(t_cmd *cmd, t_env *env);
 int ft_listlen(t_cmd **cmds);
 int exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin);
+int	redirect_right(char *filename);
+int	double_redirect_right(char *filename);
+int	redirect_left(char *filename);
+int	heredoc(char *stop_word);
 
 // lexer
 int lexer(t_shell *shell, char *str);
@@ -102,12 +107,12 @@ int				ft_heredoc_or_append(char *str, t_token **tokens_list,
 int					for_redir(t_cmd *current, t_token *tokens_list);
 int					for_append(t_cmd *current, t_token *tokens_list);
 int					for_pipe(t_cmd *current, t_token *tokens_list);
-int 				command_checker(int *i, t_token *tokens_list, t_cmd **current);
+int 				command_checker(int *i, t_token *tokens_list, t_cmd **current,t_env *env);
 t_cmd				*create_cmd(int count_elem);
 int					count_elem_cmd(t_token *current);
 int parsing_token(t_shell *shell);
 int	handle_pipe_or_end(int *argc, t_token *token, t_cmd **current);
-int handle_word(int *argc, t_token *token, t_cmd **current);
+int handle_word(int *argc, t_token *token, t_cmd **current, t_env *env);
 int handle_redirection(t_cmd **current, t_token *token);
 
 //free

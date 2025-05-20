@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 10:44:29 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:04:02 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,12 @@ int conditional_lexer(t_token **tokens_list, char *str, int *i)
 		if(ft_pipe(tokens_list, i) == -1)
 			return (-1);
 	}
-	else if (str[*i] == '<' || str[*i] == '>')
+	else if ((str[*i] == '<' && str[*i + 1] != '<') || (str[*i] == '>'  && str[*i + 1] != '>'))
 	{
 		if(ft_redir(str, tokens_list, i) == -1)
 			return(-1);
 	}
-	else if (ft_strncmp(str + *i, "<<", 2) == 0 || ft_strncmp(str + *i, ">>",
-			2) == 0)
+	else if ((str[*i] == '<' && str[*i + 1] == '<') || (str[*i] == '>'  && str[*i + 1] == '>'))
 	{
 		if(ft_heredoc_or_append(str, tokens_list, i) == -1)
 			return (-1);

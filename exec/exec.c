@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/19 10:17:37 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:11:49 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,41 +52,49 @@ char	*get_path_command(char *cmd)
 
 int	launch_execve(t_cmd *cmd, t_env *env)
 {
-	char *path = get_path_command(cmd->cmds[0]);
-	
+	char	*path;
+
+	path = get_path_command(cmd->cmds[0]);
 	if (execve(path, cmd->cmds, env->env_cpy) == -1)
 	{
 		perror("exec failed");
 		free(path);
-		exit (-1);
+		exit(-1);
 	}
 	free(path);
 	return (0);
 }
 
-int exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
+int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 {
-	int pid;
+	int	pid;
 
-	if(ft_strncmp(cmd->cmds[0], "exit", 4) == 0)
+	if (ft_strncmp(cmd->cmds[0], "exit", 4) == 0)
 		builtin_exit(shell);
-	if(ft_strncmp(cmd->cmds[0], "export", 6) == 0)
-		return(builtin_export(cmd, shell->env), 0);
-	if(ft_strncmp(cmd->cmds[0], "unset", 5) == 0)
-		return(builtin_unset(cmd, shell->env), 0);
+	if (ft_strncmp(cmd->cmds[0], "export", 6) == 0)
+		return (builtin_export(cmd, shell->env), 0);
+	if (ft_strncmp(cmd->cmds[0], "unset", 5) == 0)
+		return (builtin_unset(cmd, shell->env), 0);
+	if (ft_strncmp(cmd->cmds[0], "cd", 2) == 0)
+		builtin_cd(cmd);
+		
 	pid = fork();
 	if (pid < 0)
-		return(perror("pid"), -1);
+		return (perror("pid"), -1);
 	else if (pid == 0)
 	{
+		if (cmd->outfile != NULL && cmd->append == 0)
+			redirect_right(cmd->outfile);
+		else if (cmd->outfile != NULL && cmd->append == 1)
+			double_redirect_right(cmd->outfile);
 		if (flag_builtin == 0)
 			launch_execve(cmd, shell->env);
 		else
 		{
-			if(exec_builtin(cmd, shell) == -1)
-				return(-1);
+			if (exec_builtin(cmd, shell) == -1)
+				return (-1);
 		}
 	}
 	waitpid(pid, NULL, 0);
-	return(0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/15 13:34:55 by engiusep         ###   ########.fr        #
+#    Updated: 2025/05/20 10:01:21 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ FILES = terminal.c \
 		builtins/builtin_export.c \
 		builtins/check_builtins.c \
 		builtins/builtin_print_export.c \
+		builtins/builtin_export_utils.c \
 		
 
 OBJ_DIR = obj

@@ -6,13 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/07 10:05:20 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:46:13 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int	redirect_right(const char *filename)
+int	redirect_right(char *filename)
 {
 	int	fd;
 
@@ -26,7 +26,7 @@ int	redirect_right(const char *filename)
 	return (0);
 }
 
-int	redirect_left(const char *filename)
+int	redirect_left(char *filename)
 {
 	int	fd;
 
@@ -40,11 +40,11 @@ int	redirect_left(const char *filename)
 	return (0);
 }
 
-int	double_redirect_right(const char *filename)
+int	double_redirect_right(char *filename)
 {
 	int	fd;
 
-	fd = open(filename, O_CREAT | O_WRONLY, 0644);
+	fd = open(filename, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	if (fd < 0)
 		return (-1);
 	if (dup2(fd, 1) == -1)

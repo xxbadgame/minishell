@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:40:57 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/14 11:02:18 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:11:12 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ int	for_redir(t_cmd *current, t_token *token)
 
 int	for_append(t_cmd *current, t_token *token)
 {
-    current->outfile = ft_strndup(token->value,ft_strlen(token->value));
+    current->outfile = ft_strndup(token->next->value,ft_strlen(token->next->value));
     if (!current->outfile)
         return (-1);
     current->append = 1;
     return (0);
 }
 
-int command_checker(int *i, t_token *tokens_list, t_cmd **current)
+int command_checker(int *i, t_token *tokens_list, t_cmd **current, t_env *env)
 {
     if (tokens_list->type == WORD)
     {
-        if (handle_word(i, tokens_list, current))
+        if (handle_word(i, tokens_list, current, env))
             return (-1);
     }
     else if (tokens_list->type == REDIR_IN || tokens_list->type == REDIR_OUT || tokens_list->type == REDIR_APPEND)
