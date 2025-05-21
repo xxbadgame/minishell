@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/21 12:54:45 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:22:22 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 	if (ft_strncmp(cmd->cmds[0], "unset", 5) == 0)
 		return (builtin_unset(cmd, shell->env), 0);
 	if (ft_strncmp(cmd->cmds[0], "cd", 2) == 0)
-		builtin_cd(cmd);
+		builtin_cd(cmd,shell->env);
 		
 	pid = fork();
 	if (pid < 0)

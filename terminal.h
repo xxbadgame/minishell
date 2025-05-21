@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/21 13:05:14 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:22:38 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_shell
 }	t_shell;
 
 //builtins
-int builtin_cd(t_cmd *cmd);
+int builtin_cd(t_cmd *cmd, t_env *env);
 int	builtin_echo(t_cmd *cmd);
 int	builtin_export(t_cmd *cmd, t_env *env);
 int builtin_exit();

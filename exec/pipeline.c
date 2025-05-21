@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/21 09:42:57 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:23:04 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int pipeline(t_shell *shell)
         if(ft_strncmp(cmd->cmds[0], "unset", 5) == 0)
             return(builtin_unset(cmd, shell->env), 0);
         if(ft_strncmp(cmd->cmds[0],"cd", 2) == 0)
-            builtin_cd(cmd);
+            builtin_cd(cmd,shell->env);
         if (cmd->next)
             pipe(pipefd); 
         pid = fork();
