@@ -6,7 +6,7 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/20 10:01:21 by engiusep         ###   ########.fr        #
+#    Updated: 2025/05/21 13:07:34 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,12 @@ FILES = terminal.c \
 		builtins/check_builtins.c \
 		builtins/builtin_print_export.c \
 		builtins/builtin_export_utils.c \
+		signal/signal_handle.c\
+		
 		
 
 OBJ_DIR = obj
-DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing env exec free builtins)
+DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing env exec free builtins signal)
 OBJS = $(addprefix $(OBJ_DIR)/, $(FILES:.c=.o))
 LIBFT = libft/libft.a
 

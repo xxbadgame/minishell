@@ -6,17 +6,18 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/20 10:46:07 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:20:00 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int builtin_cd(t_cmd *cmd)
+int builtin_cd(t_cmd *cmd,t_env *env)
 {
 	char *cwd;
 	char *new_path;
 	char *temp;
+	t_cmd *cmd_2;
 	int i;
 
 	i = 0;
@@ -27,6 +28,10 @@ int builtin_cd(t_cmd *cmd)
 		return (0);
 	}
 	cwd = getcwd(NULL,0);
+	cmd_2->cmds[0] = ft_strndup("export",6);
+	cmd_2->cmds[1] = ft_strjoin("OLDPWD=",cwd);
+	builtin_export(cmd_2,env);
+	free(cmd_2->cmds[1]);
 	new_path = ft_strjoin(cwd,"/");
 	if(!new_path)
 		return(free(cwd), -1);

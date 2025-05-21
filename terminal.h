@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/20 14:13:10 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:05:14 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
+#include <signal.h>
 
 typedef struct s_env
 {
@@ -114,7 +114,8 @@ int parsing_token(t_shell *shell);
 int	handle_pipe_or_end(int *argc, t_token *token, t_cmd **current);
 int handle_word(int *argc, t_token *token, t_cmd **current, t_env *env);
 int handle_redirection(t_cmd **current, t_token *token);
-
+//signal
+void handle_sigint(int sig);
 //free
 void free_cmds(t_shell *shell);
 void free_tokens(t_shell *shell);

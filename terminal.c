@@ -6,11 +6,12 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/15 10:28:27 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:06:52 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "terminal.h"
+
 
 int	lexer_and_parsing(char *line, t_shell *shell)
 {
@@ -35,6 +36,7 @@ int	exec(char *line, t_shell *shell)
 		if (exec_single_command(cmd, shell, is_builtin(cmd)) == -1)
 	 		return (free_tokens(shell), free_cmds(shell), -1);
 	}
+
 	return (0);
 }
 
@@ -62,14 +64,24 @@ int	main(int argc, char **argv, char **envp)
 	shell->env = init_env(envp);
 	if (!shell->env)
 		return (perror("env failed"), 1);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	while (i < 10)
 	{
 		line = readline("minishell> ");
+		if(!line)
+		{
+			free_env(shell);
+			free(shell);
+			write(2,"exit\n",5);
+			exit(1);
+		}
 		if (*line)
 		{
 			add_history(line);
 			exec(line, shell);
 		}
+		
 		free_tokens(shell);
 		free_cmds(shell);
 		free(line);

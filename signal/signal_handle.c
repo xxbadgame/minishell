@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 14:20:44 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/21 09:44:17 by engiusep         ###   ########.fr       */
+/*   Created: 2025/05/21 09:47:31 by engiusep          #+#    #+#             */
+/*   Updated: 2025/05/21 13:07:07 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int builtin_exit(t_shell *shell)
+void	handle_sigint(int sig)
 {
-	printf("exit\n");
-	free_tokens(shell);
-	free_cmds(shell);
-	free_env(shell);
-	free(shell);
-	exit(EXIT_SUCCESS);
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);      
+	rl_on_new_line();
+	rl_replace_line("", 0);          
+	rl_redisplay();                                  
 }

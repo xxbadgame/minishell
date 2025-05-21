@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/20 15:11:49 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:54:45 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 		return (perror("pid"), -1);
 	else if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (cmd->outfile != NULL && cmd->append == 0)
 			redirect_right(cmd->outfile);
 		else if (cmd->outfile != NULL && cmd->append == 1)
@@ -95,6 +97,17 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 				return (-1);
 		}
 	}
-	waitpid(pid, NULL, 0);
+	signal(SIGINT, SIG_IGN);
+	int status;
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status))
+	{
+		int sig = WTERMSIG(status);
+		if (sig == SIGINT)
+			write(1, "\n", 1);
+		if (WCOREDUMP(status))
+			write(2, "Quit (core dumped)\n", 20);
+	}
+	signal(SIGINT, handle_sigint);
 	return (0);
 }
