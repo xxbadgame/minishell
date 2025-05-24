@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/21 13:22:22 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/24 10:37:14 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	launch_execve(t_cmd *cmd, t_env *env)
 int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 {
 	int	pid;
+	int status;
 
 	if (ft_strncmp(cmd->cmds[0], "exit", 4) == 0)
 		builtin_exit(shell);
@@ -77,7 +78,6 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 		return (builtin_unset(cmd, shell->env), 0);
 	if (ft_strncmp(cmd->cmds[0], "cd", 2) == 0)
 		builtin_cd(cmd,shell->env);
-		
 	pid = fork();
 	if (pid < 0)
 		return (perror("pid"), -1);
@@ -85,6 +85,15 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		printf("=== Debug t_cmd ===\n");
+        printf("cmds[0]: %s\n", cmd->cmds[0] ? cmd->cmds[0] : "NULL");
+        if (cmd->cmds[1])
+            printf("cmds[1]: %s\n", cmd->cmds[1]);
+        // printf("infile: %s\n", cmd->infile ? cmd->infile : "NULL");
+        // printf("outfile: %s\n", cmd->outfile ? cmd->outfile : "NULL");
+        // printf("append: %d\n", cmd->append);
+        // printf("next: %p\n", (void*)cmd->next);
+        // printf("==================\n");
 		if (cmd->outfile != NULL && cmd->append == 0)
 			redirect_right(cmd->outfile);
 		else if (cmd->outfile != NULL && cmd->append == 1)
@@ -98,7 +107,6 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 		}
 	}
 	signal(SIGINT, SIG_IGN);
-	int status;
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status))
 	{

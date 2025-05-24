@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_print_export.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:27:44 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/19 12:35:57 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/23 20:34:51 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int builtin_export_env(t_env *env)
 {
 	int i;
 	char **split;
-	char *var;
 	int equal_flag;
 	
 	i = 0;
@@ -80,7 +79,6 @@ int builtin_export_env(t_env *env)
 			free_tab(split);
 			continue;
 		}
-		var = split[1];
 		printf("export %s=\"%s\"\n", split[0], split[1]);
 		i++;
 		free_tab(split);

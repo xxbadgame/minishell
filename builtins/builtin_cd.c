@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/21 13:28:44 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/23 20:33:50 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int builtin_cd(t_cmd *cmd,t_env *env)
 	char *new_path;
 	char *temp;
 	t_cmd *cmd_2;
-	int i;
-	(void)env;
-	i = 0;
+
 	if (cmd->cmds[1][0] == '/')
 	{
 		if(chdir(cmd->cmds[1]) == -1)
