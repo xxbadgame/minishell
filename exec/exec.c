@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/24 10:37:14 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/24 10:38:08 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		printf("=== Debug t_cmd ===\n");
-        printf("cmds[0]: %s\n", cmd->cmds[0] ? cmd->cmds[0] : "NULL");
-        if (cmd->cmds[1])
-            printf("cmds[1]: %s\n", cmd->cmds[1]);
+		// printf("=== Debug t_cmd ===\n");
+        // printf("cmds[0]: %s\n", cmd->cmds[0] ? cmd->cmds[0] : "NULL");
+        // if (cmd->cmds[1])
+        //     printf("cmds[1]: %s\n", cmd->cmds[1]);
         // printf("infile: %s\n", cmd->infile ? cmd->infile : "NULL");
         // printf("outfile: %s\n", cmd->outfile ? cmd->outfile : "NULL");
         // printf("append: %d\n", cmd->append);
