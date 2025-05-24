@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:07:33 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/20 13:53:55 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:13:00 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int builtin_env(t_env *env,t_cmd *cmd)
 			printf("%s\n",env->env_cpy[i]);
 		i++;
 	}
-	while (cmd->cmds[j])
+	while (cmd->cmd_args[j])
 	{
-		if(ft_strchr(cmd->cmds[j],'=') != 0)
-			printf("%s\n",cmd->cmds[j]);
+		if(ft_strchr(cmd->cmd_args[j],'=') != 0)
+			printf("%s\n",cmd->cmd_args[j]);
 		else
 			return(perror("env"), -1);
 		j++;

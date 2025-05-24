@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:57:37 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 09:55:41 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:13:00 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@ int	builtin_echo(t_cmd *cmd)
 	int	i;
 
 	i = 1;
-	if (ft_strncmp(cmd->cmds[1], "-n", 2) == 0 && i++)
+	if (ft_strncmp(cmd->cmd_args[1], "-n", 2) == 0 && i++)
 	{
-		while (cmd->cmds[i])
+		while (cmd->cmd_args[i])
 		{
 			if (i > 2)
-				printf(" %s", cmd->cmds[i++]);
+				printf(" %s", cmd->cmd_args[i++]);
 			else
-				printf("%s", cmd->cmds[i++]);
+				printf("%s", cmd->cmd_args[i++]);
 		}
 	}
 	else
 	{
-		while (cmd->cmds[i])
+		while (cmd->cmd_args[i])
 		{
 			if (i > 1)
-				printf(" %s", cmd->cmds[i++]);
+				printf(" %s", cmd->cmd_args[i++]);
 			else
-				printf("%s", cmd->cmds[i++]);
+				printf("%s", cmd->cmd_args[i++]);
 		}
 		printf("\n");
 	}

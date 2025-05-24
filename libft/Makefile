@@ -9,7 +9,7 @@ FILES = ft_strncmp.c \
 		ft_split.c \
 		ft_strjoin.c \
 		ft_strncat.c \
-		ft_strlcpy.c \
+		ft_strcpy.c \
 		free_tab.c \
 		ft_substr.c \
 		ft_strndup.c \

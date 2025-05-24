@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:00:41 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/20 10:01:25 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:29:56 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ int	find_var_env(t_cmd *cmd, char **env, int *j)
 	i = 0;
 	while (env[i])
 	{
-		sub_cmd = ft_split(cmd->cmds[*j], '=');
+		sub_cmd = ft_split(cmd->cmd_args[*j], '=');
 		sub_env_var = ft_split(env[i], '=');
-		if (ft_strncmp(sub_cmd[0], sub_env_var[0], ft_strlen(sub_env_var[0])) == 0
+		if (ft_strncmp(sub_cmd[0], sub_env_var[0],
+				ft_strlen(sub_env_var[0])) == 0
 			&& ft_strlen(sub_cmd[0]) == ft_strlen(sub_env_var[0]))
 		{
 			free_tab(sub_cmd);

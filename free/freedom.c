@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freedom.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:13:27 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 10:57:14 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:13:35 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void free_cmds(t_shell *shell)
 	while (cmd)
 	{
 		cmd_tmp = cmd->next;
-		free_tab(cmd->cmds);
+		free_tab(cmd->cmd_args);
 		free(cmd->infile);
 		free(cmd->outfile);
 		free(cmd);

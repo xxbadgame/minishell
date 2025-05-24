@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
+#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/21 13:07:34 by engiusep         ###   ########.fr        #
+#    Updated: 2025/05/24 11:02:31 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ FILES = terminal.c \
 		lexer/lexer.c \
 		lexer/symbol.c \
 		parsing/handle_parsing.c \
-		parsing/parsing_utils.c \
+		parsing/token_checker.c \
 		parsing/parsing.c \
 		env/env.c \
 		exec/exec.c \

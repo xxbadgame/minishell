@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/24 10:38:08 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/24 12:20:31 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	launch_execve(t_cmd *cmd, t_env *env)
 {
 	char	*path;
 
-	path = get_path_command(cmd->cmds[0]);
-	if (execve(path, cmd->cmds, env->env_cpy) == -1)
+	path = get_path_command(cmd->cmd_args[0]);
+	if (execve(path, cmd->cmd_args, env->env_cpy) == -1)
 	{
 		perror("exec failed");
 		free(path);
@@ -70,13 +70,13 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 	int	pid;
 	int status;
 
-	if (ft_strncmp(cmd->cmds[0], "exit", 4) == 0)
+	if (ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0)
 		builtin_exit(shell);
-	if (ft_strncmp(cmd->cmds[0], "export", 6) == 0)
+	if (ft_strncmp(cmd->cmd_args[0], "export", 6) == 0)
 		return (builtin_export(cmd, shell->env), 0);
-	if (ft_strncmp(cmd->cmds[0], "unset", 5) == 0)
+	if (ft_strncmp(cmd->cmd_args[0], "unset", 5) == 0)
 		return (builtin_unset(cmd, shell->env), 0);
-	if (ft_strncmp(cmd->cmds[0], "cd", 2) == 0)
+	if (ft_strncmp(cmd->cmd_args[0], "cd", 2) == 0)
 		builtin_cd(cmd,shell->env);
 	pid = fork();
 	if (pid < 0)
@@ -85,15 +85,10 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		// printf("=== Debug t_cmd ===\n");
-        // printf("cmds[0]: %s\n", cmd->cmds[0] ? cmd->cmds[0] : "NULL");
-        // if (cmd->cmds[1])
-        //     printf("cmds[1]: %s\n", cmd->cmds[1]);
-        // printf("infile: %s\n", cmd->infile ? cmd->infile : "NULL");
-        // printf("outfile: %s\n", cmd->outfile ? cmd->outfile : "NULL");
-        // printf("append: %d\n", cmd->append);
-        // printf("next: %p\n", (void*)cmd->next);
-        // printf("==================\n");
+		if (cmd->infile != NULL && cmd->heredoc == 0)
+			redirect_left(cmd->infile);
+		else if (cmd->infile != NULL && cmd->heredoc == 1)
+			heredoc(cmd->infile);
 		if (cmd->outfile != NULL && cmd->append == 0)
 			redirect_right(cmd->outfile);
 		else if (cmd->outfile != NULL && cmd->append == 1)

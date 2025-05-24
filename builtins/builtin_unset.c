@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:19:21 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/14 09:55:41 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:13:00 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	builtin_unset(t_cmd *cmd,t_env *env)
 		return(-1);
 	while(env->env_cpy[i])
 	{
-		if(ft_strncmp(env->env_cpy[i],cmd->cmds[1],ft_strlen(cmd->cmds[1])) != 0)
+		if(ft_strncmp(env->env_cpy[i],cmd->cmd_args[1],ft_strlen(cmd->cmd_args[1])) != 0)
 		{
 			new_env[j] = ft_strndup(env->env_cpy[i], ft_strlen(env->env_cpy[i]));
 			if(!new_env)
@@ -40,19 +40,3 @@ int	builtin_unset(t_cmd *cmd,t_env *env)
 	env->env_cpy = new_env;
 	return (free_tab(temp), 0);
 }
-// int main(int argc,char **argv,char **envp)
-// {
-// 	t_env *env;
-// 	t_cmd cmd;
-// 	int i;
-// 	i = 0;
-// 	env = init_env(envp);
-// 	cmd.argv = (char *[]){"unset", "salut", NULL};
-// 	unset(&cmd,env);
-// 	while(env->env_cpy[i])
-// 	{
-// 		printf("%s\n",env->env_cpy[i++]);
-// 	}
-// 	free_tab(env->env_cpy);
-// 	free(env);
-// }

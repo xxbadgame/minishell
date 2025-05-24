@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/21 13:23:04 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:13:35 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ int pipeline(t_shell *shell)
 
     while (cmd)
     {
-        if(ft_strncmp(cmd->cmds[0], "exit", 4) == 0)
+        if(ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0)
 			builtin_exit(shell);
-        if(ft_strncmp(cmd->cmds[0], "export", 6) == 0)
+        if(ft_strncmp(cmd->cmd_args[0], "export", 6) == 0)
             cmd = cmd->next;
-        if(ft_strncmp(cmd->cmds[0], "unset", 5) == 0)
+        if(ft_strncmp(cmd->cmd_args[0], "unset", 5) == 0)
             return(builtin_unset(cmd, shell->env), 0);
-        if(ft_strncmp(cmd->cmds[0],"cd", 2) == 0)
+        if(ft_strncmp(cmd->cmd_args[0],"cd", 2) == 0)
             builtin_cd(cmd,shell->env);
         if (cmd->next)
             pipe(pipefd); 

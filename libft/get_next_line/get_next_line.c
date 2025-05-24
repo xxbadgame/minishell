@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 06:52:29 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/07 10:20:12 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/24 13:41:33 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int catch (char *buffer, char **result)
 	end_line = find_n(*result);
 	if (end_line != -1)
 	{
-		tmp_buffer = ft_substr(*result, end_line + 1, ft_strlen(*result));
+		tmp_buffer = ft_substr(*result, end_line + 1, ft_strlen(*result) - end_line - 1);
 		if (!tmp_buffer)
 			return (-1);
-		ft_strlcpy(buffer, tmp_buffer, ft_strlen(tmp_buffer));
+		ft_strcpy(buffer, tmp_buffer);
 		free(tmp_buffer);
 		tmp_result = *result;
 		*result = ft_substr(*result, 0, end_line + 1);
