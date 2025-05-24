@@ -6,13 +6,13 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/24 11:02:31 by yannis           ###   ########.fr        #
+#    Updated: 2025/05/24 13:47:07 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell_prog
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror
 HEADERS = terminal.h \
 		libft/libft.h \
 
