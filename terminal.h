@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/24 11:31:24 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/24 18:43:01 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_shell
 	t_env			*env;
 	t_token			*tokens;
 	t_cmd			*cmds;
+	int				last_exit;
 }					t_shell;
 
 // builtins
@@ -104,7 +105,6 @@ int					ft_heredoc_or_append(char *str, t_token **tokens_list,
 						int *i);
 
 // parsing
-
 int					checker_dollar(char *str);
 char				*find_str_in_env(t_env *env, char *str);
 int					for_redir(t_cmd *current, t_token *tokens_list);
@@ -119,6 +119,7 @@ int					parsing_token(t_shell *shell);
 
 // signal
 void				handle_sigint(int sig);
+
 // free
 void				free_cmds(t_shell *shell);
 void				free_tokens(t_shell *shell);

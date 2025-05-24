@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/24 12:20:31 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/24 18:52:51 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	launch_execve(t_cmd *cmd, t_env *env)
 	{
 		perror("exec failed");
 		free(path);
-		exit(-1);
+		exit(EXIT_FAILURE);
 	}
 	free(path);
 	return (0);
@@ -69,6 +69,7 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 {
 	int	pid;
 	int status;
+	int sig;
 
 	if (ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0)
 		builtin_exit(shell);
@@ -96,16 +97,16 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 		if (flag_builtin == 0)
 			launch_execve(cmd, shell->env);
 		else
-		{
-			if (exec_builtin(cmd, shell) == -1)
-				return (-1);
-		}
+			exec_builtin(cmd, shell);
 	}
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
+	if (WIFEXITED(status))
+		shell->last_exit = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
 	{
-		int sig = WTERMSIG(status);
+		sig = WTERMSIG(status);
+		shell->last_exit = 128 + sig;
 		if (sig == SIGINT)
 			write(1, "\n", 1);
 		if (WCOREDUMP(status))
