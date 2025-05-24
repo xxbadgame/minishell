@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/24 18:43:11 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/24 18:54:49 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	init_shell(t_shell *shell)
 	shell->env = NULL;
 	shell->tokens = NULL;
 	shell->cmds = NULL;
-	// int mais si arg alors itoa (ex: echo $?)
 	shell->last_exit = 0;
 }
 
