@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/24 16:26:32 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/25 09:34:39 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@ int pipeline(t_shell *shell)
     int pipefd[2];
     int in_fd = 0;
     int pid;
+    int sig;
+    int last_pid;
+    int status;
+    
+    last_pid = 0;
     t_cmd *cmd;
     cmd = shell->cmds;
-
     while (cmd)
     {
         if(ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0)
@@ -35,6 +39,8 @@ int pipeline(t_shell *shell)
         pid = fork();
         if (pid == 0)
         {
+            signal(SIGINT, SIG_DFL);
+		    signal(SIGQUIT, SIG_DFL);
             if (cmd->infile != NULL && cmd->heredoc == 0)
 			    redirect_left(cmd->infile);
             else if (cmd->infile != NULL && cmd->heredoc == 1)
@@ -60,6 +66,7 @@ int pipeline(t_shell *shell)
                 exec_builtin(cmd, shell);
             exit(0);
         }
+        last_pid = pid;
         if (in_fd != 0)
             close(in_fd);
         if (cmd->next)
@@ -69,6 +76,24 @@ int pipeline(t_shell *shell)
         }
         cmd = cmd->next;
     }
-    while (wait(NULL) > 0);
+    signal(SIGINT, SIG_IGN);
+    while (wait(&status) > 0)
+    {
+        if (pid == last_pid)
+        {
+            if (WIFEXITED(status))
+                shell->last_exit = WEXITSTATUS(status);
+            else if (WIFSIGNALED(status))
+            {
+                sig = WTERMSIG(status);
+                shell->last_exit = 128 + sig;
+                if (sig == SIGINT)
+                    write(1, "\n", 1);
+                if (WCOREDUMP(status))
+                    write(2, "Quit (core dumped)\n", 20);
+            }
+        }
+    }
+	signal(SIGINT, handle_sigint);
     return 0;
 }
