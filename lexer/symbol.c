@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/28 13:46:33 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:00:23 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,18 @@ int find_quote(char *str,int *i ,int *fisrt_quote, int *last_quote)
 	}
 	return (0);
 }
-int	ft_read_word(t_token **tokens_list, char *str, int *i)
+int	ft_read_word(t_token **tokens_list, char *str, int *i,t_shell *shell)
 {
 	int		start;
 	t_token	*token;
-	char *temp;
+	char *result;
 	int fisrt_quote;
 	int last_quote;
-
+	char *temp;
+	
 	fisrt_quote = -1;
 	last_quote = -1;
-	token = NULL;
+	token = NULL;	
 	if(check_quote(str, i) == 1)
 	{
 		start = *i;
@@ -82,10 +83,11 @@ int	ft_read_word(t_token **tokens_list, char *str, int *i)
 	else
 		return (-1);
 
-	temp = NULL;
+	result = NULL;
 	if(check_quote(str, i) == 1)
 	{
-		temp = ft_substr(str, fisrt_quote + 1,last_quote - fisrt_quote - 1);
+		result = ft_substr(str, fisrt_quote + 1,last_quote - fisrt_quote - 1);
+
 		while (str[*i] && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
 			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
 			&& ft_strncmp(str + *i, "<<", 2) != 0)
@@ -97,14 +99,19 @@ int	ft_read_word(t_token **tokens_list, char *str, int *i)
 			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
 			&& ft_strncmp(str + *i, "<<", 2) != 0)
 				(*i)++;
-		temp = ft_strndup(str + start, *i - start);
-		if(!temp)
+		result = ft_strndup(str + start, *i - start);
+		if(!result)
 			return(-1);
-	}	
-	
-	token = create_token(temp, WORD);
+	}
+	if(ft_strncmp(result,"$?",2) == 0)
+	{
+		temp = result;
+		result = ft_itoa(shell->last_exit);
+		free(temp);
+	}
+	token = create_token(result, WORD);
 	if(!token)
-		return(free(temp), -1);
+		return(free(result), -1);
 	add_token(tokens_list, token);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/24 10:58:20 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/28 13:53:40 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	add_token(t_token **tokens_list, t_token *new_token)
 	return ;
 }
 
-int conditional_lexer(t_token **tokens_list, char *str, int *i)
+int conditional_lexer(t_token **tokens_list, char *str, int *i,t_shell *shell)
 {
 	if (str[*i] == ' ')
 		(*i)++;
@@ -65,7 +65,7 @@ int conditional_lexer(t_token **tokens_list, char *str, int *i)
 	}
 	else
 	{
-		if(ft_read_word(tokens_list, str, i) == -1)
+		if(ft_read_word(tokens_list, str, i, shell) == -1)
 			return(-1);
 	}
 	return (0);
@@ -78,7 +78,7 @@ int lexer(t_shell *shell, char *str)
 	i = 0;
 	while (str[i])
 	{
-		if(conditional_lexer(&(shell->tokens), str, &i) == -1)
+		if(conditional_lexer(&(shell->tokens), str, &i,shell) == -1)
 			return (-1);
 	}
 	return (0);

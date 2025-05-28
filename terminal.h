@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/24 18:43:01 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/28 14:03:43 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int					heredoc(char *stop_word);
 int					lexer(t_shell *shell, char *str);
 t_token				*create_token(char *str, t_token_type type);
 void				add_token(t_token **tokens_list, t_token *new_token);
-int					ft_read_word(t_token **tokens_list, char *str, int *i);
+int					ft_read_word(t_token **tokens_list, char *str, int *i,t_shell *shell);
 int					ft_pipe(t_token **tokens_list, int *i);
 int					ft_redir(char *str, t_token **tokens_list, int *i);
 int					ft_heredoc_or_append(char *str, t_token **tokens_list,

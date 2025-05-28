@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:32:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/24 13:43:13 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/28 14:03:53 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	*ft_strndup(char *str, int size);
 char	*get_next_line(int fd);
 int	tab_len(char **tab);
 int	ft_strchr(char *str,char c);
+char	*ft_itoa(int n);
 
 
 #endif
