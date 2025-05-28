@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/24 18:54:49 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/28 13:43:26 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 	char	*line;
-	int		i;
-
 	(void)argc;
 	(void)argv;
-	i = 0;
+	
 	shell = malloc(sizeof(t_shell));
 	shell->cmds = NULL;
 	shell->tokens = NULL;
@@ -67,7 +65,7 @@ int	main(int argc, char **argv, char **envp)
 		return (perror("env failed"), 1);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	while (i < 10)
+	while (1)
 	{
 		line = readline("minishell> ");
 		if(!line)
@@ -85,7 +83,6 @@ int	main(int argc, char **argv, char **envp)
 		free_tokens(shell);
 		free_cmds(shell);
 		free(line);
-		i++;
 	}
 	free_env(shell);
 	free(shell);

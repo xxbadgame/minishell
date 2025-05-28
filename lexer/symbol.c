@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/28 13:10:36 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:46:33 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,10 @@ int find_quote(char *str,int *i ,int *fisrt_quote, int *last_quote)
 		&& str[j] != '<' && ft_strncmp(str + j, ">>", 2) != 0
 		&& ft_strncmp(str + j, "<<", 2) != 0)
 	{
-		printf("str[%d] = %c\n",j,str[j]);
 		if(str[j] == '\'' || str[j] == '"')
 		{
 			if(*fisrt_quote == -1)
 				*fisrt_quote = j;
-			printf("char : %c, index : %d\n", str[j], j);
 			*last_quote = j;
 			j++;
 			continue;
@@ -78,7 +76,6 @@ int	ft_read_word(t_token **tokens_list, char *str, int *i)
 	{
 		start = *i;
 		find_quote(str, i,&fisrt_quote,&last_quote);
-		printf("first : %d, last : %d\n", fisrt_quote, last_quote);
 	}
 	else if (check_quote(str, i) == 0)
 		start = *i;
@@ -89,7 +86,6 @@ int	ft_read_word(t_token **tokens_list, char *str, int *i)
 	if(check_quote(str, i) == 1)
 	{
 		temp = ft_substr(str, fisrt_quote + 1,last_quote - fisrt_quote - 1);
-		printf("temp : %s\n", temp);
 		while (str[*i] && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
 			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
 			&& ft_strncmp(str + *i, "<<", 2) != 0)
