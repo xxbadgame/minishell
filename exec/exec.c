@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/28 12:25:52 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:32:22 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_path_command(char *cmd)
 int	launch_execve(t_cmd *cmd, t_env *env)
 {
 	char	*path;
-
+	
 	path = get_path_command(cmd->cmd_args[0]);
 	if (execve(path, cmd->cmd_args, env->env_cpy) == -1)
 	{
@@ -70,7 +70,7 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 	int	pid;
 	int status;
 	int sig;
-
+	
 	if (ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0)
 		builtin_exit(shell);
 	if (ft_strncmp(cmd->cmd_args[0], "export", 6) == 0)
@@ -78,7 +78,7 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 	if (ft_strncmp(cmd->cmd_args[0], "unset", 5) == 0)
 		return (builtin_unset(cmd, shell->env), 0);
 	if (ft_strncmp(cmd->cmd_args[0], "cd", 2) == 0)
-		builtin_cd(cmd,shell->env);
+		return (builtin_cd(cmd,shell->env));
 	pid = fork();
 	if (pid < 0)
 		return (perror("pid"), -1);

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/28 13:44:28 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:25:46 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	parsing_token(t_shell *shell)
 	while (current_token)
 	{
 		if(command_checker(&i, current_token, &current_cmd, shell->env) == -1)
-		  	return(free_cmds(shell),free(current_cmd),free_tab(current_cmd->cmd_args), -1);
+		  	return(-1);
 		if (current_token->type == REDIR_OUT 
 			|| current_token->type == REDIR_APPEND
 			|| current_token->type == REDIR_IN

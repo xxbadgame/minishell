@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/28 14:00:23 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/29 12:53:43 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,17 @@ int check_quote(char *str, int *i)
 	simple_quote = 0;
 	j = *i;
 
-	while(str[j] && str[j] != ' ')
+	while (str[j])
 	{
+		if (simple_quote == 0 && double_quote == 0 && str[j] == ' ')
+				break;
 		if(str[j] == '\'')
 			simple_quote++;
 		if(str[j] == '"')
 			double_quote++;
-		j++;	
+		j++;
 	}
-	
+	//printf("simple : %d, double : %d\n", simple_quote, double_quote);
 	if(simple_quote % 2 == 0 
 		&& double_quote % 2 == 0 
 		&& (simple_quote != 0 || double_quote != 0)) 
@@ -45,7 +47,7 @@ int find_quote(char *str,int *i ,int *fisrt_quote, int *last_quote)
 	int j;
 	j = *i;
 	
-	while (str[j] && str[j] != ' ' && str[j] != '|' && str[j] != '>'
+	while (str[j] && str[j] != '|' && str[j] != '>'
 		&& str[j] != '<' && ft_strncmp(str + j, ">>", 2) != 0
 		&& ft_strncmp(str + j, "<<", 2) != 0)
 	{
@@ -69,31 +71,31 @@ int	ft_read_word(t_token **tokens_list, char *str, int *i,t_shell *shell)
 	int fisrt_quote;
 	int last_quote;
 	char *temp;
-	
+	int checker_quote;
+
 	fisrt_quote = -1;
 	last_quote = -1;
-	token = NULL;	
-	if(check_quote(str, i) == 1)
+	token = NULL;
+	checker_quote = check_quote(str, i);
+	if(checker_quote == 1)
 	{
 		start = *i;
 		find_quote(str, i,&fisrt_quote,&last_quote);
 	}
-	else if (check_quote(str, i) == 0)
+	else if (checker_quote == 0)
 		start = *i;
 	else
 		return (-1);
-
 	result = NULL;
-	if(check_quote(str, i) == 1)
+	if(checker_quote == 1)
 	{
 		result = ft_substr(str, fisrt_quote + 1,last_quote - fisrt_quote - 1);
-
-		while (str[*i] && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
+		while (str[*i] && str[*i] != '|' && str[*i] != '>'
 			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
 			&& ft_strncmp(str + *i, "<<", 2) != 0)
 				(*i)++;
 	}
-	else if(check_quote(str, i) == 0)
+	else if(checker_quote == 0)
 	{
 		while (str[*i] && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
 			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0

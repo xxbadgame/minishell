@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:40:57 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/28 09:37:25 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:26:21 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int handle_word(int *i, t_token *current_token, t_cmd **current_cmd, t_env *env)
     {
         (*current_cmd)->cmd_args[(*i)] = find_str_in_env(env, current_token->value);
         if ((*current_cmd)->cmd_args[(*i)] == NULL)
+        {
             printf("\n");
+            return (-1);
+        }
         (*i)++;
         return(0);
     }
@@ -74,7 +77,7 @@ int command_checker(int *i, t_token *current_token, t_cmd **current_cmd, t_env *
 {
     if (current_token->type == WORD)
     {
-        if (handle_word(i, current_token, current_cmd, env))
+        if (handle_word(i, current_token, current_cmd, env) == -1)
             return (-1);
     }
     else if (current_token->type == REDIR_IN 
@@ -83,12 +86,12 @@ int command_checker(int *i, t_token *current_token, t_cmd **current_cmd, t_env *
         || current_token->type == HEREDOC
     )
     {
-        if (handle_redirection(current_cmd, current_token))
+        if (handle_redirection(current_cmd, current_token) == -1)
             return (-1);
     }
     else if (current_token->type == PIPE || current_token->next == NULL)
     {
-        if (handle_pipe_or_end(i, current_token, current_cmd))
+        if (handle_pipe_or_end(i, current_token, current_cmd) == -1)
             return (-1);
     }
     (*current_cmd)->cmd_args[(*i)] = NULL;
