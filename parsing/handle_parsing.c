@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 10:37:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/24 11:40:59 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/29 14:33:50 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char *find_str_in_env(t_env *env, char *str)
     char *result;
 
     i = 0;
-    str++;
+    if (str[0] == '$')
+        str++;
     while (env->env_cpy[i])
     {
         spl_var = ft_split(env->env_cpy[i], '=');

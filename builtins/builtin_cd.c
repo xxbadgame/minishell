@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/24 11:13:00 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/29 14:34:23 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ int builtin_cd(t_cmd *cmd,t_env *env)
 	char *new_path;
 	char *temp;
 	t_cmd *cmd_2;
-
-	if (cmd->cmd_args[1][0] == '/')
+	
+	if (cmd->cmd_args[1] != NULL)
 	{
-		if(chdir(cmd->cmd_args[1]) == -1)
-			return(perror("dir"), -1);
-		return (0);
+		if (cmd->cmd_args[1][0] == '/')
+		{
+			if(chdir(cmd->cmd_args[1]) == -1)
+				return(perror("dir"), -1);
+			return (0);
+		}
 	}
 	cwd = getcwd(NULL,0);
 	cmd_2 = malloc(sizeof(t_cmd));
@@ -35,11 +38,16 @@ int builtin_cd(t_cmd *cmd,t_env *env)
 	free(cmd_2->cmd_args[0]);
 	free(cmd_2->cmd_args[1]);
 	free(cmd_2);
+	
 	new_path = ft_strjoin(cwd,"/");
 	if(!new_path)
 		return(free(cwd), -1);
 	temp = new_path;
-	new_path = ft_strjoin(temp,cmd->cmd_args[1]);
+
+	if(cmd->cmd_args[1] != NULL)
+		new_path = ft_strjoin(temp,cmd->cmd_args[1]);
+	else
+		new_path = find_str_in_env(env, "HOME");
 	if(!new_path)
 		return(free(temp), free(cwd), -1);
 	free(temp);
