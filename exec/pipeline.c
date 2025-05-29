@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/29 13:33:50 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:39:27 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int pipeline(t_shell *shell)
     cmd = shell->cmds;
     while (cmd)
     {
-        if(ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0)
+        if(ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0 && ft_strlen(cmd->cmd_args[0]) == 4)
 			builtin_exit(shell);
-        if(ft_strncmp(cmd->cmd_args[0], "export", 6) == 0)
+        if(ft_strncmp(cmd->cmd_args[0], "export", 6) == 0  && ft_strlen(cmd->cmd_args[0]) == 6)
             cmd = cmd->next;
-        if(ft_strncmp(cmd->cmd_args[0], "unset", 5) == 0)
+        if(ft_strncmp(cmd->cmd_args[0], "unset", 5) == 0 && ft_strlen(cmd->cmd_args[0]) == 5)
             return(builtin_unset(cmd, shell->env), 0);
-        if(ft_strncmp(cmd->cmd_args[0],"cd", 2) == 0)
+        if(ft_strncmp(cmd->cmd_args[0],"cd", 2) == 0 && ft_strlen(cmd->cmd_args[0]) == 2)
             return (builtin_cd(cmd,shell->env));
         if (cmd->next)
             pipe(pipefd); 
