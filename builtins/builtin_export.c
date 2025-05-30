@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:17:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/24 11:13:00 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/30 11:10:30 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	find_equal(t_cmd *cmd, char **new_env, int *i, int *j)
 	(*i)++;
 	return (0);
 }
+
 int	parse_cmd_arg(t_cmd *cmd,char **new_env, int *i)
 {
 	int j;
@@ -76,6 +77,7 @@ int	parse_cmd_arg(t_cmd *cmd,char **new_env, int *i)
 	}
 	return (0);
 }
+
 int	builtin_export(t_cmd *cmd, t_env *env)
 {
 	char	**new_env;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/29 13:38:21 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/05/30 10:55:41 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,15 @@ int	launch_execve(t_cmd *cmd, t_env *env)
 {
 	char	*path;
 	
+	if (access(cmd->cmd_args[0], X_OK) == 0)
+	{
+		if (execve(cmd->cmd_args[0], cmd->cmd_args, env->env_cpy) == -1)
+		{
+			perror("exec failed");
+			exit(EXIT_FAILURE);
+		}
+		return (0);
+	}
 	path = get_path_command(cmd->cmd_args[0]);
 	if (execve(path, cmd->cmd_args, env->env_cpy) == -1)
 	{

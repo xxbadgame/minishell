@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:27:44 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/23 20:34:51 by yannis           ###   ########.fr       */
+/*   Updated: 2025/05/30 11:31:52 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,38 @@ char *clean_str(char *str)
 	while(str[i])
 	{
 		if(str[i] != '"')
-		{
 			new[j++] = str[i];
-		}
 		i++;
 	}
 	new[j] = '\0';
 	return new;
 }
 
+int split_checker(t_env *env, int equal_flag, int i)
+{
+	char **split;
+	
+	split = ft_split(env->env_cpy[i], '=');
+	if(!split)
+		return (-1);
+	if(split[0][0] == '_' && ft_strlen(split[0]) == 1)
+	{}
+	else if(equal_flag == 1)
+	{
+		printf("export %s=\"\"\n", split[0]);
+		equal_flag = 0;
+	}
+	else if (!split[1])
+		printf("export %s\n", split[0]);
+	else
+		printf("export %s=\"%s\"\n", split[0], split[1]);
+	return(free_tab(split), 0);
+}
+
 int builtin_export_env(t_env *env)
 {
 	int i;
-	char **split;
+	int split_check;
 	int equal_flag;
 	
 	i = 0;
@@ -54,34 +73,10 @@ int builtin_export_env(t_env *env)
 		if (ft_strchr(env->env_cpy[i],'=') != 0 
 			&& env->env_cpy[i][ft_strchr(env->env_cpy[i],'=') + 1] == '\0') 
 			equal_flag = 1;
-			
-		split = ft_split(env->env_cpy[i],'=');
-		if(!split)
-			return (-1);
-		if(split[0][0] == '_' && ft_strlen(split[0]) == 1)
-		{
-			i++;
-			free_tab(split);
-			continue;
-		}
-		if(equal_flag == 1)
-		{
-			printf("export %s=\"\"\n", split[0]);
-			i++;
-			equal_flag = 0;
-			free_tab(split);
-			continue;
-		}
-		if (!split[1])
-		{
-			printf("export %s\n", split[0]);
-			i++;
-			free_tab(split);
-			continue;
-		}
-		printf("export %s=\"%s\"\n", split[0], split[1]);
+		split_check = split_checker(env, equal_flag, i);
+		if (split_check == -1)
+			return(-1);
 		i++;
-		free_tab(split);
 	}
 	return 0;
 }
