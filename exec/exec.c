@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/30 10:55:41 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/01 17:55:12 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,45 @@ int	launch_execve(t_cmd *cmd, t_env *env)
 	return (0);
 }
 
+static int single_builtins_no_child(t_cmd *cmd, t_shell *shell)
+{
+	if (ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0 && ft_strlen(cmd->cmd_args[0]) == 4)
+		builtin_exit(shell);
+	if (ft_strncmp(cmd->cmd_args[0], "export", 6) == 0 && ft_strlen(cmd->cmd_args[0]) == 6)
+		return (builtin_export(cmd, shell->env));
+	if (ft_strncmp(cmd->cmd_args[0], "unset", 5) == 0 && ft_strlen(cmd->cmd_args[0]) == 5)
+		return (builtin_unset(cmd, shell->env));
+	if (ft_strncmp(cmd->cmd_args[0], "cd", 2) == 0 && ft_strlen(cmd->cmd_args[0]) == 2)
+		return (builtin_cd(cmd,shell->env));
+	return(1);
+}
+
+static int exit_checker(int status, t_shell *shell)
+{
+	int sig;
+
+	if (WIFEXITED(status))
+		shell->last_exit = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		shell->last_exit = 128 + sig;
+		if (sig == SIGINT)
+			write(1, "\n", 1);
+		if (WCOREDUMP(status))
+			write(2, "Quit (core dumped)\n", 20);
+	}
+}
+
 int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 {
 	int	pid;
 	int status;
-	int sig;
-	
-	if (ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0 && ft_strlen(cmd->cmd_args[0]) == 4)
-		builtin_exit(shell);
-	if (ft_strncmp(cmd->cmd_args[0], "export", 6) == 0 && ft_strlen(cmd->cmd_args[0]) == 6)
-		return (builtin_export(cmd, shell->env), 0);
-	if (ft_strncmp(cmd->cmd_args[0], "unset", 5) == 0 && ft_strlen(cmd->cmd_args[0]) == 5)
-		return (builtin_unset(cmd, shell->env), 0);
-	if (ft_strncmp(cmd->cmd_args[0], "cd", 2) == 0 && ft_strlen(cmd->cmd_args[0]) == 2)
-		return (builtin_cd(cmd,shell->env));
+
+	if (single_builtins_no_child(cmd, shell) == 0)
+		return(0);
+	else if (single_builtins_no_child(cmd, shell) == -1)
+		return(-1);
 	pid = fork();
 	if (pid < 0)
 		return (perror("pid"), -1);
@@ -110,17 +135,7 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 	}
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		shell->last_exit = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-	{
-		sig = WTERMSIG(status);
-		shell->last_exit = 128 + sig;
-		if (sig == SIGINT)
-			write(1, "\n", 1);
-		if (WCOREDUMP(status))
-			write(2, "Quit (core dumped)\n", 20);
-	}
+	exit_checker(status, shell);
 	signal(SIGINT, handle_sigint);
 	return (0);
 }
