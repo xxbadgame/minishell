@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/01 17:55:12 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/02 05:50:25 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int single_builtins_no_child(t_cmd *cmd, t_shell *shell)
 	return(1);
 }
 
-static int exit_checker(int status, t_shell *shell)
+static void exit_checker(int status, t_shell *shell)
 {
 	int sig;
 
@@ -102,6 +102,22 @@ static int exit_checker(int status, t_shell *shell)
 		if (WCOREDUMP(status))
 			write(2, "Quit (core dumped)\n", 20);
 	}
+}
+
+static void exec_choice(t_cmd *cmd, t_shell *shell, int flag_builtin)
+{
+	if (cmd->infile != NULL && cmd->heredoc == 0)
+		redirect_left(cmd->infile);
+	else if (cmd->infile != NULL && cmd->heredoc == 1)
+		heredoc(cmd->infile);
+	if (cmd->outfile != NULL && cmd->append == 0)
+		redirect_right(cmd->outfile);
+	else if (cmd->outfile != NULL && cmd->append == 1)
+		double_redirect_right(cmd->outfile);
+	if (flag_builtin == 0)
+		launch_execve(cmd, shell->env);
+	else
+		exec_builtin(cmd, shell);
 }
 
 int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
@@ -120,18 +136,7 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell, int flag_builtin)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		if (cmd->infile != NULL && cmd->heredoc == 0)
-			redirect_left(cmd->infile);
-		else if (cmd->infile != NULL && cmd->heredoc == 1)
-			heredoc(cmd->infile);
-		if (cmd->outfile != NULL && cmd->append == 0)
-			redirect_right(cmd->outfile);
-		else if (cmd->outfile != NULL && cmd->append == 1)
-			double_redirect_right(cmd->outfile);
-		if (flag_builtin == 0)
-			launch_execve(cmd, shell->env);
-		else
-			exec_builtin(cmd, shell);
+		exec_choice(cmd, shell, flag_builtin);
 	}
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
