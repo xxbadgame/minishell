@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:46:02 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/15 10:57:05 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:25:55 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
 
-int	env_size(char **env)
+static int	env_size(char **env)
 {
 	int	i;
 
@@ -34,7 +34,7 @@ void add_in_env(char **origin_env, char **dest_env, int *i)
 	}
 }
 
-char	**envcpy(char **envp)
+static char	**envcpy(char **envp)
 {
 	char	**env_cpy;
 	int i;

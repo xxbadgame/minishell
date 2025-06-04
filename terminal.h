@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/04 10:55:49 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:54:19 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ void				add_in_env(char **origin_env, char **dest_env, int *i);
 char				*clean_str(char *str);
 
 // exec
-int					path_len(char *path_env, char *cmd);
-char				*get_path_command(char *cmd);
+void				handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd);
 int					launch_execve(t_cmd *cmd, t_env *env);
 int					pipeline(t_shell *shell);
 int					launch_execve(t_cmd *cmd, t_env *env);
@@ -97,6 +96,11 @@ int					redirect_left(char *filename);
 int					heredoc(char *stop_word);
 
 // lexer
+int					check_quote(char *str, int *i);
+int					find_quote(char *str, int *i, int *fisrt_quote,
+						int *last_quote);
+char				*loop_with_quote(char *str, int *i);
+char				*loop_without_quote(char *str, int *i);
 int					lexer(t_shell *shell, char *str);
 t_token				*create_token(char *str, t_token_type type);
 void				add_token(t_token **tokens_list, t_token *new_token);

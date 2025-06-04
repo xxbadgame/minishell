@@ -6,13 +6,13 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/30 11:09:41 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:23:06 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-void handle_oldpwd(char *cwd, t_env *env)
+static void handle_oldpwd(char *cwd, t_env *env)
 {
 	t_cmd *cmd_2;
 	
@@ -27,7 +27,7 @@ void handle_oldpwd(char *cwd, t_env *env)
 	free(cmd_2);
 }
 
-int check_path_cmd(t_cmd *cmd)
+static int check_path_cmd(t_cmd *cmd)
 {
 	if (cmd->cmd_args[1] != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/24 13:46:09 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:03:52 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ int	double_redirect_right(char *filename)
 	return (0);
 }
 
+static int is_stop_word(char *line, char *stop_word)
+{
+	if (ft_strncmp(line, stop_word, ft_strlen(stop_word)) == 0
+		&& ft_strlen(stop_word) == (ft_strlen(line) - 1))
+		return(free(line), 1);
+	return(0);
+}
+
 int	heredoc(char *stop_word)
 {
 	int		pipefd[2];
@@ -67,20 +75,16 @@ int	heredoc(char *stop_word)
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break;
-		if (ft_strncmp(line, stop_word, ft_strlen(stop_word)) == 0
-			&& ft_strlen(stop_word) == (ft_strlen(line) - 1))
-		{
-			free(line);
-			break ;
-		}
+		if (is_stop_word(line, stop_word) == 1)
+			break;
 		write(pipefd[1], line, ft_strlen(line));
 		free(line);
 	}
-	if (!line)
-		return(-1);
 	close(pipefd[1]);
 	if (dup2(pipefd[0], 0) == -1)
 		return(close(pipefd[0]),-1);
 	close(pipefd[0]);
+	if (!line)
+		return(-1);
 	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:17:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/30 11:10:30 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:24:06 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int count_add_var(t_cmd *cmd,t_env *env)
+static int count_add_var(t_cmd *cmd,t_env *env)
 {
 	int nb_var;
 	int var_pos;
@@ -35,7 +35,7 @@ int count_add_var(t_cmd *cmd,t_env *env)
 	return (nb_var);
 }
 
-int	replace_var_env(t_cmd *cmd, char **new_env, int var_pos ,int *j)
+static int	replace_var_env(t_cmd *cmd, char **new_env, int var_pos ,int *j)
 {
 	char	*temp;
 
@@ -50,7 +50,7 @@ int	replace_var_env(t_cmd *cmd, char **new_env, int var_pos ,int *j)
 	return (0);
 }
 
-int	find_equal(t_cmd *cmd, char **new_env, int *i, int *j)
+static int	find_equal(t_cmd *cmd, char **new_env, int *i, int *j)
 {
 	new_env[*i] = clean_str(cmd->cmd_args[*j]);
 	if (!new_env)
@@ -59,7 +59,7 @@ int	find_equal(t_cmd *cmd, char **new_env, int *i, int *j)
 	return (0);
 }
 
-int	parse_cmd_arg(t_cmd *cmd,char **new_env, int *i)
+static int	parse_cmd_arg(t_cmd *cmd,char **new_env, int *i)
 {
 	int j;
 	int var_pos;

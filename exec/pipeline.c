@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/04 11:18:20 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:22:17 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,6 @@ static void pipeline_exec_choice(t_cmd *cmd, t_shell *shell, int *pipefd, int in
         launch_execve(cmd, shell->env);
     else
         exec_builtin(cmd, shell);
-}
-
-static void handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd)
-{
-    if (*in_fd != 0)
-        close(*in_fd);
-    if (cmd->next)
-    {
-        close(pipefd[1]);
-        *in_fd = pipefd[0];
-    }
 }
 
 static int pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)

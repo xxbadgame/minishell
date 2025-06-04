@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/06/04 10:54:50 by yannis           ###   ########.fr        #
+#    Updated: 2025/06/04 13:54:52 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ RM = rm -f
 
 FILES = terminal.c \
 		lexer/lexer.c \
+		lexer/quote_utils.c \
 		lexer/symbol.c \
 		parsing/handle_parsing.c \
 		parsing/token_checker.c \

@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:27:44 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/30 11:31:52 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:24:33 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char *clean_str(char *str)
 	return new;
 }
 
-int split_checker(t_env *env, int equal_flag, int i)
+static int split_checker(t_env *env, int equal_flag, int i)
 {
 	char **split;
 	

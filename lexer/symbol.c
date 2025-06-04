@@ -6,102 +6,26 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/04 09:21:17 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:52:57 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int check_quote(char *str, int *i)
+int	ft_read_word(t_token **tokens_list, char *str, int *i, t_shell *shell)
 {
-	int j;
-	int simple_quote;
-	int double_quote;
-	
-	double_quote = 0;
-	simple_quote = 0;
-	j = *i;
-	while (str[j])
-	{
-		if (simple_quote == 0 && double_quote == 0 && str[j] == ' ')
-				break;
-		if(str[j] == '\'')
-			simple_quote++;
-		if(str[j] == '"')
-			double_quote++;
-		j++;
-	}
-	if(simple_quote % 2 == 0 
-		&& double_quote % 2 == 0 
-		&& (simple_quote != 0 || double_quote != 0)) 
-		return(1);
-	else if(simple_quote % 2 != 0 || double_quote % 2 != 0)
-		return (-1);
-	return (0);
-}
-int find_quote(char *str,int *i ,int *fisrt_quote, int *last_quote)
-{
-	int j;
-	j = *i;
-	
-	while (str[j] && str[j] != '|' && str[j] != '>'
-		&& str[j] != '<' && ft_strncmp(str + j, ">>", 2) != 0
-		&& ft_strncmp(str + j, "<<", 2) != 0)
-	{
-		if(str[j] == '\'' || str[j] == '"')
-		{
-			if(*fisrt_quote == -1)
-				*fisrt_quote = j;
-			*last_quote = j;
-			j++;
-			continue;
-		}
-		j++;
-	}
-	return (0);
-}
-int	ft_read_word(t_token **tokens_list, char *str, int *i,t_shell *shell)
-{
-	int		start;
 	t_token	*token;
 	char *result;
-	int fisrt_quote;
-	int last_quote;
 	char *temp;
-	int checker_quote;
-
-	fisrt_quote = -1;
-	last_quote = -1;
+	
 	token = NULL;
-	checker_quote = check_quote(str, i);
-	if(checker_quote == 1)
-	{
-		start = *i;
-		find_quote(str, i,&fisrt_quote,&last_quote);
-	}
-	else if (checker_quote == 0)
-		start = *i;
+	result = NULL;
+	if(check_quote(str, i) == 1)
+		result = loop_with_quote(str, i);
+	else if(check_quote(str, i) == 0)
+		result = loop_without_quote(str, i);
 	else
 		return (-1);
-	result = NULL;
-	if(checker_quote == 1)
-	{
-		result = ft_substr(str, fisrt_quote + 1,last_quote - fisrt_quote - 1);
-		while (str[*i] && str[*i] != '|' && str[*i] != '>'
-			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
-			&& ft_strncmp(str + *i, "<<", 2) != 0)
-				(*i)++;
-	}
-	else if(checker_quote == 0)
-	{
-		while (str[*i] && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
-			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
-			&& ft_strncmp(str + *i, "<<", 2) != 0)
-				(*i)++;
-		result = ft_strndup(str + start, *i - start);
-		if(!result)
-			return(-1);
-	}
 	if(ft_strncmp(result,"$?",2) == 0)
 	{
 		temp = result;
@@ -136,7 +60,6 @@ int	ft_redir(char *str, t_token **tokens_list, int *i)
 	t_token	*token;
 	char *temp;
 
-	
 	token = NULL;
 	if (str[*i] == '<')
 	{

@@ -6,13 +6,13 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/04 10:36:36 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:26:54 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int	path_len(char *path_env, char *cmd)
+static int	path_len(char *path_env, char *cmd)
 {
 	int	len_path_env;
 	int	len_cmd;
@@ -24,7 +24,7 @@ int	path_len(char *path_env, char *cmd)
 	return (size_path);
 }
 
-char	*get_path_command(char *cmd)
+static char	*get_path_command(char *cmd)
 {
 	char	**all_path;
 	char	*path;
@@ -74,3 +74,13 @@ int	launch_execve(t_cmd *cmd, t_env *env)
 	return (0);
 }
 
+void handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd)
+{
+    if (*in_fd != 0)
+        close(*in_fd);
+    if (cmd->next)
+    {
+        close(pipefd[1]);
+        *in_fd = pipefd[0];
+    }
+}
