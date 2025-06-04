@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/28 14:03:43 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:55:49 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,13 @@ void				add_in_env(char **origin_env, char **dest_env, int *i);
 char				*clean_str(char *str);
 
 // exec
+int					path_len(char *path_env, char *cmd);
+char				*get_path_command(char *cmd);
+int					launch_execve(t_cmd *cmd, t_env *env);
 int					pipeline(t_shell *shell);
 int					launch_execve(t_cmd *cmd, t_env *env);
 int					ft_listlen(t_cmd **cmds);
-int					exec_single_command(t_cmd *cmd, t_shell *shell,
-						int flag_builtin);
+int					exec_single_command(t_cmd *cmd, t_shell *shell);
 int					redirect_right(char *filename);
 int					double_redirect_right(char *filename);
 int					redirect_left(char *filename);
@@ -98,7 +100,8 @@ int					heredoc(char *stop_word);
 int					lexer(t_shell *shell, char *str);
 t_token				*create_token(char *str, t_token_type type);
 void				add_token(t_token **tokens_list, t_token *new_token);
-int					ft_read_word(t_token **tokens_list, char *str, int *i,t_shell *shell);
+int					ft_read_word(t_token **tokens_list, char *str, int *i,
+						t_shell *shell);
 int					ft_pipe(t_token **tokens_list, int *i);
 int					ft_redir(char *str, t_token **tokens_list, int *i);
 int					ft_heredoc_or_append(char *str, t_token **tokens_list,

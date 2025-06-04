@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   symbol.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/29 12:53:43 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:21:17 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
-
 
 int check_quote(char *str, int *i)
 {
@@ -22,7 +21,6 @@ int check_quote(char *str, int *i)
 	double_quote = 0;
 	simple_quote = 0;
 	j = *i;
-
 	while (str[j])
 	{
 		if (simple_quote == 0 && double_quote == 0 && str[j] == ' ')
@@ -33,7 +31,6 @@ int check_quote(char *str, int *i)
 			double_quote++;
 		j++;
 	}
-	//printf("simple : %d, double : %d\n", simple_quote, double_quote);
 	if(simple_quote % 2 == 0 
 		&& double_quote % 2 == 0 
 		&& (simple_quote != 0 || double_quote != 0)) 

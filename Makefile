@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/05/24 13:47:07 by yannis           ###   ########.fr        #
+#    Updated: 2025/06/04 10:54:50 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ FILES = terminal.c \
 		parsing/parsing.c \
 		env/env.c \
 		exec/exec.c \
+		exec/exec_utils.c \
 		exec/redirect.c \
 		exec/pipeline.c \
 		free/freedom.c \
