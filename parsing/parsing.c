@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/29 13:25:46 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/05 09:42:22 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,23 @@ int	count_elem_cmd(t_token *current_token)
 int	parsing_token(t_shell *shell)
 {
 	t_cmd	*current_cmd;
-	t_token *current_token;
+	t_token	*current_token;
 	int		i;
 
 	i = 0;
 	current_cmd = create_cmd(count_elem_cmd(shell->tokens));
-	if(!current_cmd)
+	if (!current_cmd)
 		return (-1);
 	current_token = shell->tokens;
-	shell->cmds = current_cmd; 
+	shell->cmds = current_cmd;
 	while (current_token)
 	{
-		if(command_checker(&i, current_token, &current_cmd, shell->env) == -1)
-		  	return(-1);
-		if (current_token->type == REDIR_OUT 
+		if (command_checker(&i, current_token, &current_cmd, shell->env) == -1)
+			return (-1);
+		if (current_token->type == REDIR_OUT
 			|| current_token->type == REDIR_APPEND
 			|| current_token->type == REDIR_IN
-			|| current_token->type == HEREDOC
-		)
+			|| current_token->type == HEREDOC)
 			current_token = current_token->next;
 		current_token = current_token->next;
 	}

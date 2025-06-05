@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/05 10:12:28 by engiusep          #+#    #+#             */
+/*   Updated: 2025/06/05 10:12:29 by engiusep         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 int	size_number(int n)
@@ -17,7 +29,6 @@ int	size_number(int n)
 	count++;
 	return (count);
 }
-
 
 char	*allocate_number(int n)
 {
@@ -39,7 +50,6 @@ char	*allocate_number(int n)
 	}
 	return (nb_str);
 }
-
 
 char	*ft_itoa(int n)
 {

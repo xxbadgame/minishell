@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 13:42:02 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/24 13:43:19 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/05 10:17:50 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strcpy(char *dest, char *src)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (src[i])

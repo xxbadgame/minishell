@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/04 13:26:54 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/05 09:41:34 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*get_path_command(char *cmd)
 int	launch_execve(t_cmd *cmd, t_env *env)
 {
 	char	*path;
-	
+
 	if (access(cmd->cmd_args[0], X_OK) == 0)
 	{
 		if (execve(cmd->cmd_args[0], cmd->cmd_args, env->env_cpy) == -1)
@@ -74,13 +74,13 @@ int	launch_execve(t_cmd *cmd, t_env *env)
 	return (0);
 }
 
-void handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd)
+void	handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd)
 {
-    if (*in_fd != 0)
-        close(*in_fd);
-    if (cmd->next)
-    {
-        close(pipefd[1]);
-        *in_fd = pipefd[0];
-    }
+	if (*in_fd != 0)
+		close(*in_fd);
+	if (cmd->next)
+	{
+		close(pipefd[1]);
+		*in_fd = pipefd[0];
+	}
 }

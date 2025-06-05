@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:29:16 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/12 12:30:24 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:18:51 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	tab_len(char **tab)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
-	while(tab[i])
+	while (tab[i])
 		i++;
 	return (i);
 }

@@ -3,48 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   freedom.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:13:27 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/04 13:27:58 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/05 09:41:52 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-void free_env(t_shell *shell)
+void	free_env(t_shell *shell)
 {
 	if (!shell->env)
-		return;
+		return ;
 	free_tab(shell->env->env_cpy);
 	free(shell->env);
 }
 
-void free_tokens(t_shell *shell)
+void	free_tokens(t_shell *shell)
 {
-	t_token *token;
-	t_token *token_tmp;
+	t_token	*token;
+	t_token	*token_tmp;
 
 	if (!shell->tokens)
-		return;
+		return ;
 	token = shell->tokens;
 	while (token)
 	{
 		token_tmp = token->next;
-		free(token->value);	
+		free(token->value);
 		free(token);
 		token = token_tmp;
 	}
 	shell->tokens = NULL;
 }
 
-void free_cmds(t_shell *shell)
+void	free_cmds(t_shell *shell)
 {
-	t_cmd *cmd;
-	t_cmd *cmd_tmp;
+	t_cmd	*cmd;
+	t_cmd	*cmd_tmp;
 
 	if (!shell->cmds)
-		return;
+		return ;
 	cmd = shell->cmds;
 	while (cmd)
 	{

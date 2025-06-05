@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:29:40 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/05 11:19:01 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:12:09 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_substr(char *s, int start, int len)
 {
-	int i;
-	char *str;
+	int		i;
+	char	*str;
 
 	if (start >= ft_strlen(s))
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:40:29 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/05 11:18:16 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:16:31 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	ft_count_word(char *s, char sep)
 	count = 0;
 	while (s[i])
 	{
-		if ((s[i] != sep && s[i + 1] == sep) || (s[i] != sep && s[i
-				+ 1] == '\0'))
+		if ((s[i] != sep && s[i + 1] == sep)
+			|| (s[i] != sep && s[i + 1] == '\0'))
 			count++;
 		i++;
 	}
@@ -69,9 +69,9 @@ void	ft_free_all(char **spl, int i)
 
 char	**ft_split(char *s, char c)
 {
-	int nb_words;
-	char **split;
-	int i;
+	int		nb_words;
+	char	**split;
+	int		i;
 
 	i = 0;
 	nb_words = ft_count_word(s, c);

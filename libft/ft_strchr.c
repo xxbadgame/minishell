@@ -6,21 +6,20 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:41:17 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/15 10:38:05 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:17:34 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strchr(char *str,char c)
+int	ft_strchr(char *str, char c)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
-	
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] == c)
+		if (str[i] == c)
 			return (i);
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynzue-es <ynzue-es@student.42.fr>          +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 08:17:11 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/05 11:17:02 by ynzue-es         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:18:15 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_strncat(char *dest, char *src, int n)
 {
-	int i;
-	int len_dest;
+	int	i;
+	int	len_dest;
 
 	i = 0;
 	len_dest = ft_strlen(dest);

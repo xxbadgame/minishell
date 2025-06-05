@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:28:35 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/05/14 09:29:24 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:11:59 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 char	*ft_strndup(char *str, int size)
 {
-	int i;
-	char *new;
+	int		i;
+	char	*new;
 
 	i = 0;
 	new = malloc(size * sizeof(char) + 1);
-	if(!new)
+	if (!new)
 		return (NULL);
 	while (i < size)
 	{

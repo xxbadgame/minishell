@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 06:52:29 by yannis            #+#    #+#             */
-/*   Updated: 2025/05/24 13:41:33 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/05 10:20:00 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	build(int fd, char *buffer, char **result)
 	return (0);
 }
 
-int catch (char *buffer, char **result)
+int	catch(char *buffer, char **result)
 {
 	int		end_line;
 	char	*tmp_buffer;
@@ -62,7 +62,8 @@ int catch (char *buffer, char **result)
 	end_line = find_n(*result);
 	if (end_line != -1)
 	{
-		tmp_buffer = ft_substr(*result, end_line + 1, ft_strlen(*result) - end_line - 1);
+		tmp_buffer = ft_substr(*result, end_line + 1, ft_strlen(*result)
+				- end_line - 1);
 		if (!tmp_buffer)
 			return (-1);
 		ft_strcpy(buffer, tmp_buffer);

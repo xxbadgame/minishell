@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:32:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/28 14:03:53 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:18:28 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIBFT_H
 
 # include <stdlib.h>
-#include <unistd.h>
+# include <unistd.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
@@ -31,9 +31,8 @@ int		ft_strcpy(char *dest, char *src);
 void	free_tab(char **tab);
 char	*ft_strndup(char *str, int size);
 char	*get_next_line(int fd);
-int	tab_len(char **tab);
-int	ft_strchr(char *str,char c);
+int		tab_len(char **tab);
+int		ft_strchr(char *str, char c);
 char	*ft_itoa(int n);
-
 
 #endif
