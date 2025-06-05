@@ -1,0 +1,15 @@
+builtins
+env
+exec
+free
+lexer
+libft
+Makefile
+minishell_prog
+obj
+parsing
+readline.sup
+signal
+terminal.c
+terminal.h
+test

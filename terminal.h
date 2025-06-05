@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/04 13:54:19 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/05 15:04:20 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int					find_var_env(t_cmd *cmd, char **env, int *j);
 t_env				*init_env(char **envp);
 char				**create_path(char **env_cpy);
 void				ft_get_path(t_env *env);
-void				add_in_env(char **origin_env, char **dest_env, int *i);
+int				add_in_env(char **origin_env, char **dest_env, int *i);
 char				*clean_str(char *str);
 
 // exec
