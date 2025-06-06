@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   symbol.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/05 09:42:06 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/06 08:43:43 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	ft_redir(char *str, t_token **tokens_list, int *i)
 	t_token	*token;
 	char	*temp;
 
+	
 	token = NULL;
 	if (str[*i] == '<')
 	{

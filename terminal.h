@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/05 15:04:20 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/06 10:22:24 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int					for_redir(t_cmd *current, t_token *tokens_list);
 int					for_append(t_cmd *current, t_token *tokens_list);
 int					for_heredoc(t_cmd *current_cmd, t_token *current_token);
 int					for_pipe(t_cmd *current, t_token *tokens_list);
-int					command_checker(int *i, t_token *current_token,
+int					command_checker(int *i, t_token **current_token,
 						t_cmd **current, t_env *env);
 t_cmd				*create_cmd(int count_elem);
 int					count_elem_cmd(t_token *current);

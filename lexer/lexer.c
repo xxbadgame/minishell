@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/05 10:10:44 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/06 10:05:48 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,34 @@ int	conditional_lexer(t_token **tokens_list, char *str, int *i, t_shell *shell)
 	return (0);
 }
 
+static int synthax_checker(t_shell *shell)
+{
+	t_token *previous;
+	t_token *current;
+	t_token *next;
+	previous = NULL;
+	current = shell->tokens;
+	next = shell->tokens->next;
+	while (current)
+	{
+		if ((ft_strncmp(current->value, ">", 1) == 0)
+			|| (ft_strncmp(current->value, "<", 1) == 0)
+			|| (ft_strncmp(current->value, ">>", 2) == 0)
+			|| (ft_strncmp(current->value, "<<", 2) == 0))
+		{
+			if (!next)
+				return(-1);
+			if (!previous && !next)
+				return(-1);
+		}
+		previous = current;
+		if (next != NULL)
+			next = next->next;
+		current = current->next;
+	}
+	return(0);
+}
+
 int	lexer(t_shell *shell, char *str)
 {
 	int	i;
@@ -82,6 +110,11 @@ int	lexer(t_shell *shell, char *str)
 	{
 		if (conditional_lexer(&(shell->tokens), str, &i, shell) == -1)
 			return (-1);
+	}
+	if (synthax_checker(shell) == -1)
+	{
+		printf("sythaxe error\n");
+		return(-1);
 	}
 	return (0);
 }

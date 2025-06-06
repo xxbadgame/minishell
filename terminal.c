@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/05 10:37:35 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:50:19 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	lexer_and_parsing(char *line, t_shell *shell)
 {
 	if (lexer(shell, line) == -1)
 		return (free_tokens(shell), -1);
+
 	if (parsing_token(shell) == -1)
 		return (free_tokens(shell), free_cmds(shell), -1);
 	return (0);
@@ -51,7 +52,7 @@ int	loop_readline(t_shell *shell)
 	char	*line;
 
 	line = NULL;
-	line = readline("minishell> ");
+	line = readline("minishell$ ");
 	if (!line)
 	{
 		free_env(shell);
