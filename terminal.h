@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/06 10:22:24 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/10 15:50:11 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
+	char			*line;
 	t_env			*env;
 	t_token			*tokens;
 	t_cmd			*cmds;
@@ -96,12 +97,12 @@ int					redirect_left(char *filename);
 int					heredoc(char *stop_word);
 
 // lexer
-int					check_quote(char *str, int *i);
+int					check_quote(char *str);
 int					find_quote(char *str, int *i, int *fisrt_quote,
 						int *last_quote);
 char				*loop_with_quote(char *str, int *i);
 char				*loop_without_quote(char *str, int *i);
-int					lexer(t_shell *shell, char *str);
+int					lexer(t_shell *shell);
 t_token				*create_token(char *str, t_token_type type);
 void				add_token(t_token **tokens_list, t_token *new_token);
 int					ft_read_word(t_token **tokens_list, char *str, int *i,

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:20:44 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/05 09:43:15 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:16:38 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	builtin_exit(t_shell *shell)
 {
 	printf("exit\n");
+	free(shell->line);
 	free_tokens(shell);
 	free_cmds(shell);
 	free_env(shell);

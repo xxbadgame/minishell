@@ -3,28 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   symbol.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/06 08:43:43 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/10 15:16:36 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int	ft_read_word(t_token **tokens_list, char *str, int *i, t_shell *shell)
+int	ft_read_word(t_token **tokens_list, char *str,int *i, t_shell *shell)
 {
 	t_token	*token;
+	int		start;
 	char	*result;
 	char	*temp;
+	(void)*i;
+	(void)str;
 
 	token = NULL;
-	result = NULL;
-	if (check_quote(str, i) == 1)
-		result = loop_with_quote(str, i);
-	else if (check_quote(str, i) == 0)
-		result = loop_without_quote(str, i);
-	else
+	start = (*i);
+	while (str[*i] && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
+		&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
+		&& ft_strncmp(str + *i, "<<", 2) != 0)
+		(*i)++;
+	result = ft_strndup(str + start, *i - start);
+	if (!result)
 		return (-1);
 	if (ft_strncmp(result, "$?", 2) == 0)
 	{

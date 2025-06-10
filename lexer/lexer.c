@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/06 10:05:48 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/10 16:02:45 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,28 @@ static int synthax_checker(t_shell *shell)
 	return(0);
 }
 
-int	lexer(t_shell *shell, char *str)
+int	lexer(t_shell *shell)
 {
 	int	i;
+	char *temp;
 
 	i = 0;
-	while (str[i])
+	if (check_quote(shell->line) > 0)
 	{
-		if (conditional_lexer(&(shell->tokens), str, &i, shell) == -1)
+		temp = clean_str(shell->line);  
+		if (!temp)
+			return (-1);
+		free(shell->line);
+		shell->line = temp;       
+	}
+	else if (check_quote(shell->line) == -1)
+	{
+		free(shell->line);
+		return (-1);
+	}
+	while (shell->line[i])
+	{
+		if (conditional_lexer(&(shell->tokens), shell->line, &i, shell) == -1)
 			return (-1);
 	}
 	if (synthax_checker(shell) == -1)

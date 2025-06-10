@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:06:45 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/05 10:05:21 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:16:20 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	exec_builtin(t_cmd *cmd, t_shell *shell)
 		printf("minishell : %s: command not found\n", cmd->cmd_args[0]);
 		exit(EXIT_FAILURE);
 	}
+	free(shell->line);
 	free_tokens(shell);
 	free_cmds(shell);
 	free_env(shell);
