@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/11 12:09:49 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:26:40 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,21 @@ int	ft_read_word(t_token **tokens_list, char *str,int *i, t_shell *shell)
 	t_token	*token;
 	int		start;
 	char	*result;
-	char	*temp;
-	int dollar_i;
 
-	dollar_i = 0;
+	result = malloc(1);
+	if (!result)
+		return (-1);
+	result[0] = '\0';
 	token = NULL;
 	start = (*i);
 	if(check_quote(str) == -1)
 		return (-1);
-	cut_quote(str,i);
-	result = ft_strndup(str + start, *i - start);
-	temp = result;
-	result = clean_str(temp);
-	free(temp);
-	if (!result)
-		return (-1);
-	dollar_i = checker_dollar(result);
-	if (dollar_i != -1)
-	{
-		if (result[dollar_i + 1] == '?')
-		{
-			temp = result;
-			result = ft_itoa(shell->last_exit);
-			free(temp);
-		}
-	}
+	cut_quote(str,i, &result ,shell);
 	token = create_token(result, WORD);
 	if (!token)
 		return (free(result), -1);
 	add_token(tokens_list, token);
+	//free(result);
 	return (0);
 }
 

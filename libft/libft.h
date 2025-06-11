@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:32:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/05 10:18:28 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:11:27 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # endif
 
 int		ft_strncmp(char *s1, char *s2, int n);
-
+char	*ft_joinchar(char *s1, char c);
 int		ft_strlen(char *str);
 char	**ft_split(char *s, char c);
 char	*ft_strjoin(char *s1, char *s2);

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 10:37:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/11 10:53:50 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:33:20 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*find_str_in_env(t_env *env, char *str)
 	char	*result;
 
 	i = 0;
-	if (str[0] == '$')
+	if (str[0] == '$' && str[1] != '\0')
 		str++;
 	while (env->env_cpy[i])
 	{

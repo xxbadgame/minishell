@@ -8,6 +8,7 @@ FILES = ft_strncmp.c \
 		ft_strlen.c \
 		ft_split.c \
 		ft_strjoin.c \
+		ft_joinchar.c \
 		ft_strncat.c \
 		ft_strcpy.c \
 		free_tab.c \
