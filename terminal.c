@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/11 11:31:16 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:52:59 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
+	{	
 		loop_readline(shell);
+	}
 	free_env(shell);
 	free(shell);
 	clear_history();
