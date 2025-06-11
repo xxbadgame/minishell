@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/11 15:38:29 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:48:27 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,25 @@ void cut_quote(char *str, int *i, char **result ,t_shell *shell)
 			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
 			&& ft_strncmp(str + *i, "<<", 2) != 0)
 			{
-				if (str[*i] == '$' && str[*i + 1] == '?')
+				if (str[*i + 1] && str[*i] == '$' && str[*i + 1] == '?')
 				{
 					temp = (*result);
 					(*result) = ft_strjoin(ft_strndup(temp, ft_strlen(temp)),ft_itoa(shell->last_exit));
 					free(temp);
 					(*i) += 2;
+				}
+				else if(env_var(str + *i) != 0)
+				{
+					temp = (*result);
+					var_in_env = find_str_in_env(shell->env, ft_substr(str, *i, env_var(str + *i)));
+					if(!var_in_env)
+					{
+						(*i) += env_var(str + *i);
+						continue;
+					}
+					(*result) = ft_strjoin(ft_strndup(temp, ft_strlen(temp)),var_in_env);
+					free(temp);
+					(*i) += env_var(str + *i);
 				}
 				else
 				{
