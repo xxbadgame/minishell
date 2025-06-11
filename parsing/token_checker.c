@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:40:57 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/06 14:19:55 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/11 10:51:25 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	handle_word(int *i, t_token *current_token, t_cmd **current_cmd, t_en
 	int	dollar;
 
 	dollar = checker_dollar(current_token->value);
-	if (dollar == 1)
+	if (dollar != -1)
 	{
 		(*current_cmd)->cmd_args[(*i)] = find_str_in_env(env,
 				current_token->value);

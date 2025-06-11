@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/10 16:02:45 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:28:48 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static int synthax_checker(t_shell *shell)
 	t_token *previous;
 	t_token *current;
 	t_token *next;
+	
 	previous = NULL;
 	current = shell->tokens;
 	next = shell->tokens->next;
@@ -104,22 +105,9 @@ static int synthax_checker(t_shell *shell)
 int	lexer(t_shell *shell)
 {
 	int	i;
-	char *temp;
-
+	
 	i = 0;
-	if (check_quote(shell->line) > 0)
-	{
-		temp = clean_str(shell->line);  
-		if (!temp)
-			return (-1);
-		free(shell->line);
-		shell->line = temp;       
-	}
-	else if (check_quote(shell->line) == -1)
-	{
-		free(shell->line);
-		return (-1);
-	}
+	
 	while (shell->line[i])
 	{
 		if (conditional_lexer(&(shell->tokens), shell->line, &i, shell) == -1)

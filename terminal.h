@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/10 15:50:11 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/11 10:31:10 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int					redirect_left(char *filename);
 int					heredoc(char *stop_word);
 
 // lexer
+void	cut_quote(char *str, int *i);
 int					check_quote(char *str);
 int					find_quote(char *str, int *i, int *fisrt_quote,
 						int *last_quote);

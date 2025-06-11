@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/10 15:16:36 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:09:49 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,29 @@ int	ft_read_word(t_token **tokens_list, char *str,int *i, t_shell *shell)
 	int		start;
 	char	*result;
 	char	*temp;
-	(void)*i;
-	(void)str;
+	int dollar_i;
 
+	dollar_i = 0;
 	token = NULL;
 	start = (*i);
-	while (str[*i] && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
-		&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
-		&& ft_strncmp(str + *i, "<<", 2) != 0)
-		(*i)++;
+	if(check_quote(str) == -1)
+		return (-1);
+	cut_quote(str,i);
 	result = ft_strndup(str + start, *i - start);
+	temp = result;
+	result = clean_str(temp);
+	free(temp);
 	if (!result)
 		return (-1);
-	if (ft_strncmp(result, "$?", 2) == 0)
+	dollar_i = checker_dollar(result);
+	if (dollar_i != -1)
 	{
-		temp = result;
-		result = ft_itoa(shell->last_exit);
-		free(temp);
+		if (result[dollar_i + 1] == '?')
+		{
+			temp = result;
+			result = ft_itoa(shell->last_exit);
+			free(temp);
+		}
 	}
 	token = create_token(result, WORD);
 	if (!token)
