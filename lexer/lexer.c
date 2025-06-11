@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/11 13:53:06 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:06:51 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int	lexer(t_shell *shell)
 		if (conditional_lexer(&(shell->tokens), shell->line, &i, shell) == -1)
 			return (-1);
 	}
+	if (shell->tokens == NULL)
+		return(-1);
 	if (synthax_checker(shell) == -1)
 	{
 		printf("sythaxe error\n");
