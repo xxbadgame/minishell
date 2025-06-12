@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/05 09:41:43 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:28:11 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,45 +29,59 @@ static int	pipeline_builtins_no_child(t_cmd *cmd, t_shell *shell)
 	return (1);
 }
 
-static void	pipeline_exit_checker(t_shell *shell, int pid, int last_pid)
+static void	pipeline_exit_checker(t_shell *shell, int last_pid)
 {
-	int	sig;
 	int	status;
-
-	while (wait(&status) > 0)
+	int	waited_pid;
+	int flag_stop;
+	
+	flag_stop = 0;
+	waited_pid = wait(&status);
+	while (waited_pid > 0)
 	{
-		if (pid == last_pid)
+		handle_sig_output(&flag_stop, status);
+		if (waited_pid == last_pid)
 		{
 			if (WIFEXITED(status))
 				shell->last_exit = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 			{
-				sig = WTERMSIG(status);
-				shell->last_exit = 128 + sig;
-				if (sig == SIGINT)
-					write(1, "\n", 1);
+				shell->last_exit = 128 + WTERMSIG(status);
 				if (WCOREDUMP(status))
 					write(2, "Quit (core dumped)\n", 20);
 			}
 		}
+		waited_pid = wait(&status);
 	}
+	if(flag_stop == 1)
+		write(1, "\n", 1);
 }
 
-static void	pipeline_exec_choice(t_cmd *cmd, t_shell *shell, int *pipefd,
-		int in_fd)
+static void	pipeline_exec_choice(t_cmd *cmd, t_shell *shell)
 {
-	if (cmd->infile != NULL && cmd->heredoc == 0)
-		redirect_left(cmd->infile);
-	else if (cmd->infile != NULL && cmd->heredoc == 1)
-		heredoc(cmd->infile);
-	else if (in_fd != 0)
+	if (is_builtin(cmd) == 0)
+		launch_execve(cmd, shell->env);
+	else
+		exec_builtin(cmd, shell);
+}
+
+static void	redirect_choice_pipe(t_cmd *cmd, int *in_fd, int heredoc_fd, int *pipefd)
+{
+	if (cmd->heredoc == 1 && heredoc_fd != -1)
 	{
-		dup2(in_fd, 0);
-		close(in_fd);
+		dup2(heredoc_fd, 0);
+		close(heredoc_fd);
 	}
-	if (cmd->outfile != NULL && cmd->append == 0)
+	else if (cmd->infile != NULL)
+		redirect_left(cmd->infile);
+	else if (*in_fd != 0)
+	{
+		dup2(*in_fd, 0);
+		close(*in_fd);
+	}
+	if (cmd->outfile && cmd->append == 0)
 		redirect_right(cmd->outfile);
-	else if (cmd->outfile != NULL && cmd->append == 1)
+	else if (cmd->outfile && cmd->append == 1)
 		double_redirect_right(cmd->outfile);
 	else if (cmd->next)
 	{
@@ -75,17 +89,17 @@ static void	pipeline_exec_choice(t_cmd *cmd, t_shell *shell, int *pipefd,
 		close(pipefd[1]);
 		close(pipefd[0]);
 	}
-	if (is_builtin(cmd) == 0)
-		launch_execve(cmd, shell->env);
-	else
-		exec_builtin(cmd, shell);
 }
 
 static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
 {
 	int	pipefd[2];
+	int	heredoc_fd = -1;
 
-	pipeline_builtins_no_child(cmd, shell);
+	if (pipeline_builtins_no_child(cmd, shell) == -1)
+		return (-1);
+	if (cmd->heredoc == 1)
+		heredoc_fd = heredoc(cmd->infile);
 	if (cmd->next)
 		pipe(pipefd);
 	*pid = fork();
@@ -93,9 +107,12 @@ static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		pipeline_exec_choice(cmd, shell, pipefd, *in_fd);
+		redirect_choice_pipe(cmd, in_fd, heredoc_fd, pipefd);
+		pipeline_exec_choice(cmd, shell);
 		exit(0);
 	}
+	if (heredoc_fd != -1)
+		close(heredoc_fd);
 	handle_next_pipe(in_fd, cmd, pipefd);
 	return (*pid);
 }
@@ -117,7 +134,7 @@ int	pipeline(t_shell *shell)
 		cmd = cmd->next;
 	}
 	signal(SIGINT, SIG_IGN);
-	pipeline_exit_checker(shell, pid, last_pid);
+	pipeline_exit_checker(shell, last_pid);
 	signal(SIGINT, handle_sigint);
 	return (0);
 }

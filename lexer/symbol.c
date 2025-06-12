@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   symbol.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/11 15:47:41 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/12 06:46:29 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	ft_read_word(t_token **tokens_list, char *str,int *i, t_shell *shell)
 {
 	t_token	*token;
-	int		start;
 	char	*result;
 
 	result = malloc(1);
@@ -23,7 +22,6 @@ int	ft_read_word(t_token **tokens_list, char *str,int *i, t_shell *shell)
 		return (-1);
 	result[0] = '\0';
 	token = NULL;
-	start = (*i);
 	if(check_quote(str) == -1)
 		return (-1);
 	cut_quote(str,i, &result ,shell);

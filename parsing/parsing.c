@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/10 14:30:27 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/12 09:52:53 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	parsing_token(t_shell *shell)
 	shell->cmds = current_cmd;
 	while (current_token)
 	{
-		if (command_checker(&i, &current_token, &current_cmd, shell->env) == -1)
+		if (command_checker(&i, &current_token, &current_cmd) == -1)
 			return (-1);
 	}
 	return (0);

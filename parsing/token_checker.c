@@ -3,32 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   token_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:40:57 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/11 14:35:03 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/12 06:47:52 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-static int	handle_word(int *i, t_token *current_token, t_cmd **current_cmd, t_env *env)
+static int	handle_word(int *i, t_token *current_token, t_cmd **current_cmd)
 {
-	// int	dollar_i;
-	(void)env;
-	// dollar_i = checker_dollar(current_token->value);
-	// if (dollar_i != -1)
-	// {
-	// 	(*current_cmd)->cmd_args[(*i)] = find_str_in_env(env,
-	// 			current_token->value);
-	// 	if ((*current_cmd)->cmd_args[(*i)] == NULL)
-	// 	{
-	// 		printf("\n");
-	// 		return (-1);
-	// 	}
-	// 	(*i)++;
-	// 	return (0);
-	// }
 	(*current_cmd)->cmd_args[(*i)] = ft_strndup(current_token->value,
 			ft_strlen(current_token->value));
 	if (!(*current_cmd)->cmd_args[(*i)])
@@ -70,12 +55,11 @@ static int	handle_pipe(int *i, t_token *current_token, t_cmd **current_cmd)
 	return (0);
 }
 
-int	command_checker(int *i, t_token **current_token, t_cmd **current_cmd,
-		t_env *env)
+int	command_checker(int *i, t_token **current_token, t_cmd **current_cmd)
 {
 	if ((*current_token)->type == WORD)
 	{
-		if (handle_word(i, (*current_token), current_cmd, env) == -1)
+		if (handle_word(i, (*current_token), current_cmd) == -1)
 			return (-1);
 		*current_token = (*current_token)->next;
 	}

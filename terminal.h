@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/11 14:33:08 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/12 09:53:00 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,14 @@ int					for_append(t_cmd *current, t_token *tokens_list);
 int					for_heredoc(t_cmd *current_cmd, t_token *current_token);
 int					for_pipe(t_cmd *current, t_token *tokens_list);
 int					command_checker(int *i, t_token **current_token,
-						t_cmd **current, t_env *env);
+						t_cmd **current);
 t_cmd				*create_cmd(int count_elem);
 int					count_elem_cmd(t_token *current);
 int					parsing_token(t_shell *shell);
 
 // signal
 void				handle_sigint(int sig);
+void	handle_sig_output(int *flag_stop, int status);
 
 // free
 void				free_cmds(t_shell *shell);
