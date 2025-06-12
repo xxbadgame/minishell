@@ -24,8 +24,15 @@ static int	single_builtins_no_child(t_cmd *cmd, t_shell *shell)
 		&& ft_strlen(cmd->cmd_args[0]) == 5)
 		return (builtin_unset(cmd, shell->env));
 	if (ft_strncmp(cmd->cmd_args[0], "cd", 2) == 0
-		&& ft_strlen(cmd->cmd_args[0]) == 2)
+		&& ft_strlen(cmd->cmd_args[0]) == 2 )
+	{
+		if(cmd->cmd_args[2] != NULL)
+		{
+			printf("cd : to many arguments\n");
+			return (0);
+		}
 		return (builtin_cd(cmd, shell->env));
+	}
 	return (1);
 }
 

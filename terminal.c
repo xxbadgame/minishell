@@ -34,7 +34,7 @@ int	exec(t_shell *shell)
 	else
 	{
 		if (exec_single_command(cmd, shell) == -1)
-			return (free(shell->line),free_tokens(shell), free_cmds(shell), -1);
+			return (free_tokens(shell), free_cmds(shell), -1);
 	}
 	return (0);
 }
@@ -87,9 +87,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
-	{	
 		loop_readline(shell);
-	}
 	free_env(shell);
 	free(shell);
 	clear_history();

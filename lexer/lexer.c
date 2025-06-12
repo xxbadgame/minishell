@@ -87,7 +87,8 @@ static int synthax_checker(t_shell *shell)
 		if ((ft_strncmp(current->value, ">", 1) == 0)
 			|| (ft_strncmp(current->value, "<", 1) == 0)
 			|| (ft_strncmp(current->value, ">>", 2) == 0)
-			|| (ft_strncmp(current->value, "<<", 2) == 0))
+			|| (ft_strncmp(current->value, "<<", 2) == 0)
+			|| (ft_strncmp(current->value, "|", 1) == 0))
 		{
 			if (!next)
 				return(-1);

@@ -60,7 +60,7 @@ int	builtin_cd(t_cmd *cmd, t_env *env)
 	char	*cwd;
 	char	*new_path;
 	char	*temp;
-
+	
 	if (check_path_cmd(cmd) == -1)
 		return (-1);
 	else if (check_path_cmd(cmd) == 1)
