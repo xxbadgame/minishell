@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/13 12:08:45 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/13 12:32:33 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int					ft_heredoc_or_append(char *str, t_token **tokens_list,
 						int *i);
 
 // parsing
-int					checker_dollar(char *str);
 char				*find_str_in_env(t_env *env, char *str);
 int					for_redir(t_cmd *current, t_token *tokens_list);
 int					for_append(t_cmd *current, t_token *tokens_list);

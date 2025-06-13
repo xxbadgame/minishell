@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 10:37:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/11 14:33:20 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/13 12:32:29 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,6 @@ char	*find_str_in_env(t_env *env, char *str)
 		free_tab(spl_var);
 	}
 	return (NULL);
-}
-
-int	checker_dollar(char *token)
-{
-	int i;
-
-	i = 0;
-	while (token[i])
-	{
-		if (token[i] == '$')
-			return (i);
-		i++;
-	}
-	return (-1);
 }
 
 int	for_redir(t_cmd *current_cmd, t_token *current_token)
