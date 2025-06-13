@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/12 09:52:53 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/13 11:46:32 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_cmd	*create_cmd(int count_elem)
 		new_cmd->cmd_args[i++] = NULL;
 	new_cmd->append = 0;
 	new_cmd->heredoc = 0;
+	new_cmd->heredoc_fd = -1;
 	new_cmd->infile = NULL;
 	new_cmd->next = NULL;
 	new_cmd->outfile = NULL;
@@ -41,9 +42,15 @@ int	count_elem_cmd(t_token *current_token)
 
 	tmp = current_token;
 	count_elem = 0;
-	while (tmp && tmp->type == WORD)
+	while (tmp && tmp->type != PIPE)
 	{
-		count_elem++;
+		if (tmp->type == REDIR_APPEND 
+			|| tmp->type == REDIR_IN 
+			|| tmp->type == REDIR_OUT 
+			|| tmp->type == HEREDOC)
+			tmp = tmp->next;
+		else
+			count_elem++;
 		tmp = tmp->next;
 	}
 	return (count_elem);

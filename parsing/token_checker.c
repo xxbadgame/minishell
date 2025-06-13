@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:40:57 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/12 06:47:52 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/13 09:19:38 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,10 @@ int	command_checker(int *i, t_token **current_token, t_cmd **current_cmd)
 		|| (*current_token)->type == REDIR_APPEND
 		|| (*current_token)->type == HEREDOC)
 	{
-		if (handle_redirection(current_cmd, (*current_token)) == -1)
-			return (-1);
+		if (handle_redirection(current_cmd, *current_token) == -1)
+        	return (-1);
 		*current_token = (*current_token)->next;
-		if ((*current_cmd)->cmd_args[0] != NULL)
-			*current_token = (*current_token)->next;
+		*current_token = (*current_token)->next;
 	}
 	else if ((*current_token)->type == PIPE)
 	{

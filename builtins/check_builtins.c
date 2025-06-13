@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:06:45 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/10 16:16:20 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/13 09:55:51 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,12 @@ int	exec_builtin(t_cmd *cmd, t_shell *shell)
 	else if (ft_strncmp(cmd->cmd_args[0], "pwd", 3) == 0
 		&& ft_strlen(cmd->cmd_args[0]) == 3)
 		builtin_pwd();
-	else
-	{
-		printf("minishell : %s: command not found\n", cmd->cmd_args[0]);
-		exit(EXIT_FAILURE);
-	}
 	free(shell->line);
 	free_tokens(shell);
 	free_cmds(shell);
 	free_env(shell);
 	free(shell);
-	exit(EXIT_SUCCESS);
-	return (0);
+	return (exit(EXIT_SUCCESS), 0);
 }
 
 int	is_builtin(t_cmd *cmd)

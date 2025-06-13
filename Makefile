@@ -6,7 +6,7 @@
 #    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/06/04 13:54:52 by yannis           ###   ########.fr        #
+#    Updated: 2025/06/13 10:51:29 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ FILES = terminal.c \
 		exec/exec.c \
 		exec/exec_utils.c \
 		exec/redirect.c \
+		exec/redirect_utils.c \
 		exec/pipeline.c \
 		free/freedom.c \
 		builtins/builtin_cd.c \
@@ -50,12 +51,32 @@ DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing env exec free builtins signal)
 OBJS = $(addprefix $(OBJ_DIR)/, $(FILES:.c=.o))
 LIBFT = libft/libft.a
 
+LIBFT_SRC = \
+	libft/ft_strncmp.c \
+	libft/ft_strlen.c \
+	libft/ft_split.c \
+	libft/ft_strjoin.c \
+	libft/ft_joinchar.c \
+	libft/ft_strncat.c \
+	libft/ft_strcpy.c \
+	libft/free_tab.c \
+	libft/ft_substr.c \
+	libft/ft_strndup.c \
+	libft/get_next_line/get_next_line.c \
+	libft/tab_len.c \
+	libft/ft_strchr.c \
+	libft/ft_itoa.c \
+	libft/print_error.c \
+	libft/ft_putendl_fd.c \
+	libft/ft_putstr_fd.c \
+	libft/libft.h
+
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -I. -o $(NAME) 
 
-$(LIBFT):
+$(LIBFT): $(LIBFT_SRC)
 	make -C libft
 
 $(OBJ_DIR)/%.o: %.c $(HEADERS) Makefile | $(DIRS)

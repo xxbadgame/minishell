@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/12 10:28:11 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/13 11:57:47 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,6 @@ static void	pipeline_exit_checker(t_shell *shell, int last_pid)
 		write(1, "\n", 1);
 }
 
-static void	pipeline_exec_choice(t_cmd *cmd, t_shell *shell)
-{
-	if (is_builtin(cmd) == 0)
-		launch_execve(cmd, shell->env);
-	else
-		exec_builtin(cmd, shell);
-}
-
 static void	redirect_choice_pipe(t_cmd *cmd, int *in_fd, int heredoc_fd, int *pipefd)
 {
 	if (cmd->heredoc == 1 && heredoc_fd != -1)
@@ -94,12 +86,11 @@ static void	redirect_choice_pipe(t_cmd *cmd, int *in_fd, int heredoc_fd, int *pi
 static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
 {
 	int	pipefd[2];
-	int	heredoc_fd = -1;
 
 	if (pipeline_builtins_no_child(cmd, shell) == -1)
 		return (-1);
 	if (cmd->heredoc == 1)
-		heredoc_fd = heredoc(cmd->infile);
+		cmd->heredoc_fd = heredoc(cmd->infile);
 	if (cmd->next)
 		pipe(pipefd);
 	*pid = fork();
@@ -107,13 +98,10 @@ static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		redirect_choice_pipe(cmd, in_fd, heredoc_fd, pipefd);
-		pipeline_exec_choice(cmd, shell);
-		exit(0);
+		redirect_choice_pipe(cmd, in_fd, cmd->heredoc_fd, pipefd);
+		exec_choice(cmd, shell);
 	}
-	if (heredoc_fd != -1)
-		close(heredoc_fd);
-	handle_next_pipe(in_fd, cmd, pipefd);
+	handle_next_pipe(in_fd, cmd, pipefd, cmd->heredoc_fd);
 	return (*pid);
 }
 
@@ -130,9 +118,18 @@ int	pipeline(t_shell *shell)
 	cmd = shell->cmds;
 	while (cmd)
 	{
+		if (cmd->cmd_args[0] == NULL && has_redirection(cmd))
+		{
+			handle_redirection_only(cmd);
+			if (in_fd != 0)
+				close(in_fd);
+			return (0);
+		}
 		last_pid = pipe_loop(shell, cmd, &pid, &in_fd);
 		cmd = cmd->next;
 	}
+	if (in_fd != 0)
+    	close(in_fd);
 	signal(SIGINT, SIG_IGN);
 	pipeline_exit_checker(shell, last_pid);
 	signal(SIGINT, handle_sigint);

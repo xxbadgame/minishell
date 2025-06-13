@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/12 08:09:37 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/13 12:17:29 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	lexer_and_parsing(t_shell *shell)
 
 	if (parsing_token(shell) == -1)
 		return (free(shell->line), free_tokens(shell), free_cmds(shell), -1);
+	
 	return (0);
 }
 
@@ -33,6 +34,11 @@ int	exec(t_shell *shell)
 		pipeline(shell);
 	else
 	{
+		if (cmd->cmd_args[0] == NULL && has_redirection(cmd))
+		{
+			handle_redirection_only(cmd);
+			return (0);
+		}
 		if (exec_single_command(cmd, shell) == -1)
 			return (free_tokens(shell), free_cmds(shell), -1);
 	}

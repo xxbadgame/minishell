@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/06/13 10:40:42 by yannis            #+#    #+#              #
+#    Updated: 2025/06/13 10:51:14 by yannis           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -18,6 +30,9 @@ FILES = ft_strncmp.c \
 		tab_len.c \
 		ft_strchr.c	\
 		ft_itoa.c \
+		print_error.c \
+		ft_putendl_fd.c \
+		ft_putstr_fd.c \
 
 
 OBJS = $(FILES:.c=.o)

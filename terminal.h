@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/12 09:53:00 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/13 12:08:45 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_cmd
 	char			*outfile;
 	int				append;
 	int				heredoc;
+	int				heredoc_fd;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -81,23 +82,26 @@ int					find_var_env(t_cmd *cmd, char **env, int *j);
 t_env				*init_env(char **envp);
 char				**create_path(char **env_cpy);
 void				ft_get_path(t_env *env);
-int				add_in_env(char **origin_env, char **dest_env, int *i);
+int					add_in_env(char **origin_env, char **dest_env, int *i);
 char				*clean_str(char *str);
 
 // exec
-void				handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd);
-int					launch_execve(t_cmd *cmd, t_env *env);
+void				handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd,
+						int heredoc_fd);
+int					launch_execve(t_cmd *cmd, t_shell *shell);
 int					pipeline(t_shell *shell);
-int					launch_execve(t_cmd *cmd, t_env *env);
-int					ft_listlen(t_cmd **cmds);
 int					exec_single_command(t_cmd *cmd, t_shell *shell);
+void				exec_choice(t_cmd *cmd, t_shell *shell);
 int					redirect_right(char *filename);
 int					double_redirect_right(char *filename);
 int					redirect_left(char *filename);
 int					heredoc(char *stop_word);
+int					has_redirection(t_cmd *cmd);
+int					handle_redirection_only(t_cmd *cmd);
 
 // lexer
-void	cut_quote(char *str, int *i, char **result,t_shell *t_shell);
+void				cut_quote(char *str, int *i, char **result,
+						t_shell *t_shell);
 int					check_quote(char *str);
 int					find_quote(char *str, int *i, int *fisrt_quote,
 						int *last_quote);
@@ -128,7 +132,7 @@ int					parsing_token(t_shell *shell);
 
 // signal
 void				handle_sigint(int sig);
-void	handle_sig_output(int *flag_stop, int status);
+void				handle_sig_output(int *flag_stop, int status);
 
 // free
 void				free_cmds(t_shell *shell);

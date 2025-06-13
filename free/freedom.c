@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freedom.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:13:27 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/05 09:41:52 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/13 11:48:55 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	free_cmds(t_shell *shell)
 	while (cmd)
 	{
 		cmd_tmp = cmd->next;
+		if (cmd->heredoc_fd != -1)
+			close(cmd->heredoc_fd);
 		free_tab(cmd->cmd_args);
 		free(cmd->infile);
 		free(cmd->outfile);

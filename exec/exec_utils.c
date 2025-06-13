@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/06 13:45:07 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/13 12:08:19 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,32 +50,47 @@ static char	*get_path_command(char *cmd)
 	return (NULL);
 }
 
-int	launch_execve(t_cmd *cmd, t_env *env)
+void clean_and_exit(t_shell *shell, char *path, int status)
 {
-	char	*path;
-
-	if (access(cmd->cmd_args[0], X_OK) == 0)
-	{
-		if (execve(cmd->cmd_args[0], cmd->cmd_args, env->env_cpy) == -1)
-		{
-			perror("exec failed");
-			exit(EXIT_FAILURE);
-		}
-		return (0);
-	}
-	path = get_path_command(cmd->cmd_args[0]);
-	if (execve(path, cmd->cmd_args, env->env_cpy) == -1)
-	{
-		perror("exec failed");
+	if (path)
 		free(path);
-		exit(EXIT_FAILURE);
-	}
-	free(path);
-	return (0);
+	free(shell->line);
+	free_tokens(shell);
+	free_cmds(shell);
+	free_env(shell);
+	free(shell);
+	exit(status);
 }
 
-void	handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd)
+int	launch_execve(t_cmd *cmd, t_shell *shell)
 {
+	char	*path = NULL;
+
+	if (cmd->cmd_args[0] && access(cmd->cmd_args[0], X_OK) == 0)
+	{
+		execve(cmd->cmd_args[0], cmd->cmd_args, shell->env->env_cpy);
+		perror("exec failed");
+		exit(EXIT_FAILURE);
+	}
+	else if (cmd->cmd_args[0])
+	{
+		path = get_path_command(cmd->cmd_args[0]);
+		if (path != NULL)
+		{
+			execve(path, cmd->cmd_args, shell->env->env_cpy);
+			perror("exec failed");
+			clean_and_exit(shell, path, 126);
+		}
+	}
+	print_error("minishell: ",cmd->cmd_args[0], ": command not found\n");
+	clean_and_exit(shell, path, 127);
+	return (-1);
+}
+
+void handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd, int heredoc_fd)
+{
+	if (heredoc_fd != -1)
+		close(heredoc_fd);
 	if (*in_fd != 0)
 		close(*in_fd);
 	if (cmd->next)

@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/12 10:34:18 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/13 10:03:34 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,12 @@ static void	single_exit_checker(t_shell *shell)
 	}
 }
 
-static void	single_exec_choice(t_cmd *cmd, t_shell *shell)
+void	exec_choice(t_cmd *cmd, t_shell *shell)
 {
 	if (is_builtin(cmd) == 0)
-		launch_execve(cmd, shell->env);
+		launch_execve(cmd, shell);
 	else
 		exec_builtin(cmd, shell);
-	exit(0);
 }
 
 static void	redirect_choice_single(t_cmd *cmd, int heredoc_fd)
@@ -99,7 +98,7 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		redirect_choice_single(cmd, heredoc_fd);
-		single_exec_choice(cmd, shell);
+		exec_choice(cmd, shell);
 	}
 	if (heredoc_fd != -1)
 		close(heredoc_fd);
