@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/14 10:18:43 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/14 10:34:00 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static char	*get_path_command(char *cmd, t_env *env)
 
 	i = 0;
 	path_in_env = find_str_in_env(env, "PATH");
+	if (!path_in_env)
+		return(NULL);
 	all_path = ft_split(path_in_env, ':');
 	free(path_in_env);
 	while (all_path[i])
@@ -77,6 +79,7 @@ int	launch_execve(t_cmd *cmd, t_shell *shell)
 	}
 	else if (cmd->cmd_args[0])
 	{
+		
 		path = get_path_command(cmd->cmd_args[0], shell->env);
 		if (path != NULL)
 		{
