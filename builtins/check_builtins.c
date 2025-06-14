@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 09:06:45 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/13 09:55:51 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/14 07:48:38 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	exec_builtin(t_cmd *cmd, t_shell *shell)
 	else if (ft_strncmp(cmd->cmd_args[0], "pwd", 3) == 0
 		&& ft_strlen(cmd->cmd_args[0]) == 3)
 		builtin_pwd();
+	else
+		print_error("minishell: ",cmd->cmd_args[0], ": command not found\n");
 	free(shell->line);
 	free_tokens(shell);
 	free_cmds(shell);
