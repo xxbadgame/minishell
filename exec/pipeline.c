@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/14 08:19:51 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/14 09:55:36 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,26 +94,43 @@ static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
 {
 	int	pipefd[2];
 	int builtin_no_child;
+	int stdout_backup;
 
-	builtin_no_child = pipeline_builtins_no_child(cmd, shell);
-	if (builtin_no_child == 0)
-		return (0);
-	if (builtin_no_child == -1)
-		return (-1);
 	if (cmd->heredoc == 1)
 		cmd->heredoc_fd = heredoc(cmd->infile);
 	if (cmd->next)
 		pipe(pipefd);
-	*pid = fork();
-	if (*pid == 0)
+		
+	if (is_child_builtin(cmd) == 1)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		redirect_choice_pipe(cmd, in_fd, cmd->heredoc_fd, pipefd);
-		exec_choice(cmd, shell);
+		stdout_backup = dup(1);
+		dup2(pipefd[1], 1);
+		close(pipefd[1]);
+		builtin_no_child = pipeline_builtins_no_child(cmd, shell);
+		dup2(stdout_backup, 1);
+		close(stdout_backup);
+		if (builtin_no_child == 0)
+		{
+			handle_next_pipe(in_fd, cmd, pipefd, cmd->heredoc_fd);
+			return (0);
+		}
+		if (builtin_no_child == -1)
+			return (-1);
 	}
-	handle_next_pipe(in_fd, cmd, pipefd, cmd->heredoc_fd);
-	return (*pid);
+	else
+	{
+		*pid = fork();
+		if (*pid == 0)
+		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			redirect_choice_pipe(cmd, in_fd, cmd->heredoc_fd, pipefd);
+			exec_choice(cmd, shell);
+		}
+		handle_next_pipe(in_fd, cmd, pipefd, cmd->heredoc_fd);
+		return (*pid);
+	}
+	return(0);
 }
 
 int	pipeline(t_shell *shell)

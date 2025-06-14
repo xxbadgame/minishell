@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/14 08:34:34 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/14 09:22:32 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void cut_quote(char *str, int *i, char **result ,t_shell *shell)
 	}
 	if(str[(*i)] != '"' && str[(*i)] != '\'')
 	{
-		while (str[*i] && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
+		while (str[*i] && str[*i] != '=' && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
 			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
 			&& ft_strncmp(str + *i, "<<", 2) != 0)
 			{
@@ -134,6 +134,8 @@ void cut_quote(char *str, int *i, char **result ,t_shell *shell)
 					(*i)++;
 				}
 			}
+		if (str[*i] == '=')
+			(*i)++;
 	}
 }
 

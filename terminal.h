@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/13 12:32:33 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/14 09:40:32 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int					builtin_pwd(void);
 int					builtin_unset(t_cmd *cmd, t_env *env);
 int					exec_builtin(t_cmd *cmd, t_shell *shell);
 int					is_builtin(t_cmd *cmd);
+int	is_child_builtin(t_cmd *cmd);
 int					builtin_export_env(t_env *env);
 int					builtin_env(t_env *env, t_cmd *cmd);
 int					find_var_env(t_cmd *cmd, char **env, int *j);
