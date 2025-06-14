@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/13 11:57:47 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/14 08:19:51 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,14 @@ static int	pipeline_builtins_no_child(t_cmd *cmd, t_shell *shell)
 		return (builtin_unset(cmd, shell->env));
 	if (ft_strncmp(cmd->cmd_args[0], "cd", 2) == 0
 		&& ft_strlen(cmd->cmd_args[0]) == 2)
-		return (builtin_cd(cmd, shell->env));
+		{
+			if(cmd->cmd_args[2] != NULL)
+			{
+				printf("cd : to many arguments\n");
+				return (0);
+			}
+			return (builtin_cd(cmd, shell->env));
+		}
 	return (1);
 }
 
@@ -86,8 +93,12 @@ static void	redirect_choice_pipe(t_cmd *cmd, int *in_fd, int heredoc_fd, int *pi
 static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
 {
 	int	pipefd[2];
+	int builtin_no_child;
 
-	if (pipeline_builtins_no_child(cmd, shell) == -1)
+	builtin_no_child = pipeline_builtins_no_child(cmd, shell);
+	if (builtin_no_child == 0)
+		return (0);
+	if (builtin_no_child == -1)
 		return (-1);
 	if (cmd->heredoc == 1)
 		cmd->heredoc_fd = heredoc(cmd->infile);
