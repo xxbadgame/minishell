@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/14 09:22:32 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/14 10:06:36 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int env_var(char *str)
 	if (str[0] == '$')
 	{
 		i++;
-		while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '"' && str[i] != '|' && str[i] != '>'
+		while (str[i] && str[i] != '$' && str[i] != ' ' && str[i] != '\'' && str[i] != '"' && str[i] != '|' && str[i] != '>'
 			&& str[i] != '<' && ft_strncmp(str + i, ">>", 2) != 0
 			&& ft_strncmp(str + i, "<<", 2) != 0)
 		{

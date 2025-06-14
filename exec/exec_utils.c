@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/13 12:08:19 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/14 10:18:43 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,17 @@ static int	path_len(char *path_env, char *cmd)
 	return (size_path);
 }
 
-static char	*get_path_command(char *cmd)
+static char	*get_path_command(char *cmd, t_env *env)
 {
 	char	**all_path;
 	char	*path;
+	char 	*path_in_env;
 	int		i;
 
 	i = 0;
-	all_path = ft_split(getenv("PATH"), ':');
+	path_in_env = find_str_in_env(env, "PATH");
+	all_path = ft_split(path_in_env, ':');
+	free(path_in_env);
 	while (all_path[i])
 	{
 		path = malloc(path_len(all_path[i], cmd));
@@ -74,7 +77,7 @@ int	launch_execve(t_cmd *cmd, t_shell *shell)
 	}
 	else if (cmd->cmd_args[0])
 	{
-		path = get_path_command(cmd->cmd_args[0]);
+		path = get_path_command(cmd->cmd_args[0], shell->env);
 		if (path != NULL)
 		{
 			execve(path, cmd->cmd_args, shell->env->env_cpy);
