@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:57:37 by engiusep          #+#    #+#             */
-/*   Updated: 2025/05/24 11:13:00 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/14 08:41:46 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	builtin_echo(t_cmd *cmd)
 	int	i;
 
 	i = 1;
+	if (!cmd->cmd_args[1])
+	{
+		printf("\n");
+		return(0);
+	}
 	if (ft_strncmp(cmd->cmd_args[1], "-n", 2) == 0 && i++)
 	{
 		while (cmd->cmd_args[i])

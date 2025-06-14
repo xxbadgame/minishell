@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:19:21 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/10 14:09:08 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/14 08:43:05 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	builtin_unset(t_cmd *cmd,t_env *env)
 
 	i = 0;
 	j = 0;
+	if (!cmd->cmd_args[1])
+		return(0);
 	new_env = malloc(sizeof(char *) * (tab_len(env->env_cpy)));
 	if(!new_env)
 		return(-1);

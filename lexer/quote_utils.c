@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/11 15:48:27 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/14 08:34:34 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,7 @@ void cut_quote(char *str, int *i, char **result ,t_shell *shell)
 	if (str[start] == '"' || str[start] == '\'')
 	{
 		(*i)++;
-		while (str[*i] && str[*i] != '\'' && str[*i] != '"' && str[*i] != '|' && str[*i] != '>'
-			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
-			&& ft_strncmp(str + *i, "<<", 2) != 0)
+		while (str[*i] && str[*i] != '\'' && str[*i] != '"')
 			{
 				if (str[*i + 1] && str[*i] == '$' && str[*i + 1] == '?')
 				{
