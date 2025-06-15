@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/14 10:06:36 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/15 06:46:39 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_quote(char *str)
 	return (0);
 }
 
-int env_var(char *str)
+int env_var_checker(char *str)
 {
 	int i;
 	
@@ -77,18 +77,18 @@ void cut_quote(char *str, int *i, char **result ,t_shell *shell)
 					free(temp);
 					(*i) += 2;
 				}
-				else if(env_var(str + *i) != 0)
+				else if(str[*i] == '$' && env_var_checker(str + *i) != 0)
 				{
 					temp = (*result);
-					var_in_env = find_str_in_env(shell->env, ft_substr(str, *i, env_var(str + *i)));
+					var_in_env = find_str_in_env(shell->env, ft_substr(str, *i, env_var_checker(str + *i)));
 					if(!var_in_env)
 					{
-						(*i) += env_var(str + *i);
+						(*i) += env_var_checker(str + *i);
 						continue;
 					}
 					(*result) = ft_strjoin(ft_strndup(temp, ft_strlen(temp)),var_in_env);
 					free(temp);
-					(*i) += env_var(str + *i);
+					(*i) += env_var_checker(str + *i);
 				}
 				else
 				{
@@ -113,18 +113,18 @@ void cut_quote(char *str, int *i, char **result ,t_shell *shell)
 					free(temp);
 					(*i) += 2;
 				}
-				else if(env_var(str + *i) != 0)
+				else if(str[*i] == '$' && env_var_checker(str + *i) != 0)
 				{
 					temp = (*result);
-					var_in_env = find_str_in_env(shell->env, ft_substr(str, *i, env_var(str + *i)));
+					var_in_env = find_str_in_env(shell->env, ft_substr(str, *i, env_var_checker(str + *i)));
 					if(!var_in_env)
 					{
-						(*i) += env_var(str + *i);
+						(*i) += env_var_checker(str + *i);
 						continue;
 					}
 					(*result) = ft_strjoin(ft_strndup(temp, ft_strlen(temp)),var_in_env);
 					free(temp);
-					(*i) += env_var(str + *i);
+					(*i) += env_var_checker(str + *i);
 				}
 				else
 				{

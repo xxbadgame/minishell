@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 09:14:19 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/13 09:18:55 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/15 06:20:41 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int has_redirection(t_cmd *cmd)
 	return (cmd->infile || cmd->outfile || cmd->heredoc || cmd->append);
 }
 
-int handle_redirection_only(t_cmd *cmd)
+int handle_redirection_only(t_cmd *cmd, t_shell *shell)
 {
 	int fd;
 
@@ -44,7 +44,7 @@ int handle_redirection_only(t_cmd *cmd)
 	}
 	if (cmd->infile && cmd->heredoc == 1)
 	{
-		int heredoc_fd = heredoc(cmd->infile);
+		int heredoc_fd = heredoc(cmd->infile, shell);
 		if (heredoc_fd >= 0)
 			close(heredoc_fd);
 	}

@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/14 09:40:32 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/15 06:20:58 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int					builtin_pwd(void);
 int					builtin_unset(t_cmd *cmd, t_env *env);
 int					exec_builtin(t_cmd *cmd, t_shell *shell);
 int					is_builtin(t_cmd *cmd);
-int	is_child_builtin(t_cmd *cmd);
+int					is_child_builtin(t_cmd *cmd);
 int					builtin_export_env(t_env *env);
 int					builtin_env(t_env *env, t_cmd *cmd);
 int					find_var_env(t_cmd *cmd, char **env, int *j);
@@ -96,11 +96,12 @@ void				exec_choice(t_cmd *cmd, t_shell *shell);
 int					redirect_right(char *filename);
 int					double_redirect_right(char *filename);
 int					redirect_left(char *filename);
-int					heredoc(char *stop_word);
+int					heredoc(char *stop_word, t_shell *shell);
 int					has_redirection(t_cmd *cmd);
-int					handle_redirection_only(t_cmd *cmd);
+int					handle_redirection_only(t_cmd *cmd, t_shell *shell);
 
 // lexer
+int					env_var_checker(char *str);
 void				cut_quote(char *str, int *i, char **result,
 						t_shell *t_shell);
 int					check_quote(char *str);

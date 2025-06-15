@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/13 12:17:29 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/15 06:21:07 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	exec(t_shell *shell)
 	{
 		if (cmd->cmd_args[0] == NULL && has_redirection(cmd))
 		{
-			handle_redirection_only(cmd);
+			handle_redirection_only(cmd, shell);
 			return (0);
 		}
 		if (exec_single_command(cmd, shell) == -1)

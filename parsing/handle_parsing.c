@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 10:37:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/13 12:32:29 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/15 07:11:15 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*find_str_in_env(t_env *env, char *str)
 		i++;
 		free_tab(spl_var);
 	}
+	
 	return (NULL);
 }
 

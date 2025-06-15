@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/14 08:17:00 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/15 06:17:15 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell)
 	else if (builtin_no_child == -1)
 		return (-1);
 	if (cmd->heredoc == 1)
-		heredoc_fd = heredoc(cmd->infile);
+		heredoc_fd = heredoc(cmd->infile, shell);
 	pid = fork();
 	if (pid < 0)
 		return (perror("pid"), -1);

@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/14 09:55:36 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/15 06:21:49 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
 	int stdout_backup;
 
 	if (cmd->heredoc == 1)
-		cmd->heredoc_fd = heredoc(cmd->infile);
+		cmd->heredoc_fd = heredoc(cmd->infile, shell);
 	if (cmd->next)
 		pipe(pipefd);
 		
@@ -148,7 +148,7 @@ int	pipeline(t_shell *shell)
 	{
 		if (cmd->cmd_args[0] == NULL && has_redirection(cmd))
 		{
-			handle_redirection_only(cmd);
+			handle_redirection_only(cmd, shell);
 			if (in_fd != 0)
 				close(in_fd);
 			return (0);
