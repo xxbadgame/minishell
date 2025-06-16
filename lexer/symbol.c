@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   symbol.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/14 09:22:52 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/16 15:44:15 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int	ft_read_word(t_token **tokens_list, char *str,int *i, t_shell *shell)
+int	ft_read_word(t_token **tokens_list, char *str,int *i, int *j,t_shell *shell)
 {
 	t_token	*token;
 	char	*result;
-
+	
 	result = malloc(1);
 	if (!result)
 		return (-1);
@@ -24,7 +24,7 @@ int	ft_read_word(t_token **tokens_list, char *str,int *i, t_shell *shell)
 	token = NULL;
 	if(check_quote(str) == -1)
 		return (-1);
-	cut_quote(str,i, &result ,shell);
+	cut_quote(str,i, j,&result ,shell);
 	token = create_token(result, WORD);
 	if (!token)
 		return (free(result), -1);

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/16 09:07:48 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:15:44 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ void	add_token(t_token **tokens_list, t_token *new_token)
 	return ;
 }
 
-int	conditional_lexer(t_token **tokens_list, char *str, int *i, t_shell *shell)
+int	conditional_lexer(t_token **tokens_list, char *str, int *i, int *j,t_shell *shell)
 {
+	
 	if (str[*i] == ' ' || str[*i] == '\t')
 		(*i)++;
 	else if (str[*i] == '|')
@@ -67,7 +68,7 @@ int	conditional_lexer(t_token **tokens_list, char *str, int *i, t_shell *shell)
 	}
 	else
 	{
-		if (ft_read_word(tokens_list, str, i, shell) == -1)
+		if (ft_read_word(tokens_list, str, i, j, shell) == -1)
 			return (-1);
 	}
 	return (0);
@@ -106,12 +107,13 @@ static int synthax_checker(t_shell *shell)
 int	lexer(t_shell *shell)
 {
 	int	i;
+	int j;
 	
 	i = 0;
-	
+	j = 0;
 	while (shell->line[i])
 	{
-		if (conditional_lexer(&(shell->tokens), shell->line, &i, shell) == -1)
+		if (conditional_lexer(&(shell->tokens), shell->line, &i, &j,shell) == -1)
 			return (-1);
 	}
 	if (shell->tokens == NULL)

@@ -6,9 +6,11 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:40:23 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/16 12:40:46 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:27:36 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_atoi(char *str)
 {
@@ -29,9 +31,15 @@ int	ft_atoi(char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		result *= 10;
-		result += str[i] - 48;
-		i++;
+		if(INT_MAX / 10 > result)
+		{
+			result *= 10;
+			result += str[i] - 48;
+			i++;
+		}
+		else
+			return (-1);
 	}
+	
 	return (result * sign);
 }

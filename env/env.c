@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:46:02 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/05 10:40:00 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:41:43 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	add_in_env(char **origin_env, char **dest_env, int *i)
 			return (free_tab(dest_env), -1);
 		(*i)++;
 	}
+	dest_env[*i] = NULL;
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/15 06:20:58 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/16 14:02:42 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
 
 typedef struct s_env
 {
@@ -102,7 +103,7 @@ int					handle_redirection_only(t_cmd *cmd, t_shell *shell);
 
 // lexer
 int					env_var_checker(char *str);
-void				cut_quote(char *str, int *i, char **result,
+void				cut_quote(char *str, int *i, int *j,char **result,
 						t_shell *t_shell);
 int					check_quote(char *str);
 int					find_quote(char *str, int *i, int *fisrt_quote,
@@ -112,7 +113,7 @@ char				*loop_without_quote(char *str, int *i);
 int					lexer(t_shell *shell);
 t_token				*create_token(char *str, t_token_type type);
 void				add_token(t_token **tokens_list, t_token *new_token);
-int					ft_read_word(t_token **tokens_list, char *str, int *i,
+int					ft_read_word(t_token **tokens_list, char *str, int *i, int *j,
 						t_shell *shell);
 int					ft_pipe(t_token **tokens_list, int *i);
 int					ft_redir(char *str, t_token **tokens_list, int *i);
