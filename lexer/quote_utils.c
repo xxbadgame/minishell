@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/15 06:46:39 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/16 11:51:49 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,14 @@ int env_var_checker(char *str)
 	return (0);
 } 
 
-void cut_quote(char *str, int *i, char **result ,t_shell *shell)
+int in_quote(char *str, int *i, char **result ,t_shell *shell)
 {
-	int start;
 	char *temp;
 	char *var_in_env;
 	
-	start = (*i);
-	if (str[start] == '"' || str[start] == '\'')
+	if (str[*i] == '"' || str[*i] == '\'')
 	{
+		
 		(*i)++;
 		while (str[*i] && str[*i] != '\'' && str[*i] != '"')
 			{
@@ -77,40 +76,8 @@ void cut_quote(char *str, int *i, char **result ,t_shell *shell)
 					free(temp);
 					(*i) += 2;
 				}
-				else if(str[*i] == '$' && env_var_checker(str + *i) != 0)
+				else if(str[*i] == '$' && ft_isalpha(str[(*i) + 1]) == 0)
 				{
-					temp = (*result);
-					var_in_env = find_str_in_env(shell->env, ft_substr(str, *i, env_var_checker(str + *i)));
-					if(!var_in_env)
-					{
-						(*i) += env_var_checker(str + *i);
-						continue;
-					}
-					(*result) = ft_strjoin(ft_strndup(temp, ft_strlen(temp)),var_in_env);
-					free(temp);
-					(*i) += env_var_checker(str + *i);
-				}
-				else
-				{
-					temp = (*result);
-					(*result) = ft_joinchar(temp, str[*i]);
-					free(temp);
-					(*i)++;
-				}
-			}
-		(*i)++;
-	}
-	if(str[(*i)] != '"' && str[(*i)] != '\'')
-	{
-		while (str[*i] && str[*i] != '=' && str[*i] != ' ' && str[*i] != '|' && str[*i] != '>'
-			&& str[*i] != '<' && ft_strncmp(str + *i, ">>", 2) != 0
-			&& ft_strncmp(str + *i, "<<", 2) != 0)
-			{
-				if (str[*i + 1] && str[*i] == '$' && str[*i + 1] == '?')
-				{
-					temp = (*result);
-					(*result) = ft_strjoin(ft_strndup(temp, ft_strlen(temp)),ft_itoa(shell->last_exit));
-					free(temp);
 					(*i) += 2;
 				}
 				else if(str[*i] == '$' && env_var_checker(str + *i) != 0)
@@ -134,8 +101,75 @@ void cut_quote(char *str, int *i, char **result ,t_shell *shell)
 					(*i)++;
 				}
 			}
-		if (str[*i] == '=')
+		(*i)++;
+		return(1);
+	}
+	return (0);
+}
+
+int check_char(char *str, int i)
+{
+	if(str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '>'
+		&& str[i] != '<' && ft_strncmp(str + i, ">>", 2) != 0
+		&& ft_strncmp(str + i, "<<", 2) != 0)
+		return (1);
+	return(0);
+}
+
+int check_char2(char *str, int i)
+{
+	if(str[i] || str[i] == ' ' || str[i] == '|' || str[i] == '>'
+		|| str[i] == '<' || ft_strncmp(str + i, ">>", 2) == 0
+		|| ft_strncmp(str + i, "<<", 2) == 0)
+		return (1);
+	return(0);
+}
+
+void cut_quote(char *str, int *i, char **result ,t_shell *shell)
+{
+	char *temp;
+	char *var_in_env;
+	int exit_quote;
+	
+	while (check_char(str, *i))
+	{
+		exit_quote = in_quote(str, i, result, shell);
+		if (check_char2(str, *i) && exit_quote)
+		{
 			(*i)++;
+			break;
+		}
+		else if(str[*i] == '$' && ft_isalpha(str[(*i) + 1]) == 0)
+		{
+			(*i) += 2;
+		}
+		else if (str[*i + 1] && str[*i] == '$' && str[*i + 1] == '?')
+		{
+			temp = (*result);
+			(*result) = ft_strjoin(ft_strndup(temp, ft_strlen(temp)),ft_itoa(shell->last_exit));
+			free(temp);
+			(*i) += 2;
+		}
+		else if(str[*i] == '$' && env_var_checker(str + *i) != 0)
+		{
+			temp = (*result);
+			var_in_env = find_str_in_env(shell->env, ft_substr(str, *i, env_var_checker(str + *i)));
+			if(!var_in_env)
+			{
+				(*i) += env_var_checker(str + *i);
+				continue;
+			}
+			(*result) = ft_strjoin(ft_strndup(temp, ft_strlen(temp)),var_in_env);
+			free(temp);
+			(*i) += env_var_checker(str + *i);
+		}
+		else
+		{
+			temp = (*result);
+			(*result) = ft_joinchar(temp, str[*i]);
+			free(temp);
+			(*i)++;
+		}
 	}
 }
 

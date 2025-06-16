@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 14:20:44 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/16 12:41:51 by engiusep         ###   ########.fr       */
+/*   Created: 2025/06/16 12:40:23 by engiusep          #+#    #+#             */
+/*   Updated: 2025/06/16 12:40:46 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../terminal.h"
-
-int	builtin_exit(t_shell *shell)
+int	ft_atoi(char *str)
 {
-	printf("exit\n");
-	if (ft_isnum(shell->cmds->cmd_args[1]))
+	int		result;
+	int		sign;
+	int		i;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '+' || str[i] == '-')
 	{
-		print_error("minishell: exit:", shell->cmds->cmd_args[1],
-			" numeric argument required\n");
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
 	}
-	else
-		shell->last_exit = ft_atoi(shell->cmds->cmd_args[1]) % 256;
-	free(shell->line);
-	free_tokens(shell);
-	free_cmds(shell);
-	free_env(shell);
-	free(shell);
-	exit(EXIT_SUCCESS);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result *= 10;
+		result += str[i] - 48;
+		i++;
+	}
+	return (result * sign);
 }

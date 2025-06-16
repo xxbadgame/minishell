@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
+#    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/13 10:40:42 by yannis            #+#    #+#              #
-#    Updated: 2025/06/13 10:51:14 by yannis           ###   ########.fr        #
+#    Updated: 2025/06/16 12:40:58 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,10 @@ FILES = ft_strncmp.c \
 		print_error.c \
 		ft_putendl_fd.c \
 		ft_putstr_fd.c \
+		ft_isalpha.c \
+		ft_isalnum.c \
+		ft_atoi.c \
+		
 
 
 OBJS = $(FILES:.c=.o)

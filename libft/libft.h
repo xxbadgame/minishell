@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:32:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/13 10:50:57 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/16 12:40:38 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,8 @@ char	*ft_itoa(int n);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	print_error(char *prefix, char *arg, char *suffix);
+int	ft_isalpha(int c);
+int	ft_isnum(char *str);
+int	ft_atoi(char *str);
 
 #endif

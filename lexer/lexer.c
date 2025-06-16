@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/11 16:06:51 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/16 09:07:48 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	add_token(t_token **tokens_list, t_token *new_token)
 
 int	conditional_lexer(t_token **tokens_list, char *str, int *i, t_shell *shell)
 {
-	if (str[*i] == ' ')
+	if (str[*i] == ' ' || str[*i] == '\t')
 		(*i)++;
 	else if (str[*i] == '|')
 	{
