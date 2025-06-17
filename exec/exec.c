@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/15 06:17:15 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/17 09:39:38 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ static int	single_builtins_no_child(t_cmd *cmd, t_shell *shell)
 	if (ft_strncmp(cmd->cmd_args[0], "cd", 2) == 0
 		&& ft_strlen(cmd->cmd_args[0]) == 2 )
 	{
-		if(cmd->cmd_args[2] != NULL)
-		{
-			printf("cd : to many arguments\n");
-			return (0);
-		}
 		return (builtin_cd(cmd, shell->env));
 	}
 	return (1);

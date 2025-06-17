@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/16 14:02:42 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/17 10:14:35 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+typedef struct s_index_lexer
+{
+	int i;
+	int j;
+}	t_index_lexer;
+
 typedef struct s_shell
 {
 	char			*line;
@@ -103,7 +109,7 @@ int					handle_redirection_only(t_cmd *cmd, t_shell *shell);
 
 // lexer
 int					env_var_checker(char *str);
-void				cut_quote(char *str, int *i, int *j,char **result,
+void				cut_quote(char *str, t_index_lexer *index,char **result,
 						t_shell *t_shell);
 int					check_quote(char *str);
 int					find_quote(char *str, int *i, int *fisrt_quote,
@@ -113,7 +119,7 @@ char				*loop_without_quote(char *str, int *i);
 int					lexer(t_shell *shell);
 t_token				*create_token(char *str, t_token_type type);
 void				add_token(t_token **tokens_list, t_token *new_token);
-int					ft_read_word(t_token **tokens_list, char *str, int *i, int *j,
+int					ft_read_word(t_token **tokens_list, char *str, t_index_lexer *index,
 						t_shell *shell);
 int					ft_pipe(t_token **tokens_list, int *i);
 int					ft_redir(char *str, t_token **tokens_list, int *i);

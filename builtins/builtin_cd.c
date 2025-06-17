@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/11 15:46:35 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/17 09:45:44 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,38 @@ static void	handle_oldpwd(char *cwd, t_env *env)
 	builtin_export(cmd_2, env);
 	free(cmd_2->cmd_args[0]);
 	free(cmd_2->cmd_args[1]);
+	free(cmd_2->cmd_args[2]);
+	free(cmd_2->cmd_args);
 	free(cmd_2);
 }
 static void	handle_pwd(t_env *env)
 {
 	t_cmd	*cmd_2;
+	char *temp;
 	
+	temp = getcwd(NULL,0);
+	if(!temp)
+		return;
 	cmd_2 = malloc(sizeof(t_cmd));
 	cmd_2->cmd_args = malloc(sizeof(char *) * 3);
 	cmd_2->cmd_args[0] = ft_strndup("export", 6);
-	cmd_2->cmd_args[1] = ft_strjoin("PWD=", getcwd(NULL,0));
+	cmd_2->cmd_args[1] = ft_strjoin("PWD=", temp);
 	cmd_2->cmd_args[2] = NULL;
 	builtin_export(cmd_2, env);
 	free(cmd_2->cmd_args[0]);
 	free(cmd_2->cmd_args[1]);
+	free(cmd_2->cmd_args[2]);
+	free(cmd_2->cmd_args);
+	free(temp);
 	free(cmd_2);
 }
 
 static int	check_path_cmd(t_cmd *cmd)
 {
+	if(cmd->cmd_args[1] == NULL)
+		return (-1);
+	if(cmd->cmd_args[2] != NULL)
+		return (ft_putendl_fd("cd : to many arguments\n",2),-1);
 	if (cmd->cmd_args[1] != NULL)
 	{
 		if (cmd->cmd_args[1][0] == '/')
