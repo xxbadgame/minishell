@@ -28,13 +28,14 @@ char	*find_str_in_env(t_env *env, char *str)
 			&& ft_strlen(spl_var[0]) == ft_strlen(str))
 		{
 			result = ft_strndup(spl_var[1], ft_strlen(spl_var[1]));
+			if(!result)
+				return(free_tab(spl_var),NULL);
 			free_tab(spl_var);
 			return (result);
 		}
 		i++;
 		free_tab(spl_var);
 	}
-	
 	return (NULL);
 }
 

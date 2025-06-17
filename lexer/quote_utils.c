@@ -160,6 +160,7 @@ char *malloc_var_in_env(char *str,t_shell *shell,t_index_lexer *index)
 {
 	char *temp;
 	char *var_in_env;
+	
 	temp =  ft_substr(str, index->i, env_var_checker(str + index->i));
 	var_in_env = find_str_in_env(shell->env,temp);
 	free(temp);
@@ -170,24 +171,32 @@ char *malloc_var_in_env(char *str,t_shell *shell,t_index_lexer *index)
 	}
 	return (var_in_env);
 }
-int	dollar_var_env(char **result, t_index_lexer *index,char *str, t_shell *shell)
+int	dollar_var_env(char **result, t_index_lexer *index, char *str, t_shell *shell)
 {
 	char *var_in_env;
 	char *temp;
-	var_in_env = malloc_var_in_env(str, shell ,index);
-	if(!var_in_env)
+
+	var_in_env = malloc_var_in_env(str, shell, index);
+	if (!var_in_env)
 		return (-1);
-	while(var_in_env[index->j] && var_in_env[index->j] != ' ')
+	while (var_in_env[index->j] && var_in_env[index->j] != ' ')
 	{
-		temp = (*result);
-		(*result) = ft_joinchar(temp, var_in_env[(index->j)++]);
-		if(!result)
-			return (free(var_in_env),-1);
+		temp = *result;
+		*result = ft_joinchar(temp, var_in_env[index->j]);
+		if (!(*result))
+		{
+			free(temp);
+			free(var_in_env);
+			return (-1);
+		}
 		free(temp);
+		index->j++;
 	}
+
 	if (var_in_env[index->j] != '\0' && var_in_env[index->j] == ' ')
 	{
-		(index->j)++;
+		index->j++;
+		free(var_in_env);
 		return (2);
 	}
 	if (index->j == ft_strlen(var_in_env))
@@ -195,6 +204,7 @@ int	dollar_var_env(char **result, t_index_lexer *index,char *str, t_shell *shell
 	free(var_in_env);
 	return (0);
 }
+
 
 int start_loop(char *str, t_index_lexer *index, char **result, t_shell *shell)
 {
@@ -216,10 +226,8 @@ int start_loop(char *str, t_index_lexer *index, char **result, t_shell *shell)
 
 void cut_quote(char *str, t_index_lexer *index, char **result ,t_shell *shell)
 {
-	int dollar_pos;
 	int flag_var_env;
-	
-	dollar_pos = 0;
+		
 	while (check_char(str, index->i))
 	{
 		if (start_loop(str, index, result, shell) == 2)
