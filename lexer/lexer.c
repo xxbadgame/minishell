@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/17 10:15:52 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:56:54 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ int	conditional_lexer(t_token **tokens_list, char *str,t_index_lexer *index, t_s
 		if (ft_pipe(tokens_list, &index->i) == -1)
 			return (-1);
 	}
-	else if ((str[index->i] == '<' && str[index->i + 1] != '<')
-		|| (str[index->i] == '>' && str[index->i + 1] != '>'))
+	else if (str[index->i + 1] && ((str[index->i] == '<' && str[index->i + 1] != '<')
+		|| (str[index->i] == '>' && str[index->i + 1] != '>')))
 	{
 		if (ft_redir(str, tokens_list, &index->i) == -1)
 			return (-1);
 	}
-	else if ((str[index->i] == '<' && str[index->i + 1] == '<')
-		|| (str[index->i] == '>' && str[index->i + 1] == '>'))
+	else if (str[index->i + 1] && ((str[index->i] == '<' && str[index->i + 1] == '<')
+		|| (str[index->i] == '>' && str[index->i + 1] == '>')))
 	{
 		if (ft_heredoc_or_append(str, tokens_list, &index->i) == -1)
 			return (-1);

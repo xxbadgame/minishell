@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/14 10:34:00 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/17 15:49:02 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	launch_execve(t_cmd *cmd, t_shell *shell)
 	{
 		execve(cmd->cmd_args[0], cmd->cmd_args, shell->env->env_cpy);
 		perror("exec failed");
-		exit(EXIT_FAILURE);
+		clean_and_exit(shell, path, 126);
 	}
 	else if (cmd->cmd_args[0])
 	{

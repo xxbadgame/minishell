@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/17 10:49:00 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:46:24 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,13 @@ int	dollar_var_env(char **result, t_index_lexer *index,char *str, t_shell *shell
 	char *temp;
 	var_in_env = malloc_var_in_env(str, shell ,index);
 	if(!var_in_env)
-		return (1);
+		return (-1);
 	while(var_in_env[index->j] && var_in_env[index->j] != ' ')
 	{
 		temp = (*result);
 		(*result) = ft_joinchar(temp, var_in_env[(index->j)++]);
+		if(!result)
+			return (free(var_in_env),-1);
 		free(temp);
 	}
 	if (var_in_env[index->j] != '\0' && var_in_env[index->j] == ' ')
@@ -163,38 +165,74 @@ int	dollar_var_env(char **result, t_index_lexer *index,char *str, t_shell *shell
 	}
 	if (index->j == ft_strlen(var_in_env))
 		index->i += env_var_checker(str + index->i);
+	free(var_in_env);
 	return (0);
 }
-void cut_quote(char *str, t_index_lexer *index, char **result ,t_shell *shell)
+
+int start_loop(char *str, t_index_lexer *index, char **result, t_shell *shell)
+{
+	int exit_quote;
+	
+	exit_quote = in_quote(str, &index->i, result, shell);
+	if (str[index->i] == '\0')
+		return(2);
+	if (check_char2(str, index->i) && exit_quote)
+	{
+		(index->i)++;
+		return(2);
+	}
+	return(0);
+}
+
+void after_dollar_checker(char *str, t_index_lexer *index, char **result, t_shell *shell)
+{
+	char *temp[3];
+	
+	if(str[index->i + 1] && str[index->i] == '$' && ft_isalpha(str[index->i + 1]) == 0)
+		index->i += 2;
+	else if (str[index->i + 1] && str[index->i] == '$' && str[index->i + 1] == '?')
+	{
+		temp[0] = (*result);
+		temp[1] = ft_strndup(temp[0], ft_strlen(temp[0]));
+		if (!temp[1])
+			return ;
+		temp[2] = ft_itoa(shell->last_exit);
+		if(!temp[2])
+			return(free(temp[1]));
+		(*result) = ft_strjoin(temp[1],temp[2]);
+		if(!(*result))
+			return(free(temp[1]),free(temp[2]));
+		free(temp[0]);
+		free(temp[1]);
+		free(temp[2]);
+		index->i += 2;
+	}
+}
+
+void end_loop(char **result, char *str, t_index_lexer *index)
 {
 	char *temp;
+	
+	temp = (*result);
+	(*result) = ft_joinchar(temp, str[index->i]);
+	if(!(*result))
+		return ;
+	free(temp);
+	index->i++;
+}
+
+void cut_quote(char *str, t_index_lexer *index, char **result ,t_shell *shell)
+{
 	int dollar_pos;
-	int exit_quote;
 	int flag_var_env;
 	
 	dollar_pos = 0;
 	while (check_char(str, index->i))
 	{
-		exit_quote = in_quote(str, &index->i, result, shell);
-		if (str[index->i] == '\0')
+		if (start_loop(str, index, result, shell) == 2)
 			break;
-		if (check_char2(str, index->i) && exit_quote)
-		{
-			(index->i)++;
-			break;
-		}
-		else if(str[index->i] == '$' && ft_isalpha(str[index->i + 1]) == 0)
-		{
-			index->i += 2;
-		}
-		else if (str[index->i + 1] && str[index->i] == '$' && str[index->i + 1] == '?')
-		{
-			temp = (*result);
-			(*result) = ft_strjoin(ft_strndup(temp, ft_strlen(temp)),ft_itoa(shell->last_exit));
-			free(temp);
-			index->i += 2;
-		}
-		else if(str[index->i] == '$' && env_var_checker(str + index->i) != 0)
+		after_dollar_checker(str, index, result, shell);
+		if(str[index->i + 1] && str[index->i] == '$' && env_var_checker(str + index->i) != 0)
 		{
 			flag_var_env = dollar_var_env(result,index,str,shell);
 			if(flag_var_env == 1)
@@ -203,13 +241,6 @@ void cut_quote(char *str, t_index_lexer *index, char **result ,t_shell *shell)
 				break;
 		}
 		else
-		{
-			temp = (*result);
-			(*result) = ft_joinchar(temp, str[index->i]);
-			free(temp);
-			index->i++;
-		}
+			end_loop(result, str, index);
 	}
 }
-
-
