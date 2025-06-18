@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/17 10:14:35 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:39:19 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int					is_child_builtin(t_cmd *cmd);
 int					builtin_export_env(t_env *env);
 int					builtin_env(t_env *env, t_cmd *cmd);
 int					find_var_env(t_cmd *cmd, char **env, int *j);
+int 				checker_var_format(t_cmd *cmd, int i);
 
 // env
 t_env				*init_env(char **envp);
@@ -94,8 +95,7 @@ int					add_in_env(char **origin_env, char **dest_env, int *i);
 char				*clean_str(char *str);
 
 // exec
-void				handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd,
-						int heredoc_fd);
+void				handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd);
 int					launch_execve(t_cmd *cmd, t_shell *shell);
 int					pipeline(t_shell *shell);
 int					exec_single_command(t_cmd *cmd, t_shell *shell);
@@ -106,7 +106,12 @@ int					redirect_left(char *filename);
 int					heredoc(char *stop_word, t_shell *shell);
 int					has_redirection(t_cmd *cmd);
 int					handle_redirection_only(t_cmd *cmd, t_shell *shell);
-
+char				*cat_path(char **all_path, int i, char *cmd);
+int					path_len(char *path_env, char *cmd);
+void				signal_and_single_redirect(t_cmd *cmd, t_shell *shell,int heredoc_fd);
+void				redirect_choice_pipe(t_cmd *cmd, int *in_fd, int *pipefd);
+void 				redirect_choice_single(t_cmd *cmd,int heredoc_fd);
+void				signal_and_pipe_redirect(t_cmd *cmd,int *in_fd,t_shell *shell,int *pipefd);
 // lexer
 int					env_var_checker(char *str);
 void				cut_quote(char *str, t_index_lexer *index,char **result,

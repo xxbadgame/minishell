@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:32:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/16 13:28:00 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/18 12:02:48 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ void	print_error(char *prefix, char *arg, char *suffix);
 int	ft_isalpha(int c);
 int	ft_isnum(char *str);
 int	ft_atoi(char *str);
+int	ft_isalnum(int character);
 
 #endif

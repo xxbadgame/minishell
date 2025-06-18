@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 10:46:02 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/16 15:41:43 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:23:11 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static char	**envcpy(char **envp)
 	env_cpy = malloc(sizeof(char *) * (env_size(envp) + 1));
 	if (!env_cpy)
 		return (NULL);
-	if(add_in_env(envp, env_cpy, &i) == -1)
-		return (free_tab(env_cpy),NULL);
+	if (add_in_env(envp, env_cpy, &i) == -1)
+		return (free_tab(env_cpy), NULL);
 	env_cpy[i] = NULL;
 	if (!env_cpy)
 		return (free_tab(env_cpy), NULL);

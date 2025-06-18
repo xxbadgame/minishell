@@ -6,13 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/17 15:49:02 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:55:06 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-static int	path_len(char *path_env, char *cmd)
+int	path_len(char *path_env, char *cmd)
 {
 	int	len_path_env;
 	int	len_cmd;
@@ -27,25 +27,22 @@ static int	path_len(char *path_env, char *cmd)
 static char	*get_path_command(char *cmd, t_env *env)
 {
 	char	**all_path;
+	char	*path_in_env;
 	char	*path;
-	char 	*path_in_env;
 	int		i;
 
+	path = NULL;
 	i = 0;
 	path_in_env = find_str_in_env(env, "PATH");
 	if (!path_in_env)
-		return(NULL);
+		return (NULL);
 	all_path = ft_split(path_in_env, ':');
 	free(path_in_env);
+	if (!all_path)
+		return (NULL);
 	while (all_path[i])
 	{
-		path = malloc(path_len(all_path[i], cmd));
-		if (!path)
-			return (free_tab(all_path), NULL);
-		path[0] = '\0';
-		ft_strncat(path, all_path[i], ft_strlen(all_path[i]) + 1);
-		ft_strncat(path, "/", ft_strlen(all_path[i]) + 2);
-		ft_strncat(path, cmd, path_len(all_path[i], cmd));
+		path = cat_path(all_path, i, cmd);
 		if (access(path, X_OK) == 0)
 			return (free_tab(all_path), path);
 		free(path);
@@ -55,7 +52,7 @@ static char	*get_path_command(char *cmd, t_env *env)
 	return (NULL);
 }
 
-void clean_and_exit(t_shell *shell, char *path, int status)
+void	clean_and_exit(t_shell *shell, char *path, int status)
 {
 	if (path)
 		free(path);
@@ -69,8 +66,9 @@ void clean_and_exit(t_shell *shell, char *path, int status)
 
 int	launch_execve(t_cmd *cmd, t_shell *shell)
 {
-	char	*path = NULL;
+	char	*path;
 
+	path = NULL;
 	if (cmd->cmd_args[0] && access(cmd->cmd_args[0], X_OK) == 0)
 	{
 		execve(cmd->cmd_args[0], cmd->cmd_args, shell->env->env_cpy);
@@ -79,7 +77,6 @@ int	launch_execve(t_cmd *cmd, t_shell *shell)
 	}
 	else if (cmd->cmd_args[0])
 	{
-		
 		path = get_path_command(cmd->cmd_args[0], shell->env);
 		if (path != NULL)
 		{
@@ -88,15 +85,15 @@ int	launch_execve(t_cmd *cmd, t_shell *shell)
 			clean_and_exit(shell, path, 126);
 		}
 	}
-	print_error("minishell: ",cmd->cmd_args[0], ": command not found\n");
+	print_error("minishell: ", cmd->cmd_args[0], ": command not found\n");
 	clean_and_exit(shell, path, 127);
 	return (-1);
 }
 
-void handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd, int heredoc_fd)
+void	handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd)
 {
-	if (heredoc_fd != -1)
-		close(heredoc_fd);
+	if (cmd->heredoc_fd != -1)
+		close(cmd->heredoc_fd);
 	if (*in_fd != 0)
 		close(*in_fd);
 	if (cmd->next)

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:20:44 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/16 13:34:26 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:02:30 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	builtin_exit(t_shell *shell)
 {
 	printf("exit\n");
-	if (ft_isnum(shell->cmds->cmd_args[1]) || ft_atoi(shell->cmds->cmd_args[1]) == -1)
+	if (ft_isnum(shell->cmds->cmd_args[1])
+		|| ft_atoi(shell->cmds->cmd_args[1]) == -1)
 	{
 		print_error("minishell: exit:", shell->cmds->cmd_args[1],
 			" numeric argument required\n");

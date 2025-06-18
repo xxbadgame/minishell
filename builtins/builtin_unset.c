@@ -3,42 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:19:21 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/14 08:43:05 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/18 13:21:01 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int	builtin_unset(t_cmd *cmd,t_env *env)
+static void	end_unset(char **new_env, t_env *env, int j)
 {
-	char **new_env;
-	char **temp;
-	int i;
-	int j;
+	char	**temp;
+
+	new_env[j] = NULL;
+	temp = env->env_cpy;
+	env->env_cpy = new_env;
+	free_tab(temp);
+}
+
+int	builtin_unset(t_cmd *cmd, t_env *env)
+{
+	char	**new_env;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
 	if (!cmd->cmd_args[1])
-		return(0);
+		return (0);
 	new_env = malloc(sizeof(char *) * (tab_len(env->env_cpy)));
-	if(!new_env)
-		return(-1);
-	while(env->env_cpy[i])
+	if (!new_env)
+		return (-1);
+	while (env->env_cpy[i])
 	{
-		if(ft_strncmp(env->env_cpy[i],cmd->cmd_args[1],ft_strlen(cmd->cmd_args[1])) != 0)
+		if (ft_strncmp(env->env_cpy[i], cmd->cmd_args[1],
+				ft_strlen(cmd->cmd_args[1])) != 0)
 		{
-			new_env[j] = ft_strndup(env->env_cpy[i], ft_strlen(env->env_cpy[i]));
-			if(!new_env)
-				return(free_tab(new_env), -1);
-			j++;
+			new_env[j++] = ft_strndup(env->env_cpy[i],
+					ft_strlen(env->env_cpy[i]));
+			if (!new_env)
+				return (free_tab(new_env), -1);
 		}
 		i++;
 	}
-	new_env[j] = NULL;
-	temp = env->env_cpy;
-	env->env_cpy = new_env;
-	return (free_tab(temp), 0);
+	return (end_unset(new_env, env, j), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/17 16:37:52 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/18 10:34:50 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,38 +171,46 @@ char *malloc_var_in_env(char *str,t_shell *shell,t_index_lexer *index)
 	}
 	return (var_in_env);
 }
+
+int add_in_str(char **result, char *var_in_env,t_index_lexer *index)
+{
+	char *temp;
+	
+	temp = *result;
+	*result = ft_joinchar(temp, var_in_env[index->j]);
+	if (!(*result))
+		return (free(temp),free(var_in_env),-1);
+	free(temp);
+	return (0);
+}
+
 int	dollar_var_env(char **result, t_index_lexer *index, char *str, t_shell *shell)
 {
 	char *var_in_env;
-	char *temp;
 
 	var_in_env = malloc_var_in_env(str, shell, index);
 	if (!var_in_env)
 		return (-1);
-	while (var_in_env[index->j] && var_in_env[index->j] != ' ')
+	while(var_in_env[index->j] && var_in_env[index->j] == ' ')
+		index->j++;
+	while (var_in_env[index->j])
 	{
-		temp = *result;
-		*result = ft_joinchar(temp, var_in_env[index->j]);
-		if (!(*result))
+		if(add_in_str(result,var_in_env,index) == -1)
+			return(-1);
+		index->j++;
+		if (var_in_env[index->j] == ' ')
 		{
-			free(temp);
-			free(var_in_env);
-			return (-1);
+			while (var_in_env[index->j] == ' ')
+				index->j++;
+			if (var_in_env[index->j] == '\0')
+				break;
+			else
+				return (free(var_in_env),2);
 		}
-		free(temp);
-		index->j++;
-	}
-
-	if (var_in_env[index->j] != '\0' && var_in_env[index->j] == ' ')
-	{
-		index->j++;
-		free(var_in_env);
-		return (2);
 	}
 	if (index->j == ft_strlen(var_in_env))
 		index->i += env_var_checker(str + index->i);
-	free(var_in_env);
-	return (0);
+	return (free(var_in_env),0);
 }
 
 

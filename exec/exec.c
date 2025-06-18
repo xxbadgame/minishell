@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/17 09:39:38 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:40:28 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ static int	single_builtins_no_child(t_cmd *cmd, t_shell *shell)
 		return (builtin_unset(cmd, shell->env));
 	if (ft_strncmp(cmd->cmd_args[0], "cd", 2) == 0
 		&& ft_strlen(cmd->cmd_args[0]) == 2 )
-	{
 		return (builtin_cd(cmd, shell->env));
-	}
 	return (1);
 }
 
@@ -58,11 +56,12 @@ void	exec_choice(t_cmd *cmd, t_shell *shell)
 		exec_builtin(cmd, shell);
 }
 
-static void	redirect_choice_single(t_cmd *cmd, int heredoc_fd)
+void	redirect_choice_single(t_cmd *cmd, int heredoc_fd)
 {
 	if (cmd->heredoc == 1 && heredoc_fd != -1)
 	{
-		dup2(heredoc_fd, 0);
+		if(dup2(heredoc_fd, 0) == -1)
+			return(-1);
 		close(heredoc_fd);
 	}
 	else if (cmd->infile != NULL && cmd->heredoc == 0)
@@ -91,12 +90,7 @@ int	exec_single_command(t_cmd *cmd, t_shell *shell)
 	if (pid < 0)
 		return (perror("pid"), -1);
 	else if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		redirect_choice_single(cmd, heredoc_fd);
-		exec_choice(cmd, shell);
-	}
+		signal_and_single_redirect(cmd, shell, heredoc_fd);
 	if (heredoc_fd != -1)
 		close(heredoc_fd);
 	signal(SIGINT, SIG_IGN);

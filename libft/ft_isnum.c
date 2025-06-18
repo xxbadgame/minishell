@@ -5,18 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:21:53 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/18 12:02:14 by engiusep         ###   ########.fr       */
+/*   Created: 2025/06/16 12:32:56 by engiusep          #+#    #+#             */
+/*   Updated: 2025/06/16 13:24:17 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalnum(int character)
+int	ft_isnum(char *str)
 {
-	if ((character >= 'A' && character <= 'Z')
-		|| (character >= 'a' && character <= 'z')
-		|| (character >= '0' && character <= '9'))
+	int i;
+	
+	i = 0;
+	while(str[i])
 	{
-		return (1);
+		if(str[i] < '0' || str[i] > '9')
+			return (1);
+		i++;
 	}
 	return (0);
 }

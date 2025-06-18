@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:17:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/05 09:40:52 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:06:03 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	count_add_var(t_cmd *cmd, t_env *env)
 	{
 		var_pos = find_var_env(cmd, env->env_cpy, &i);
 		if (var_pos != -1)
+			nb_var -= 1;
+		else if (checker_var_format(cmd, i) == -1)
 			nb_var -= 1;
 		i++;
 	}
@@ -68,10 +70,13 @@ static int	parse_cmd_arg(t_cmd *cmd, char **new_env, int *i)
 	while (cmd->cmd_args[j])
 	{
 		var_pos = find_var_env(cmd, new_env, &j);
-		if (var_pos == -1)
+		if (var_pos == -1 && checker_var_format(cmd, j) != -1)
 			find_equal(cmd, new_env, i, &j);
-		else
+		else if (var_pos != -1)
 			replace_var_env(cmd, new_env, var_pos, &j);
+		else
+			print_error("bash: export: '", cmd->cmd_args[j],
+				"': not a valid identifier\n");
 		j++;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/15 06:21:49 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/18 14:37:55 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,7 @@ static int	pipeline_builtins_no_child(t_cmd *cmd, t_shell *shell)
 		return (builtin_unset(cmd, shell->env));
 	if (ft_strncmp(cmd->cmd_args[0], "cd", 2) == 0
 		&& ft_strlen(cmd->cmd_args[0]) == 2)
-		{
-			if(cmd->cmd_args[2] != NULL)
-			{
-				printf("cd : to many arguments\n");
-				return (0);
-			}
 			return (builtin_cd(cmd, shell->env));
-		}
 	return (1);
 }
 
@@ -64,12 +57,12 @@ static void	pipeline_exit_checker(t_shell *shell, int last_pid)
 		write(1, "\n", 1);
 }
 
-static void	redirect_choice_pipe(t_cmd *cmd, int *in_fd, int heredoc_fd, int *pipefd)
+void	redirect_choice_pipe(t_cmd *cmd, int *in_fd, int *pipefd)
 {
-	if (cmd->heredoc == 1 && heredoc_fd != -1)
+	if (cmd->heredoc == 1 && cmd->heredoc_fd != -1)
 	{
-		dup2(heredoc_fd, 0);
-		close(heredoc_fd);
+		dup2(cmd->heredoc_fd , 0);
+		close(cmd->heredoc_fd );
 	}
 	else if (cmd->infile != NULL)
 		redirect_left(cmd->infile);
@@ -89,18 +82,11 @@ static void	redirect_choice_pipe(t_cmd *cmd, int *in_fd, int heredoc_fd, int *pi
 		close(pipefd[0]);
 	}
 }
-
-static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
+int	no_child_pipe(t_cmd *cmd,t_shell *shell,int *pipefd,int *in_fd)
 {
-	int	pipefd[2];
-	int builtin_no_child;
 	int stdout_backup;
-
-	if (cmd->heredoc == 1)
-		cmd->heredoc_fd = heredoc(cmd->infile, shell);
-	if (cmd->next)
-		pipe(pipefd);
-		
+	int builtin_no_child;
+	
 	if (is_child_builtin(cmd) == 1)
 	{
 		stdout_backup = dup(1);
@@ -111,24 +97,34 @@ static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
 		close(stdout_backup);
 		if (builtin_no_child == 0)
 		{
-			handle_next_pipe(in_fd, cmd, pipefd, cmd->heredoc_fd);
+			handle_next_pipe(in_fd, cmd, pipefd);
 			return (0);
 		}
 		if (builtin_no_child == -1)
 			return (-1);
 	}
+	return (1);
+}
+static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
+{
+	int	pipefd[2];
+	int flag_no_child_pipe;
+	
+	if (cmd->heredoc == 1)
+		cmd->heredoc_fd = heredoc(cmd->infile, shell);
+	if (cmd->next)
+		pipe(pipefd);	
+	flag_no_child_pipe = no_child_pipe(cmd,shell,pipefd,in_fd);
+	if(flag_no_child_pipe == 0)
+		return(0);
+	else if(flag_no_child_pipe == -1)	
+		return (-1);
 	else
 	{
 		*pid = fork();
 		if (*pid == 0)
-		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
-			redirect_choice_pipe(cmd, in_fd, cmd->heredoc_fd, pipefd);
-			exec_choice(cmd, shell);
-		}
-		handle_next_pipe(in_fd, cmd, pipefd, cmd->heredoc_fd);
-		return (*pid);
+			signal_and_pipe_redirect(cmd, in_fd, shell, pipefd);
+		return (handle_next_pipe(in_fd, cmd, pipefd), *pid);
 	}
 	return(0);
 }
