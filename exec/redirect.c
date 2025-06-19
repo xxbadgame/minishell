@@ -6,11 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/19 12:43:54 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:32:21 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
+
+volatile int	g_heredoc_sigint = 0;
 
 int	redirect_right(char *filename)
 {
@@ -54,28 +56,45 @@ int	double_redirect_right(char *filename)
 	return (0);
 }
 
+int	heredoc_loop(char **line, t_shell *shell, char *stop_word, int *pipefd)
+{
+	write(1, "heredoc> ", 9);
+	*line = get_next_line(STDIN_FILENO);
+	if (g_heredoc_sigint)
+		return (2);
+	if (!*line)
+		return (2);
+	*line = str_trim_nl(*line);
+	line_checker(line, shell);
+	if (is_stop_word(*line, stop_word))
+		return (free(*line), 2);
+	write(pipefd[1], *line, ft_strlen(*line));
+	write(pipefd[1], "\n", 1);
+	free(*line);
+	return (0);
+}
+
 int	heredoc(char *stop_word, t_shell *shell)
 {
-	int		pipefd[2];
-	char	*line;
+	int					pipefd[2];
+	char				*line;
+	struct sigaction	sa_old;
+	struct sigaction	sa_new;
 
+	setup_signals(&sa_old, &sa_new);
 	if (pipe(pipefd) == -1)
 		return (-1);
-	while (1)
+	while (!g_heredoc_sigint)
 	{
-		write(1, "heredoc> ", 9);
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
+		if (heredoc_loop(&line, shell, stop_word, pipefd) == 2)
 			break ;
-		line = str_trim_nl(line);
-		if (line_checker(&line, shell) == -1)
-			return (free(line), -1);
-		if (is_stop_word(line, stop_word))
-			break ;
-		write(pipefd[1], line, ft_strlen(line));
-		write(pipefd[1], "\n", 1);
-		free(line);
 	}
 	close(pipefd[1]);
+	sigaction(SIGINT, &sa_old, NULL);
+	if (g_heredoc_sigint)
+	{
+		close(pipefd[0]);
+		return (-1);
+	}
 	return (pipefd[0]);
 }

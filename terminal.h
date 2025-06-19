@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/19 12:52:34 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:26:02 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,8 @@ int					parsing_token(t_shell *shell);
 // signal
 void				handle_sigint(int sig);
 void				handle_sig_output(int *flag_stop, int status);
+void				setup_signals(struct sigaction *sa_new,
+						struct sigaction *sa_old);
 
 // free
 void				free_cmds(t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:53:35 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/19 12:57:38 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:44:30 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 int	expand_last_exit(char **new_line, t_shell *shell, int *i)
 {
 	char	*tmp;
+	char	*tmp2;
 
 	tmp = ft_itoa(shell->last_exit);
 	if (!tmp)
 		return (-1);
-	*new_line = ft_strjoin((*new_line), tmp);
-	if (!(*new_line))
-		return (free(tmp), -1);
+	tmp2 = *new_line;
+	*new_line = ft_strjoin(tmp2, tmp);
+	free(tmp2);
 	free(tmp);
+	if (!(*new_line))
+		return (-1);
 	*i += 2;
 	return (0);
 }
