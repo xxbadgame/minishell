@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/19 13:00:40 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:06:36 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,24 @@ static int	synthax_checker(t_shell *shell)
 	t_token	*previous;
 	t_token	*current;
 	t_token	*next;
+	int flag_symbol;
 
 	previous = NULL;
 	current = shell->tokens;
 	next = shell->tokens->next;
 	while (current)
 	{
-		if (checker_special_symbole(current) == 1)
+		flag_symbol = checker_special_symbole(current);
+		if (flag_symbol == 1)
 		{
 			if (!next)
 				return (-1);
 			if (!previous && !next)
+				return (-1);
+		}
+		else if (flag_symbol == 2)
+		{
+			if (!previous || !next)
 				return (-1);
 		}
 		previous = current;
