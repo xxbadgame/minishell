@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/18 14:40:28 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 09:29:45 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	redirect_choice_single(t_cmd *cmd, int heredoc_fd)
 	if (cmd->heredoc == 1 && heredoc_fd != -1)
 	{
 		if(dup2(heredoc_fd, 0) == -1)
-			return(-1);
+			return ;
 		close(heredoc_fd);
 	}
 	else if (cmd->infile != NULL && cmd->heredoc == 0)

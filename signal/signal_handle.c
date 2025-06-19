@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:47:31 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/12 09:01:26 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/19 09:31:16 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,3 @@ void	handle_sig_output(int *flag_stop, int status)
 	}
 }
 
-// void	setup_signals(void)
-// {
-// 	struct sigaction	sa;
-
-// 	sa.sa_handler = handle_sigint;
-// 	sigemptyset(&sa.sa_mask);
-// 	sa.sa_flags = SA_RESTART;
-// 	sigaction(SIGINT, &sa, NULL);
-// 	signal(SIGQUIT, SIG_IGN);
-// }

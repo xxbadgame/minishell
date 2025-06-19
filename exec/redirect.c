@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/15 07:15:49 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/19 11:03:33 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,41 +70,97 @@ char *str_trim_nl(char *line)
     return line;
 }
 
-void line_checker(char **line, t_shell *shell)
+int	expand_heredoc(char **line, char **new_line,t_shell *shell,int *i)
 {
-	int i = 0;
-	char *new_line = ft_strndup("", 1);
-	char *var_value;
-	char *tmp;
+	char *var_name;
 	int var_len;
-
+	char *var_value;
+	char *temp;
+	
+	var_len = env_var_checker((*line) + *i);
+	var_name = ft_substr((*line), *i, var_len);
+	if(!var_name)
+		return (-1);
+	var_value = find_str_in_env(shell->env, var_name);
+	if(!var_value)
+		return (free(var_name),-1);
+	free(var_name);
+	if (var_value)
+	{
+		temp = *new_line;
+		*new_line = ft_strjoin(temp, var_value);
+		free(temp);
+		if(!(*new_line))
+			return(free(var_value),-1);
+	}
+	free(var_value);
+	*i += var_len;
+	return (0);
+}
+int expand_last_exit(char **new_line,t_shell *shell,int *i)
+{
+	char *tmp;
+	
+	tmp = ft_itoa(shell->last_exit);
+	if(!tmp)
+		return(-1);
+	*new_line = ft_strjoin((*new_line), tmp);
+	if(!(*new_line))
+		return(free(tmp),-1);
+	free(tmp);
+	*i += 2;
+	return (0);
+}
+int	end_loop_heredoc(char **new_line,char **line,int *i)
+{
+	char *tmp;
+	
+	tmp = *new_line;
+	*new_line = ft_joinchar(tmp, (*line)[*i]);
+	free(tmp);
+	if(!new_line)
+		return(-1);
+	(*i)++;
+	return (0);
+}
+int loop_line_checker(char **line,t_shell *shell,char **new_line,int *i)
+{
+	if ((*line)[*i] == '$' && (*line)[*i + 1] == '?')
+	{
+		if(expand_last_exit(new_line,shell,i) == -1)
+			return (-1);
+	}
+	else if ((*line)[*i] == '$' && env_var_checker((*line) + *i))
+	{
+		if(expand_heredoc(line,new_line,shell,i) == -1)
+			return (-1);
+	}
+	else
+	{
+		if(end_loop_heredoc(new_line, line, i) == -1)
+			return (-1);
+	}
+	return (0);
+}
+int 	line_checker(char **line, t_shell *shell)
+{
+	int i;
+	char *new_line;
+	
+	
+	i = 0;
+	new_line = malloc(1);
+	if (!new_line)
+		return (-1);
+	new_line[0] = '\0';
 	while ((*line)[i])
 	{
-		if ((*line)[i] == '$' && (*line)[i + 1] == '?')
-		{
-			tmp = ft_itoa(shell->last_exit);
-			new_line = ft_strjoin(new_line, tmp);
-			free(tmp);
-			i += 2;
-		}
-		else if ((*line)[i] == '$' && env_var_checker((*line) + i))
-		{
-			var_len = env_var_checker((*line) + i);
-			char *var_name = ft_substr((*line), i, var_len);
-			var_value = find_str_in_env(shell->env, var_name);
-			free(var_name);
-			if (var_value)
-				new_line = ft_strjoin(new_line, var_value);
-			i += var_len;
-		}
-		else
-		{
-			new_line = ft_joinchar(new_line, (*line)[i]);
-			i++;
-		}
+		if(loop_line_checker(line,shell,&new_line,&i) == -1)
+			return (-1);
 	}
 	free(*line);
 	*line = new_line;
+	return (0);
 }
 
 int	heredoc(char *stop_word, t_shell *shell)
@@ -122,7 +178,8 @@ int	heredoc(char *stop_word, t_shell *shell)
 		if (!line)
 			break ;
 		line = str_trim_nl(line);
-		line_checker(&line, shell);
+		if(line_checker(&line, shell) == -1)
+			return (free(line),-1);
 		if (is_stop_word(line, stop_word))
 			break;
 		write(pipefd[1], line, ft_strlen(line));

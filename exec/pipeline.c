@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/18 14:37:55 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 09:37:39 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,8 @@ int	pipeline(t_shell *shell)
 	cmd = shell->cmds;
 	while (cmd)
 	{
-		if (cmd->cmd_args[0] == NULL && has_redirection(cmd))
-		{
-			handle_redirection_only(cmd, shell);
-			if (in_fd != 0)
-				close(in_fd);
+		if(checker_redirection_only(cmd,shell, &in_fd) == 0)
 			return (0);
-		}
 		last_pid = pipe_loop(shell, cmd, &pid, &in_fd);
 		cmd = cmd->next;
 	}

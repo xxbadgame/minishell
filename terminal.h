@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/18 14:39:19 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 09:37:22 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void				signal_and_single_redirect(t_cmd *cmd, t_shell *shell,int heredoc_fd);
 void				redirect_choice_pipe(t_cmd *cmd, int *in_fd, int *pipefd);
 void 				redirect_choice_single(t_cmd *cmd,int heredoc_fd);
 void				signal_and_pipe_redirect(t_cmd *cmd,int *in_fd,t_shell *shell,int *pipefd);
+int 				checker_redirection_only(t_cmd *cmd,t_shell *shell, int *in_fd);
 // lexer
 int					env_var_checker(char *str);
 void				cut_quote(char *str, t_index_lexer *index,char **result,
