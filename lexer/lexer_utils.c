@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:00:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/19 15:00:28 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:10:15 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,21 @@ int	checker_special_symbole(t_token *current)
 	else if ((ft_strncmp(current->value, "|", 1) == 0))
 		return (2);
 	return (0);
+}
+
+int checker_flag_symbol(int flag_symbol, t_token *next, t_token *previous)
+{
+	if (flag_symbol == 1)
+	{
+		if (!next)
+			return (-1);
+		if (!previous && !next)
+			return (-1);
+	}
+	else if (flag_symbol == 2)
+	{
+		if (!previous || !next)
+			return (-1);
+	}
+	return(0);
 }

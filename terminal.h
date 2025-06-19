@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/19 14:54:17 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:09:41 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ char				*str_trim_nl(char *line);
 int					is_stop_word(char *line, char *stop_word);
 
 // lexer
+int checker_flag_symbol(int flag_symbol, t_token *next, t_token *previous);
 int					env_var_checker(char *str);
 void				cut_quote(char *str, t_index_lexer *index, char **result,
 						t_shell *t_shell);
