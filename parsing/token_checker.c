@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:40:57 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/13 09:19:38 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/19 12:39:55 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ int	command_checker(int *i, t_token **current_token, t_cmd **current_cmd)
 			return (-1);
 		*current_token = (*current_token)->next;
 	}
-	else if ((*current_token)->type == REDIR_IN || (*current_token)->type == REDIR_OUT
+	else if ((*current_token)->type == REDIR_IN
+		|| (*current_token)->type == REDIR_OUT
 		|| (*current_token)->type == REDIR_APPEND
 		|| (*current_token)->type == HEREDOC)
 	{
 		if (handle_redirection(current_cmd, *current_token) == -1)
-        	return (-1);
+			return (-1);
 		*current_token = (*current_token)->next;
 		*current_token = (*current_token)->next;
 	}

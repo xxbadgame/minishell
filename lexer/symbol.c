@@ -6,26 +6,27 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/18 09:07:47 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:37:30 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int	ft_read_word(t_token **tokens_list, char *str,t_index_lexer *index, t_shell *shell)
+int	ft_read_word(t_token **tokens_list, char *str, t_index_lexer *index,
+		t_shell *shell)
 {
 	t_token	*token;
 	char	*result;
-	
+
 	result = malloc(1);
 	if (!result)
 		return (-1);
 	result[0] = '\0';
 	token = NULL;
-	if(check_quote(str) == -1)
+	if (check_quote(str) == -1)
 		return (-1);
-	cut_quote(str,index,&result ,shell);
-	if(result[0] != '\0')
+	cut_quote(str, index, &result, shell);
+	if (result[0] != '\0')
 		token = create_token(result, WORD);
 	if (!token)
 		return (free(result), -1);
@@ -55,7 +56,6 @@ int	ft_redir(char *str, t_token **tokens_list, int *i)
 	t_token	*token;
 	char	*temp;
 
-	
 	token = NULL;
 	if (str[*i] == '<')
 	{

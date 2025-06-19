@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/19 09:37:22 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:52:34 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
 
 typedef struct s_env
 {
@@ -59,9 +58,9 @@ typedef struct s_cmd
 
 typedef struct s_index_lexer
 {
-	int i;
-	int j;
-}	t_index_lexer;
+	int				i;
+	int				j;
+}					t_index_lexer;
 
 typedef struct s_shell
 {
@@ -85,16 +84,15 @@ int					is_child_builtin(t_cmd *cmd);
 int					builtin_export_env(t_env *env);
 int					builtin_env(t_env *env, t_cmd *cmd);
 int					find_var_env(t_cmd *cmd, char **env, int *j);
-int 				checker_var_format(t_cmd *cmd, int i);
+int					checker_var_format(t_cmd *cmd, int i);
 
 // env
 t_env				*init_env(char **envp);
-char				**create_path(char **env_cpy);
-void				ft_get_path(t_env *env);
 int					add_in_env(char **origin_env, char **dest_env, int *i);
 char				*clean_str(char *str);
 
 // exec
+int					builtins_no_child(t_cmd *cmd, t_shell *shell);
 void				handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd);
 int					launch_execve(t_cmd *cmd, t_shell *shell);
 int					pipeline(t_shell *shell);
@@ -108,36 +106,63 @@ int					has_redirection(t_cmd *cmd);
 int					handle_redirection_only(t_cmd *cmd, t_shell *shell);
 char				*cat_path(char **all_path, int i, char *cmd);
 int					path_len(char *path_env, char *cmd);
-void				signal_and_single_redirect(t_cmd *cmd, t_shell *shell,int heredoc_fd);
+void				signal_and_single_redirect(t_cmd *cmd, t_shell *shell,
+						int heredoc_fd);
 void				redirect_choice_pipe(t_cmd *cmd, int *in_fd, int *pipefd);
-void 				redirect_choice_single(t_cmd *cmd,int heredoc_fd);
-void				signal_and_pipe_redirect(t_cmd *cmd,int *in_fd,t_shell *shell,int *pipefd);
-int 				checker_redirection_only(t_cmd *cmd,t_shell *shell, int *in_fd);
+void				redirect_choice_single(t_cmd *cmd, int heredoc_fd);
+void				signal_and_pipe_redirect(t_cmd *cmd, int *in_fd,
+						t_shell *shell, int *pipefd);
+int					checker_redirection_only(t_cmd *cmd, t_shell *shell,
+						int *in_fd);
+int					line_checker(char **line, t_shell *shell);
+int					loop_line_checker(char **line, t_shell *shell,
+						char **new_line, int *i);
+int					end_loop_heredoc(char **new_line, char **line, int *i);
+int					expand_last_exit(char **new_line, t_shell *shell, int *i);
+int					expand_heredoc(char **line, char **new_line, t_shell *shell,
+						int *i);
+char				*str_trim_nl(char *line);
+int					is_stop_word(char *line, char *stop_word);
+
 // lexer
 int					env_var_checker(char *str);
-void				cut_quote(char *str, t_index_lexer *index,char **result,
+void				cut_quote(char *str, t_index_lexer *index, char **result,
 						t_shell *t_shell);
 int					check_quote(char *str);
-int					find_quote(char *str, int *i, int *fisrt_quote,
-						int *last_quote);
-char				*loop_with_quote(char *str, int *i);
-char				*loop_without_quote(char *str, int *i);
 int					lexer(t_shell *shell);
 t_token				*create_token(char *str, t_token_type type);
 void				add_token(t_token **tokens_list, t_token *new_token);
-int					ft_read_word(t_token **tokens_list, char *str, t_index_lexer *index,
-						t_shell *shell);
+int					ft_read_word(t_token **tokens_list, char *str,
+						t_index_lexer *index, t_shell *shell);
 int					ft_pipe(t_token **tokens_list, int *i);
 int					ft_redir(char *str, t_token **tokens_list, int *i);
 int					ft_heredoc_or_append(char *str, t_token **tokens_list,
 						int *i);
-
+int					check_symbole_append_heredoc(char *str,
+						t_index_lexer *index);
+int					check_symbole_redirect(char *str, t_index_lexer *index);
+int					checker_special_symbole(t_token *current);
+int					check_char2(char *str, int i);
+char				*malloc_var_in_env(char *str, t_shell *shell,
+						t_index_lexer *index);
+int					add_in_str(char **result, char *var_in_env,
+						t_index_lexer *index);
+int					dollar_var_env(char **result, t_index_lexer *index,
+						char *str, t_shell *shell);
+int					start_loop(char *str, t_index_lexer *index, char **result,
+						t_shell *shell);
+void				end_loop(char **result, char *str, t_index_lexer *index);
+void				after_dollar_checker(t_index_lexer *index, char **result,
+						t_shell *shell);
+int					env_var_checker(char *str);
+int					check_quote(char *str);
+int					in_quote(char *str, t_index_lexer *index, char **result,
+						t_shell *shell);
 // parsing
 char				*find_str_in_env(t_env *env, char *str);
 int					for_redir(t_cmd *current, t_token *tokens_list);
 int					for_append(t_cmd *current, t_token *tokens_list);
 int					for_heredoc(t_cmd *current_cmd, t_token *current_token);
-int					for_pipe(t_cmd *current, t_token *tokens_list);
 int					command_checker(int *i, t_token **current_token,
 						t_cmd **current);
 t_cmd				*create_cmd(int count_elem);

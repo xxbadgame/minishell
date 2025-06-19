@@ -6,16 +6,15 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 11:49:09 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/16 12:46:01 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:07:03 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isalpha(int c)
 {
-	if(c == '?')
+	if (c == '?')
 		return (1);
-	if ((c >= 'A' && c <= 'Z')
-		|| (c >= 'a' && c <= 'z'))
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
 		return (1);
 	return (0);
 }

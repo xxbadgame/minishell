@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:27:44 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/18 13:10:53 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:35:57 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ static void	print_export_line(char **split, int equal_flag)
 	{
 		printf("export %s=\"\"\n", split[0]);
 		free_tab(split);
-		return;
+		return ;
 	}
 	if (!split[1])
 	{
 		printf("export %s\n", split[0]);
 		free_tab(split);
-		return;
+		return ;
 	}
 	printf("export %s=\"%s\"\n", split[0], split[1]);
 	free_tab(split);
@@ -79,11 +79,10 @@ int	builtin_export_env(t_env *env)
 		{
 			free_tab(split);
 			i++;
-			continue;
+			continue ;
 		}
 		print_export_line(split, equal_flag);
 		i++;
 	}
 	return (0);
 }
-

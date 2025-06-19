@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:40:23 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/16 13:27:36 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:08:10 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_atoi(char *str)
 {
-	int		result;
-	int		sign;
-	int		i;
+	int	result;
+	int	sign;
+	int	i;
 
 	i = 0;
 	sign = 1;
@@ -31,15 +31,10 @@ int	ft_atoi(char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if(INT_MAX / 10 > result)
-		{
-			result *= 10;
-			result += str[i] - 48;
-			i++;
-		}
+		if (INT_MAX / 10 > result)
+			result = (result * 10) + str[i++] - 48;
 		else
 			return (-1);
 	}
-	
 	return (result * sign);
 }

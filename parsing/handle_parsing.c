@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 10:37:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/15 07:11:15 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/19 12:39:47 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ char	*find_str_in_env(t_env *env, char *str)
 	while (env->env_cpy[i])
 	{
 		spl_var = ft_split(env->env_cpy[i], '=');
+		if (!spl_var)
+			return (NULL);
 		if (ft_strncmp(spl_var[0], str, ft_strlen(spl_var[0])) == 0
 			&& ft_strlen(spl_var[0]) == ft_strlen(str))
 		{
 			result = ft_strndup(spl_var[1], ft_strlen(spl_var[1]));
-			if(!result)
-				return(free_tab(spl_var),NULL);
+			if (!result)
+				return (free_tab(spl_var), NULL);
 			free_tab(spl_var);
 			return (result);
 		}

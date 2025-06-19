@@ -6,18 +6,18 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 09:14:19 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/19 09:59:47 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:57:27 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int has_redirection(t_cmd *cmd)
+int	has_redirection(t_cmd *cmd)
 {
 	return (cmd->infile || cmd->outfile || cmd->heredoc || cmd->append);
 }
 
-int checker_redirection_only(t_cmd *cmd,t_shell *shell, int *in_fd)
+int	checker_redirection_only(t_cmd *cmd, t_shell *shell, int *in_fd)
 {
 	if (cmd->cmd_args[0] == NULL && has_redirection(cmd))
 	{
@@ -29,10 +29,10 @@ int checker_redirection_only(t_cmd *cmd,t_shell *shell, int *in_fd)
 	return (1);
 }
 
-int is_append_or_not(t_cmd *cmd)
+int	is_append_or_not(t_cmd *cmd)
 {
-	int fd;
-	
+	int	fd;
+
 	if (cmd->outfile && cmd->append == 0)
 	{
 		fd = open(cmd->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -49,11 +49,13 @@ int is_append_or_not(t_cmd *cmd)
 	}
 	return (0);
 }
-int handle_redirection_only(t_cmd *cmd, t_shell *shell)
-{
-	int fd;
 
-	if(is_append_or_not(cmd) == -1)
+int	handle_redirection_only(t_cmd *cmd, t_shell *shell)
+{
+	int	fd;
+	int	heredoc_fd;
+
+	if (is_append_or_not(cmd) == -1)
 		return (-1);
 	if (cmd->infile && cmd->heredoc == 0)
 	{
@@ -64,7 +66,7 @@ int handle_redirection_only(t_cmd *cmd, t_shell *shell)
 	}
 	if (cmd->infile && cmd->heredoc == 1)
 	{
-		int heredoc_fd = heredoc(cmd->infile, shell);
+		heredoc_fd = heredoc(cmd->infile, shell);
 		if (heredoc_fd >= 0)
 			close(heredoc_fd);
 	}

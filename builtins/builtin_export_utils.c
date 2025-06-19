@@ -6,27 +6,27 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:00:41 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/18 13:06:19 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:35:47 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-int checker_var_format(t_cmd *cmd, int i)
+int	checker_var_format(t_cmd *cmd, int i)
 {
-	char **spl;
-	int j;
+	char	**spl;
+	int		j;
 
 	spl = ft_split(cmd->cmd_args[i], '=');
 	if (!spl || !spl[0])
 		return (-1);
 	j = 0;
 	if (!ft_isalpha(spl[0][j]) && spl[0][j] != '_')
-		return (free_tab(spl),-1);
+		return (free_tab(spl), -1);
 	while (spl[0][j])
 	{
 		if (!ft_isalnum(spl[0][j]) && spl[0][j] != '_')
-			return (free_tab(spl),-1);
+			return (free_tab(spl), -1);
 		j++;
 	}
 	free_tab(spl);

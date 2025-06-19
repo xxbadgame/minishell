@@ -6,13 +6,13 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/19 09:29:45 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:51:55 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-static int	single_builtins_no_child(t_cmd *cmd, t_shell *shell)
+int	builtins_no_child(t_cmd *cmd, t_shell *shell)
 {
 	if (ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0
 		&& ft_strlen(cmd->cmd_args[0]) == 4)
@@ -24,7 +24,7 @@ static int	single_builtins_no_child(t_cmd *cmd, t_shell *shell)
 		&& ft_strlen(cmd->cmd_args[0]) == 5)
 		return (builtin_unset(cmd, shell->env));
 	if (ft_strncmp(cmd->cmd_args[0], "cd", 2) == 0
-		&& ft_strlen(cmd->cmd_args[0]) == 2 )
+		&& ft_strlen(cmd->cmd_args[0]) == 2)
 		return (builtin_cd(cmd, shell->env));
 	return (1);
 }
@@ -60,7 +60,7 @@ void	redirect_choice_single(t_cmd *cmd, int heredoc_fd)
 {
 	if (cmd->heredoc == 1 && heredoc_fd != -1)
 	{
-		if(dup2(heredoc_fd, 0) == -1)
+		if (dup2(heredoc_fd, 0) == -1)
 			return ;
 		close(heredoc_fd);
 	}
@@ -75,11 +75,11 @@ void	redirect_choice_single(t_cmd *cmd, int heredoc_fd)
 int	exec_single_command(t_cmd *cmd, t_shell *shell)
 {
 	int	pid;
-	int heredoc_fd;
-	int builtin_no_child;
+	int	heredoc_fd;
+	int	builtin_no_child;
 
 	heredoc_fd = -1;
-	builtin_no_child = single_builtins_no_child(cmd, shell);
+	builtin_no_child = builtins_no_child(cmd, shell);
 	if (builtin_no_child == 0)
 		return (0);
 	else if (builtin_no_child == -1)

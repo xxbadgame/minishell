@@ -6,16 +6,16 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:32:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/18 12:02:48 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:40:55 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <limits.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
@@ -38,9 +38,9 @@ char	*ft_itoa(int n);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	print_error(char *prefix, char *arg, char *suffix);
-int	ft_isalpha(int c);
-int	ft_isnum(char *str);
-int	ft_atoi(char *str);
-int	ft_isalnum(int character);
+int		ft_isalpha(int c);
+int		ft_isnum(char *str);
+int		ft_atoi(char *str);
+int		ft_isalnum(int character);
 
 #endif

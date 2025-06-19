@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/18 12:52:33 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:39:51 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_cmd	*create_cmd(int count_elem)
 {
 	t_cmd	*new_cmd;
-	int i;
+	int		i;
 
 	i = 0;
 	new_cmd = malloc(sizeof(t_cmd));
@@ -44,10 +44,8 @@ int	count_elem_cmd(t_token *current_token)
 	count_elem = 0;
 	while (tmp && tmp->type != PIPE)
 	{
-		if (tmp->type == REDIR_APPEND 
-			|| tmp->type == REDIR_IN 
-			|| tmp->type == REDIR_OUT 
-			|| tmp->type == HEREDOC)
+		if (tmp->type == REDIR_APPEND || tmp->type == REDIR_IN
+			|| tmp->type == REDIR_OUT || tmp->type == HEREDOC)
 			tmp = tmp->next;
 		else
 			count_elem++;

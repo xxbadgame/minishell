@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/16 12:53:44 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:41:21 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ int	lexer_and_parsing(t_shell *shell)
 {
 	if (lexer(shell) == -1)
 		return (free_tokens(shell), -1);
-
 	if (parsing_token(shell) == -1)
 		return (free(shell->line), free_tokens(shell), free_cmds(shell), -1);
-	
 	return (0);
 }
 
@@ -74,14 +72,15 @@ int	loop_readline(t_shell *shell)
 	free(shell->line);
 	return (0);
 }
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-	
+
 	(void)argc;
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
-	if(!shell)
+	if (!shell)
 		return (-1);
 	shell->cmds = NULL;
 	shell->tokens = NULL;

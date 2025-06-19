@@ -6,7 +6,7 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/06/18 13:44:40 by engiusep         ###   ########.fr        #
+#    Updated: 2025/06/19 12:49:34 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,10 @@ RM = rm -f
 
 FILES = terminal.c \
 		lexer/lexer.c \
+		lexer/lexer_utils.c \
 		lexer/quote_utils.c \
+		lexer/quote_utils2.c \
+		lexer/quote_utils3.c \
 		lexer/symbol.c \
 		parsing/handle_parsing.c \
 		parsing/token_checker.c \
@@ -31,6 +34,8 @@ FILES = terminal.c \
 		exec/exec_utils2.c \
 		exec/redirect.c \
 		exec/redirect_utils.c \
+		exec/redirect_utils2.c \
+		exec/redirect_utils3.c \
 		exec/pipeline.c \
 		free/freedom.c \
 		builtins/builtin_cd.c \

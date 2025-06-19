@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/17 09:45:44 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:41:49 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ static void	handle_oldpwd(char *cwd, t_env *env)
 	free(cmd_2->cmd_args);
 	free(cmd_2);
 }
+
 static void	handle_pwd(t_env *env)
 {
 	t_cmd	*cmd_2;
-	char *temp;
-	
-	temp = getcwd(NULL,0);
-	if(!temp)
-		return;
+	char	*temp;
+
+	temp = getcwd(NULL, 0);
+	if (!temp)
+		return ;
 	cmd_2 = malloc(sizeof(t_cmd));
 	cmd_2->cmd_args = malloc(sizeof(char *) * 3);
 	cmd_2->cmd_args[0] = ft_strndup("export", 6);
@@ -52,10 +53,10 @@ static void	handle_pwd(t_env *env)
 
 static int	check_path_cmd(t_cmd *cmd)
 {
-	if(cmd->cmd_args[1] == NULL)
+	if (cmd->cmd_args[1] == NULL)
 		return (-1);
-	if(cmd->cmd_args[2] != NULL)
-		return (ft_putendl_fd("cd : to many arguments\n",2),-1);
+	if (cmd->cmd_args[2] != NULL)
+		return (ft_putendl_fd("cd : to many arguments\n", 2), -1);
 	if (cmd->cmd_args[1] != NULL)
 	{
 		if (cmd->cmd_args[1][0] == '/')
@@ -73,7 +74,7 @@ int	builtin_cd(t_cmd *cmd, t_env *env)
 	char	*cwd;
 	char	*new_path;
 	char	*temp;
-	
+
 	if (check_path_cmd(cmd) == -1)
 		return (-1);
 	else if (check_path_cmd(cmd) == 1)
@@ -82,7 +83,7 @@ int	builtin_cd(t_cmd *cmd, t_env *env)
 	handle_oldpwd(cwd, env);
 	new_path = ft_strjoin(cwd, "/");
 	if (!new_path)
-	return (free(cwd), -1);
+		return (free(cwd), -1);
 	temp = new_path;
 	if (cmd->cmd_args[1] != NULL)
 		new_path = ft_strjoin(temp, cmd->cmd_args[1]);

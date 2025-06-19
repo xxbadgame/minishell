@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/18 12:57:51 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:00:40 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	add_token(t_token **tokens_list, t_token *new_token)
 	return ;
 }
 
-int	conditional_lexer(t_token **tokens_list, char *str, t_index_lexer *index,
+static int	condi_lexer(t_token **tokens_list, char *str, t_index_lexer *index,
 		t_shell *shell)
 {
 	if (str[index->i] == ' ' || str[index->i] == '\t')
@@ -54,16 +54,12 @@ int	conditional_lexer(t_token **tokens_list, char *str, t_index_lexer *index,
 		if (ft_pipe(tokens_list, &index->i) == -1)
 			return (-1);
 	}
-	else if (str[index->i + 1] && ((str[index->i] == '<' && str[index->i
-				+ 1] != '<') || (str[index->i] == '>' && str[index->i
-				+ 1] != '>')))
+	else if (str[index->i + 1] && check_symbole_redirect(str, index) == 1)
 	{
 		if (ft_redir(str, tokens_list, &index->i) == -1)
 			return (-1);
 	}
-	else if (str[index->i + 1] && ((str[index->i] == '<' && str[index->i
-				+ 1] == '<') || (str[index->i] == '>' && str[index->i
-				+ 1] == '>')))
+	else if (str[index->i + 1] && check_symbole_append_heredoc(str, index) == 1)
 	{
 		if (ft_heredoc_or_append(str, tokens_list, &index->i) == -1)
 			return (-1);
@@ -87,11 +83,7 @@ static int	synthax_checker(t_shell *shell)
 	next = shell->tokens->next;
 	while (current)
 	{
-		if ((ft_strncmp(current->value, ">", 1) == 0)
-			|| (ft_strncmp(current->value, "<", 1) == 0)
-			|| (ft_strncmp(current->value, ">>", 2) == 0)
-			|| (ft_strncmp(current->value, "<<", 2) == 0)
-			|| (ft_strncmp(current->value, "|", 1) == 0))
+		if (checker_special_symbole(current) == 1)
 		{
 			if (!next)
 				return (-1);
@@ -114,8 +106,7 @@ int	lexer(t_shell *shell)
 	index.j = 0;
 	while (shell->line[index.i])
 	{
-		if (conditional_lexer(&(shell->tokens), shell->line, &index, shell) ==
-			-1)
+		if (condi_lexer(&(shell->tokens), shell->line, &index, shell) == -1)
 			return (-1);
 	}
 	if (shell->tokens == NULL)

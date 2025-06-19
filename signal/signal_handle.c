@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:47:31 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/19 09:31:16 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:40:01 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	handle_sigint(int sig)
 
 void	handle_sig_output(int *flag_stop, int status)
 {
-	int sig;
-	
+	int	sig;
+
 	if (WIFSIGNALED(status))
 	{
 		sig = WTERMSIG(status);
@@ -32,4 +32,3 @@ void	handle_sig_output(int *flag_stop, int status)
 			*flag_stop = 1;
 	}
 }
-
