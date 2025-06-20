@@ -15,12 +15,28 @@
 int	builtin_exit(t_shell *shell)
 {
 	printf("exit\n");
-	if (ft_isnum(shell->cmds->cmd_args[1])
+	if(!shell->cmds->cmd_args[1])
+	{
+		free(shell->line);
+		free_tokens(shell);
+		free_cmds(shell);
+		free_env(shell);
+		free(shell);
+		exit(shell->last_exit);
+	}
+	else if (ft_isnum(shell->cmds->cmd_args[1])
 		|| ft_atoi(shell->cmds->cmd_args[1]) == -1)
 	{
 		print_error("minishell: exit:", shell->cmds->cmd_args[1],
 			" numeric argument required\n");
 		shell->last_exit = 2;
+	}
+	else if(shell->cmds->cmd_args[2])
+	{
+		print_error("minishell: exit:", shell->cmds->cmd_args[1],
+			" too many argument\n");
+		shell->last_exit = 1;
+		
 	}
 	else
 		shell->last_exit = ft_atoi(shell->cmds->cmd_args[1]) % 256;
