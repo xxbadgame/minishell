@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/19 14:32:21 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:40:43 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ int	redirect_left(char *filename)
 {
 	int	fd;
 
+	if (access(filename, F_OK) != 0)
+	{
+		perror("redirect error");
+		return (-1);
+	}
 	fd = open(filename, O_RDONLY, 0644);
 	if (fd < 0)
 		return (-1);

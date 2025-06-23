@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/19 12:51:42 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:59:08 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,47 @@ static void	pipeline_exit_checker(t_shell *shell, int last_pid)
 		write(1, "\n", 1);
 }
 
-void	redirect_choice_pipe(t_cmd *cmd, int *in_fd, int *pipefd)
+int 	redirect_choice_pipe_infile(t_cmd *cmd, int *in_fd)
 {
 	if (cmd->heredoc == 1 && cmd->heredoc_fd != -1)
 	{
-		dup2(cmd->heredoc_fd, 0);
+		if (dup2(cmd->heredoc_fd, 0) == -1)
+			return (-1);
 		close(cmd->heredoc_fd);
 	}
 	else if (cmd->infile != NULL)
 		redirect_left(cmd->infile);
 	else if (*in_fd != 0)
 	{
-		dup2(*in_fd, 0);
+		if (dup2(*in_fd, 0) == -1)
+			return (-1);
 		close(*in_fd);
 	}
+	return (0);
+}
+
+int 	redirect_choice_pipe_outfile(t_cmd *cmd, int *in_fd, int *pipefd)
+{
+	if (redirect_choice_pipe_infile(cmd, in_fd) == -1)
+		return (-1);
 	if (cmd->outfile && cmd->append == 0)
-		redirect_right(cmd->outfile);
+	{	
+		if (redirect_right(cmd->outfile) == -1)
+			return (-1);
+	}
 	else if (cmd->outfile && cmd->append == 1)
-		double_redirect_right(cmd->outfile);
+	{	
+		if (double_redirect_right(cmd->outfile) == -1)
+			return (-1);
+	}
 	else if (cmd->next)
 	{
-		dup2(pipefd[1], 1);
+		if (dup2(pipefd[1], 1) == -1)
+			return (-1);
 		close(pipefd[1]);
 		close(pipefd[0]);
 	}
+	return (0);
 }
 
 int	no_child_pipe(t_cmd *cmd, t_shell *shell, int *pipefd, int *in_fd)
@@ -108,7 +125,10 @@ static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
 	{
 		*pid = fork();
 		if (*pid == 0)
-			signal_and_pipe_redirect(cmd, in_fd, shell, pipefd);
+		{
+			if(signal_and_pipe_redirect(cmd, in_fd, shell, pipefd) == -1)
+				return (-1);
+		}
 		return (handle_next_pipe(in_fd, cmd, pipefd), *pid);
 	}
 	return (0);
@@ -130,6 +150,8 @@ int	pipeline(t_shell *shell)
 		if (checker_redirection_only(cmd, shell, &in_fd) == 0)
 			return (0);
 		last_pid = pipe_loop(shell, cmd, &pid, &in_fd);
+		if (last_pid == -1)
+			return (-1);
 		cmd = cmd->next;
 	}
 	if (in_fd != 0)

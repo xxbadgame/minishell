@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/19 15:11:03 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 09:55:56 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	condi_lexer(t_token **tokens_list, char *str, t_index_lexer *index,
 		(index->i)++;
 	else if (str[index->i] == '|')
 	{
-		if (ft_pipe(tokens_list, &index->i) == -1)
+		if (ft_pipe(tokens_list, index) == -1)
 			return (-1);
 	}
 	else if (str[index->i + 1] && check_symbole_redirect(str, index) == 1)
