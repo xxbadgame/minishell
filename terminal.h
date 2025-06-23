@@ -98,7 +98,7 @@ int					no_child_pipe(t_cmd *cmd, t_shell *shell, int *pipefd,
 void				single_exit_checker(t_shell *shell);
 void				check_end_exec(t_shell *shell, int heredoc_fd);
 int					builtins_no_child(t_cmd *cmd, t_shell *shell);
-void				handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd);
+void			handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd);
 int					launch_execve(t_cmd *cmd, t_shell *shell);
 int					pipeline(t_shell *shell);
 int					exec_single_command(t_cmd *cmd, t_shell *shell);

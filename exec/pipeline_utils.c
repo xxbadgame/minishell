@@ -27,7 +27,15 @@ int	pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 		if (cmd->pid == 0)
 		{
 			if (signal_and_pipe_redirect(cmd, in_fd, shell, pipefd) == -1)
-				return (handle_next_pipe(in_fd, cmd, pipefd), -1);
+			{
+				handle_next_pipe(in_fd, cmd, pipefd);
+				free(shell->line);
+				free_tokens(shell);
+				free_cmds(shell);
+				free_env(shell);
+				free(shell);
+				exit(EXIT_SUCCESS);
+			}
 		}
 		return (handle_next_pipe(in_fd, cmd, pipefd), cmd->pid);
 	}
@@ -57,6 +65,13 @@ int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell, int *pipefd)
 	return (0);
 }
 
+void	close_fd_exit(int *pipefd, int in_fd)
+{
+	close(pipefd[1]);
+	close(pipefd[0]);
+	if (in_fd != 0)
+		close(in_fd);
+}
 int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 {
 	int	redirect_only;
@@ -83,10 +98,3 @@ int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 	return (last_pid);
 }
 
-void	close_fd_exit(int *pipefd, int in_fd)
-{
-	close(pipefd[1]);
-	close(pipefd[0]);
-	if (in_fd != 0)
-		close(in_fd);
-}

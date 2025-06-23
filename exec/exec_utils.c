@@ -101,4 +101,9 @@ void	handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd)
 		close(pipefd[1]);
 		*in_fd = pipefd[0];
 	}
+	else
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+	}
 }
