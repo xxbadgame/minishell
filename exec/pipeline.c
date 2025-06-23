@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/23 10:59:08 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:34:33 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	pipeline_exit_checker(t_shell *shell, int last_pid)
 		write(1, "\n", 1);
 }
 
-int 	redirect_choice_pipe_infile(t_cmd *cmd, int *in_fd)
+int	redirect_choice_pipe_infile(t_cmd *cmd, int *in_fd)
 {
 	if (cmd->heredoc == 1 && cmd->heredoc_fd != -1)
 	{
@@ -59,17 +59,17 @@ int 	redirect_choice_pipe_infile(t_cmd *cmd, int *in_fd)
 	return (0);
 }
 
-int 	redirect_choice_pipe_outfile(t_cmd *cmd, int *in_fd, int *pipefd)
+int	redirect_choice_pipe_outfile(t_cmd *cmd, int *in_fd, int *pipefd)
 {
 	if (redirect_choice_pipe_infile(cmd, in_fd) == -1)
 		return (-1);
 	if (cmd->outfile && cmd->append == 0)
-	{	
+	{
 		if (redirect_right(cmd->outfile) == -1)
 			return (-1);
 	}
 	else if (cmd->outfile && cmd->append == 1)
-	{	
+	{
 		if (double_redirect_right(cmd->outfile) == -1)
 			return (-1);
 	}
@@ -107,53 +107,22 @@ int	no_child_pipe(t_cmd *cmd, t_shell *shell, int *pipefd, int *in_fd)
 	return (1);
 }
 
-static int	pipe_loop(t_shell *shell, t_cmd *cmd, int *pid, int *in_fd)
-{
-	int	pipefd[2];
-	int	flag_no_child_pipe;
-
-	if (cmd->heredoc == 1)
-		cmd->heredoc_fd = heredoc(cmd->infile, shell);
-	if (cmd->next)
-		pipe(pipefd);
-	flag_no_child_pipe = no_child_pipe(cmd, shell, pipefd, in_fd);
-	if (flag_no_child_pipe == 0)
-		return (0);
-	else if (flag_no_child_pipe == -1)
-		return (-1);
-	else
-	{
-		*pid = fork();
-		if (*pid == 0)
-		{
-			if(signal_and_pipe_redirect(cmd, in_fd, shell, pipefd) == -1)
-				return (-1);
-		}
-		return (handle_next_pipe(in_fd, cmd, pipefd), *pid);
-	}
-	return (0);
-}
-
 int	pipeline(t_shell *shell)
 {
-	int		pid;
 	int		last_pid;
 	int		in_fd;
 	t_cmd	*cmd;
+	int		pipefd[2];
 
-	pid = 0;
 	last_pid = 0;
 	in_fd = 0;
 	cmd = shell->cmds;
-	while (cmd)
-	{
-		if (checker_redirection_only(cmd, shell, &in_fd) == 0)
-			return (0);
-		last_pid = pipe_loop(shell, cmd, &pid, &in_fd);
-		if (last_pid == -1)
-			return (-1);
-		cmd = cmd->next;
-	}
+	cmd->pid = 0;
+	if (check_all_arg_for_heredoc(cmd, shell, pipefd) == -1)
+		return (close_fd_exit(pipefd, in_fd), -1);
+	last_pid = exec_pipeline(cmd, pipefd, shell, &in_fd);
+	if (last_pid == -1)
+		return (close_fd_exit(pipefd, in_fd), -1);
 	if (in_fd != 0)
 		close(in_fd);
 	signal(SIGINT, SIG_IGN);

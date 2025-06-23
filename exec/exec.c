@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/23 11:04:55 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:58:40 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,19 @@ int	redirect_choice_single(t_cmd *cmd, int heredoc_fd)
 	else if (cmd->infile != NULL && cmd->heredoc == 0)
 	{
 		if (redirect_left(cmd->infile) == -1)
-			return(-1);
-	}		
+			return (-1);
+	}
 	if (cmd->outfile != NULL && cmd->append == 0)
 	{
 		if (redirect_right(cmd->outfile) == -1)
-			return(-1);
-	}		
+			return (-1);
+	}
 	else if (cmd->outfile != NULL && cmd->append == 1)
 	{
 		if (double_redirect_right(cmd->outfile) == -1)
-			return(-1);
-	}		
-	return(0);
+			return (-1);
+	}
+	return (0);
 }
 
 int	exec_single_command(t_cmd *cmd, t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/19 13:02:46 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:38:20 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	in_quote(char *str, t_index_lexer *index, char **result, t_shell *shell)
 				after_dollar_checker(index, result, shell);
 			else if (str[index->i] == '$' && ft_isalpha(str[index->i + 1]) == 0)
 				index->i += 2;
-			else if (str[index->i] == '$' && env_var_checker(str
-					+ index->i) != 0)
+			else if (str[index->i] == '$'
+				&& env_var_checker(str + index->i) != 0)
 			{
 				if (in_quote_var_env(result, shell, index, str) == 1)
 					continue ;

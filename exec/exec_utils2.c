@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 13:43:16 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/23 11:04:04 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:35:15 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*cat_path(char **all_path, int i, char *cmd)
 	return (path);
 }
 
-void check_end_exec(t_shell *shell, int heredoc_fd)
+void	check_end_exec(t_shell *shell, int heredoc_fd)
 {
 	if (heredoc_fd != -1)
 		close(heredoc_fd);

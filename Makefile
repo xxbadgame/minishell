@@ -6,7 +6,7 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/06/19 12:49:34 by engiusep         ###   ########.fr        #
+#    Updated: 2025/06/23 15:30:28 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ FILES = terminal.c \
 		exec/redirect_utils2.c \
 		exec/redirect_utils3.c \
 		exec/pipeline.c \
+		exec/pipeline_utils.c \
 		free/freedom.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_env.c \

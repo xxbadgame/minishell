@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/23 11:07:19 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:35:31 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ int	launch_execve(t_cmd *cmd, t_shell *shell)
 		execve(cmd->cmd_args[0], cmd->cmd_args, shell->env->env_cpy);
 		perror("exec failed");
 		clean_and_exit(shell, path, 126);
-		// shell->last_exit = 126;
-		// return (-1);
 	}
 	else if (cmd->cmd_args[0])
 	{
@@ -84,14 +82,11 @@ int	launch_execve(t_cmd *cmd, t_shell *shell)
 		{
 			execve(path, cmd->cmd_args, shell->env->env_cpy);
 			perror("exec failed");
-			// shell->last_exit = 126;
-			// return (-1);
 			clean_and_exit(shell, path, 126);
 		}
 	}
 	print_error("minishell: ", cmd->cmd_args[0], ": command not found\n");
 	clean_and_exit(shell, path, 127);
-	// shell->last_exit = 127;
 	return (-1);
 }
 

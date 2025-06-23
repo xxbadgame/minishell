@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 09:14:19 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/19 12:57:27 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:34:45 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	has_redirection(t_cmd *cmd)
 	return (cmd->infile || cmd->outfile || cmd->heredoc || cmd->append);
 }
 
-int	checker_redirection_only(t_cmd *cmd, t_shell *shell, int *in_fd)
+int	checker_redirection_only(t_cmd *cmd, int *in_fd)
 {
+	(void)in_fd;
 	if (cmd->cmd_args[0] == NULL && has_redirection(cmd))
 	{
-		handle_redirection_only(cmd, shell);
-		if (*in_fd != 0)
-			close(*in_fd);
+		if (handle_redirection_only(cmd) == -1)
+			return (-1);
 		return (0);
 	}
 	return (1);
@@ -50,10 +50,9 @@ int	is_append_or_not(t_cmd *cmd)
 	return (0);
 }
 
-int	handle_redirection_only(t_cmd *cmd, t_shell *shell)
+int	handle_redirection_only(t_cmd *cmd)
 {
 	int	fd;
-	int	heredoc_fd;
 
 	if (is_append_or_not(cmd) == -1)
 		return (-1);
@@ -63,12 +62,6 @@ int	handle_redirection_only(t_cmd *cmd, t_shell *shell)
 		if (fd < 0)
 			return (perror("open infile"), -1);
 		close(fd);
-	}
-	if (cmd->infile && cmd->heredoc == 1)
-	{
-		heredoc_fd = heredoc(cmd->infile, shell);
-		if (heredoc_fd >= 0)
-			close(heredoc_fd);
 	}
 	return (0);
 }

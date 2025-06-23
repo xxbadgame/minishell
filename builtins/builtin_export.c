@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:17:46 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/18 13:06:03 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:28:42 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int	builtin_export(t_cmd *cmd, t_env *env)
 	nb_var = 0;
 	if (!cmd->cmd_args[1])
 		return (builtin_export_env(env), 0);
+	if (cmd->cmd_args[1][0] == '\0')
+		return (ft_putendl_fd("export: `': not a valid identifier", 2), 0);
 	nb_var = count_add_var(cmd, env);
 	new_env = malloc(sizeof(char *) * (tab_len(env->env_cpy) + 1 + nb_var));
 	if (!new_env)

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/19 12:41:21 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:53:28 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,28 @@ int	lexer_and_parsing(t_shell *shell)
 	return (0);
 }
 
+int	exec_no_pipelines(t_cmd *cmd, t_shell *shell)
+{
+	if (cmd->cmd_args[0] == NULL && has_redirection(cmd))
+	{
+		if (cmd->heredoc == 1)
+		{
+			cmd->heredoc_fd = heredoc(cmd->infile, shell);
+			if (cmd->heredoc_fd == -1)
+				return (-1);
+		}
+		else
+		{
+			if (handle_redirection_only(cmd) == -1)
+				return (-1);
+		}
+		return (0);
+	}
+	if (exec_single_command(cmd, shell) == -1)
+		return (free_tokens(shell), free_cmds(shell), -1);
+	return (0);
+}
+
 int	exec(t_shell *shell)
 {
 	t_cmd	*cmd;
@@ -29,16 +51,14 @@ int	exec(t_shell *shell)
 		return (-1);
 	cmd = shell->cmds;
 	if (cmd->next != NULL)
-		pipeline(shell);
+	{
+		if (pipeline(shell) == -1)
+			return (-1);
+	}
 	else
 	{
-		if (cmd->cmd_args[0] == NULL && has_redirection(cmd))
-		{
-			handle_redirection_only(cmd, shell);
-			return (0);
-		}
-		if (exec_single_command(cmd, shell) == -1)
-			return (free_tokens(shell), free_cmds(shell), -1);
+		if (exec_no_pipelines(cmd, shell) == -1)
+			return (-1);
 	}
 	return (0);
 }
@@ -60,12 +80,13 @@ int	loop_readline(t_shell *shell)
 		free_env(shell);
 		free(shell);
 		write(2, "exit\n", 5);
-		exit(1);
+		exit(0);
 	}
 	if ((*shell->line) != '\0')
 	{
 		add_history(shell->line);
-		exec(shell);
+		if (exec(shell) == -1)
+			return (-1);
 	}
 	free_tokens(shell);
 	free_cmds(shell);
@@ -92,7 +113,10 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
-		loop_readline(shell);
+	{
+		if (loop_readline(shell) == -1)
+			return (free_env(shell), free(shell), clear_history(), -1);
+	}
 	free_env(shell);
 	free(shell);
 	clear_history();

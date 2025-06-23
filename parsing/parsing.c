@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/19 12:39:51 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:07:14 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_cmd	*create_cmd(int count_elem)
 	new_cmd->infile = NULL;
 	new_cmd->next = NULL;
 	new_cmd->outfile = NULL;
+	new_cmd->pid = 0;
 	return (new_cmd);
 }
 
