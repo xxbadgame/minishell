@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/23 14:53:28 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:48:55 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		if (loop_readline(shell) == -1)
-			return (free_env(shell), free(shell), clear_history(), -1);
+			return (free_cmds(shell), free_tokens(shell),free_env(shell), free(shell), clear_history(), -1);
 	}
 	free_env(shell);
 	free(shell);
