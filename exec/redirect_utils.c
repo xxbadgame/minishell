@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 09:14:19 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/23 15:34:45 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:25:08 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ int	has_redirection(t_cmd *cmd)
 	return (cmd->infile || cmd->outfile || cmd->heredoc || cmd->append);
 }
 
-int	checker_redirection_only(t_cmd *cmd, int *in_fd)
+int	checker_redirection_only(t_cmd *cmd, int *in_fd, t_shell *shell)
 {
 	(void)in_fd;
 	if (cmd->cmd_args[0] == NULL && has_redirection(cmd))
 	{
-		if (handle_redirection_only(cmd) == -1)
+		if (handle_redirection_only(cmd, shell) == -1)
 			return (-1);
 		return (0);
 	}
@@ -50,7 +50,7 @@ int	is_append_or_not(t_cmd *cmd)
 	return (0);
 }
 
-int	handle_redirection_only(t_cmd *cmd)
+int	handle_redirection_only(t_cmd *cmd, t_shell *shell)
 {
 	int	fd;
 
@@ -62,6 +62,12 @@ int	handle_redirection_only(t_cmd *cmd)
 		if (fd < 0)
 			return (perror("open infile"), -1);
 		close(fd);
+	}
+	if (cmd->next == NULL)
+	{
+		if (cmd->heredoc_fd)
+			close(cmd->heredoc);
+		clean_and_exit(shell, 0);
 	}
 	return (0);
 }

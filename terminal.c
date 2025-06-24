@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/24 11:00:33 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/24 15:22:10 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	exec_no_pipelines(t_cmd *cmd, t_shell *shell)
 		}
 		else
 		{
-			if (handle_redirection_only(cmd) == -1)
+			if (handle_redirection_only(cmd, shell) == -1)
 				return (-1);
 		}
 		return (0);

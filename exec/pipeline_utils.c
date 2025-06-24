@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/24 15:02:59 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/24 15:19:39 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 			if (pipe(pipefd) == -1)
 				return (-1);
 		}
-		redirect_only = checker_redirection_only(cmd, in_fd);
+		redirect_only = checker_redirection_only(cmd, in_fd, shell);
 		if (redirect_only == 0)
 		{
 			handle_next_pipe(in_fd, cmd, pipefd);

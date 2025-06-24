@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:57:37 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/23 14:04:47 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:14:36 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ static void	print_echo_args(t_cmd *cmd, int i, int min_index)
 	while (cmd->cmd_args[i])
 	{
 		if (i > min_index)
-			printf(" %s", cmd->cmd_args[i++]);
-		else
-			printf("%s", cmd->cmd_args[i++]);
+			if (write(1, " ", 1) == -1)
+				return;
+		if (write(1, cmd->cmd_args[i], strlen(cmd->cmd_args[i])) == -1)
+			return;
+		i++;
 	}
 }
 
@@ -30,7 +32,7 @@ int	builtin_echo(t_cmd *cmd)
 	i = 1;
 	if (!cmd->cmd_args[1])
 	{
-		printf("\n");
+		write(1, "\n", 1);
 		return (0);
 	}
 	if (ft_strncmp(cmd->cmd_args[1], "-n", 2) == 0 && i++)
@@ -38,7 +40,7 @@ int	builtin_echo(t_cmd *cmd)
 	else
 	{
 		print_echo_args(cmd, i, 1);
-		printf("\n");
+		write(1, "\n", 1);
 	}
 	return (0);
 }
