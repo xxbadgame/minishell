@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 13:43:16 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/23 15:35:15 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:21:25 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	signal_and_pipe_redirect(t_cmd *cmd, int *in_fd, t_shell *shell,
 	signal(SIGQUIT, SIG_DFL);
 	if (redirect_choice_pipe_outfile(cmd, in_fd, pipefd) == -1)
 		return (-1);
-	if (exec_choice(cmd, shell) == -1)
-		return (-1);
+	exec_choice(cmd, shell);
 	return (0);
 }
 
@@ -30,8 +29,7 @@ int	signal_and_single_redirect(t_cmd *cmd, t_shell *shell, int heredoc_fd)
 	signal(SIGQUIT, SIG_DFL);
 	if (redirect_choice_single(cmd, heredoc_fd) == -1)
 		return (-1);
-	if (exec_choice(cmd, shell) == -1)
-		return (-1);
+	exec_choice(cmd, shell);
 	return (0);
 }
 

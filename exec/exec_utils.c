@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/24 08:32:42 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/24 11:16:29 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ static char	*get_path_command(char *cmd, t_env *env)
 	return (NULL);
 }
 
-void	clean_and_exit(t_shell *shell, char *path, int status)
+void	clean_and_exit(t_shell *shell, int status)
 {
-	if (path)
-		free(path);
 	free(shell->line);
 	free_tokens(shell);
 	free_cmds(shell);
@@ -73,7 +71,7 @@ int	launch_execve(t_cmd *cmd, t_shell *shell)
 	{
 		execve(cmd->cmd_args[0], cmd->cmd_args, shell->env->env_cpy);
 		perror("exec failed");
-		clean_and_exit(shell, path, 126);
+		clean_and_exit(shell, 126);
 	}
 	else if (cmd->cmd_args[0])
 	{
@@ -82,11 +80,15 @@ int	launch_execve(t_cmd *cmd, t_shell *shell)
 		{
 			execve(path, cmd->cmd_args, shell->env->env_cpy);
 			perror("exec failed");
-			clean_and_exit(shell, path, 126);
+			if (path)
+				free(path);
+			clean_and_exit(shell, 126);
 		}
 	}
 	print_error("minishell: ", cmd->cmd_args[0], ": command not found\n");
-	clean_and_exit(shell, path, 127);
+	if (path)
+		free(path);
+	clean_and_exit(shell, 127);
 	return (-1);
 }
 

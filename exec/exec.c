@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/23 14:58:40 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:17:01 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ void	single_exit_checker(t_shell *shell)
 int	exec_choice(t_cmd *cmd, t_shell *shell)
 {
 	if (is_builtin(cmd) == 0)
-	{
-		if (launch_execve(cmd, shell) == -1)
-			return (-1);
-	}
+		launch_execve(cmd, shell);
 	else
 		exec_builtin(cmd, shell);
 	return (0);

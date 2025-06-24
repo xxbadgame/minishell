@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/24 08:58:59 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/24 11:47:11 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	close_fd_exit(int *pipefd, int in_fd)
 		close(in_fd);
 }
 
-int	pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
+int pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 {
 	int	flag_no_child_pipe;
 
@@ -29,26 +29,30 @@ int	pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 		return (0);
 	else if (flag_no_child_pipe == -1)
 		return (-1);
-	else
+
+	cmd->pid = fork();
+	if (cmd->pid < 0)
 	{
-		cmd->pid = fork();
-		if (cmd->pid == 0)
-		{
-			if (signal_and_pipe_redirect(cmd, in_fd, shell, pipefd) == -1)
-			{
-				close_fd_exit(pipefd, *in_fd);
-				free(shell->line);
-				free_tokens(shell);
-				free_cmds(shell);
-				free_env(shell);
-				free(shell);
-				exit(EXIT_SUCCESS);
-			}
-		}
-		return (handle_next_pipe(in_fd, cmd, pipefd), cmd->pid);
+		perror("fork");
+		return (-1);
 	}
-	return (0);
+	if (cmd->pid == 0)
+	{
+		if (signal_and_pipe_redirect(cmd, in_fd, shell, pipefd) == -1)
+		{
+			close_fd_exit(pipefd, *in_fd);
+			free(shell->line);
+			free_tokens(shell);
+			free_cmds(shell);
+			free_env(shell);
+			free(shell);
+			exit(EXIT_FAILURE);
+		}
+	}
+	handle_next_pipe(in_fd, cmd, pipefd);
+	return (cmd->pid);
 }
+
 
 int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 {

@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/24 08:46:39 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/24 11:18:17 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ char				*clean_str(char *str);
 // exec
 int					no_child_pipe(t_cmd *cmd, t_shell *shell, int *pipefd,
 						int *in_fd);
+void	clean_and_exit(t_shell *shell, int status);
 void				single_exit_checker(t_shell *shell);
 void				check_end_exec(t_shell *shell, int heredoc_fd);
 int					builtins_no_child(t_cmd *cmd, t_shell *shell);
