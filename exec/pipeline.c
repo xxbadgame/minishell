@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/23 15:34:33 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/24 08:46:51 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	pipeline(t_shell *shell)
 	in_fd = 0;
 	cmd = shell->cmds;
 	cmd->pid = 0;
-	if (check_all_arg_for_heredoc(cmd, shell, pipefd) == -1)
+	if (check_all_arg_for_heredoc(cmd, shell) == -1)
 		return (close_fd_exit(pipefd, in_fd), -1);
 	last_pid = exec_pipeline(cmd, pipefd, shell, &in_fd);
 	if (last_pid == -1)

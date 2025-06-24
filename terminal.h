@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/23 15:34:16 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/24 08:46:39 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,7 @@ char				*str_trim_nl(char *line);
 int					is_stop_word(char *line, char *stop_word);
 int					pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd,
 						int *pipefd);
-int					check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell,
-						int *pipefd);
+int					check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell);
 int					exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell,
 						int *in_fd);
 void				close_fd_exit(int *pipefd, int in_fd);

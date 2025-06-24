@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/23 15:35:25 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/24 08:46:18 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
+
+void	close_fd_exit(int *pipefd, int in_fd)
+{
+	close(pipefd[1]);
+	close(pipefd[0]);
+	if (in_fd != 0)
+		close(in_fd);
+}
 
 int	pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 {
@@ -28,7 +36,7 @@ int	pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 		{
 			if (signal_and_pipe_redirect(cmd, in_fd, shell, pipefd) == -1)
 			{
-				handle_next_pipe(in_fd, cmd, pipefd);
+				close_fd_exit(pipefd, *in_fd);
 				free(shell->line);
 				free_tokens(shell);
 				free_cmds(shell);
@@ -42,18 +50,13 @@ int	pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 	return (0);
 }
 
-int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell, int *pipefd)
+int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 {
 	t_cmd	*tmp;
 
 	tmp = cmd;
 	while (tmp)
 	{
-		if (tmp->next)
-		{
-			if (pipe(pipefd) == -1)
-				return (-1);
-		}
 		if (tmp->heredoc == 1)
 		{
 			tmp->heredoc_fd = heredoc(tmp->infile, shell);
@@ -64,14 +67,6 @@ int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell, int *pipefd)
 	}
 	return (0);
 }
-
-void	close_fd_exit(int *pipefd, int in_fd)
-{
-	close(pipefd[1]);
-	close(pipefd[0]);
-	if (in_fd != 0)
-		close(in_fd);
-}
 int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 {
 	int	redirect_only;
@@ -81,6 +76,11 @@ int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 	redirect_only = 0;
 	while (cmd)
 	{
+		if (cmd->next)
+		{
+			if (pipe(pipefd) == -1)
+				return (-1);
+		}
 		redirect_only = checker_redirection_only(cmd, in_fd);
 		if (redirect_only == 0)
 		{
