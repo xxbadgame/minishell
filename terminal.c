@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/24 10:48:55 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/24 11:00:33 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,12 @@ int	loop_readline(t_shell *shell)
 	{
 		add_history(shell->line);
 		if (exec(shell) == -1)
+		{
+			free_tokens(shell);
+			free_cmds(shell);
+			free(shell->line);
 			return (-1);
+		}
 	}
 	free_tokens(shell);
 	free_cmds(shell);
@@ -115,7 +120,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		if (loop_readline(shell) == -1)
-			return (free_cmds(shell), free_tokens(shell),free_env(shell), free(shell), clear_history(), -1);
+			return (free_env(shell), free(shell), clear_history(), -1);
 	}
 	free_env(shell);
 	free(shell);
