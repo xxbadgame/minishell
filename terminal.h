@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/24 15:21:46 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/24 15:50:58 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int					double_redirect_right(char *filename);
 int					redirect_left(char *filename);
 int					heredoc(char *stop_word, t_shell *shell);
 int					has_redirection(t_cmd *cmd);
-int					handle_redirection_only(t_cmd *cmd, t_shell *shell);
+int					handle_redirection_only(t_cmd *cmd);
 char				*cat_path(char **all_path, int i, char *cmd);
 int					path_len(char *path_env, char *cmd);
 int					signal_and_single_redirect(t_cmd *cmd, t_shell *shell,
@@ -119,7 +119,7 @@ int					redirect_choice_pipe_outfile(t_cmd *cmd, int *in_fd,
 int					redirect_choice_single(t_cmd *cmd, int heredoc_fd);
 int					signal_and_pipe_redirect(t_cmd *cmd, int *in_fd,
 						t_shell *shell, int *pipefd);
-int					checker_redirection_only(t_cmd *cmd, int *in_fd, t_shell *shell);
+int					checker_redirection_only(t_cmd *cmd);
 int					line_checker(char **line, t_shell *shell);
 int					loop_line_checker(char **line, t_shell *shell,
 						char **new_line, int *i);

@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/24 15:19:39 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/24 16:02:04 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,10 @@ int pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 	{
 		if (signal_and_pipe_redirect(cmd, in_fd, shell, pipefd) == -1)
 		{
-			close_fd_exit(pipefd, *in_fd);
-			free(shell->line);
-			free_tokens(shell);
-			free_cmds(shell);
-			free_env(shell);
-			free(shell);
-			exit(EXIT_FAILURE);
+			//close_fd_exit(pipefd, *in_fd);
+			//clean_and_exit(shell, 1);
+			//return(-1);
+			printf("jamais ici\n");
 		}
 	}
 	handle_next_pipe(in_fd, cmd, pipefd);
@@ -66,6 +63,8 @@ int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 			tmp->heredoc_fd = heredoc(tmp->infile, shell);
 			if (tmp->heredoc_fd == -1)
 				return (-1);
+			if (tmp->next == NULL)
+				close(tmp->heredoc_fd);
 		}
 		tmp = tmp->next;
 	}
@@ -85,7 +84,7 @@ int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 			if (pipe(pipefd) == -1)
 				return (-1);
 		}
-		redirect_only = checker_redirection_only(cmd, in_fd, shell);
+		redirect_only = checker_redirection_only(cmd);
 		if (redirect_only == 0)
 		{
 			handle_next_pipe(in_fd, cmd, pipefd);
