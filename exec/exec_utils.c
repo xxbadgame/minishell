@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/24 11:16:29 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/25 16:19:42 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ int	launch_execve(t_cmd *cmd, t_shell *shell)
 	print_error("minishell: ", cmd->cmd_args[0], ": command not found\n");
 	if (path)
 		free(path);
-	clean_and_exit(shell, 127);
-	return (-1);
+	return (clean_and_exit(shell, 127), -1);
 }
 
 void	handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd)

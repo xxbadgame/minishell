@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:57:37 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/24 15:14:36 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/25 10:42:59 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static void	print_echo_args(t_cmd *cmd, int i, int min_index)
 	{
 		if (i > min_index)
 			if (write(1, " ", 1) == -1)
-				return;
+				return ;
 		if (write(1, cmd->cmd_args[i], strlen(cmd->cmd_args[i])) == -1)
-			return;
+			return ;
 		i++;
 	}
 }

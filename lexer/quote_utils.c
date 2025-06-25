@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/23 15:38:20 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:55:59 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,27 @@ int	in_quote(char *str, t_index_lexer *index, char **result, t_shell *shell)
 int	check_char(char *str, int i)
 {
 	if (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '>'
-		&& str[i] != '<' && ft_strncmp(str + i, ">>", 2) != 0 && ft_strncmp(str
-			+ i, "<<", 2) != 0)
+		&& str[i] != '<' && ft_strncmp(str + i, ">>", 2) != 0
+		&& ft_strncmp(str + i, "<<", 2) != 0)
 		return (1);
 	return (0);
+}
+
+void	end_loop2(char **result, char *str, t_index_lexer *index)
+{
+	char	*temp;
+
+	if (str[index->i] == ';')
+	{
+		index->i++;
+		return ;
+	}
+	temp = (*result);
+	(*result) = ft_joinchar(temp, str[index->i]);
+	if (!(*result))
+		return ;
+	free(temp);
+	index->i++;
 }
 
 void	cut_quote(char *str, t_index_lexer *index, char **result,
@@ -103,6 +120,6 @@ void	cut_quote(char *str, t_index_lexer *index, char **result,
 				break ;
 		}
 		else
-			end_loop(result, str, index);
+			end_loop2(result, str, index);
 	}
 }

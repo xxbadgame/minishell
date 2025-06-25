@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/24 16:56:58 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/25 16:44:55 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	close_fd_exit(int *pipefd, int in_fd)
 		close(in_fd);
 }
 
-int pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
+int	pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 {
 	int	flag_no_child_pipe;
 
@@ -29,7 +29,6 @@ int pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 		return (0);
 	else if (flag_no_child_pipe == -1)
 		return (-1);
-
 	cmd->pid = fork();
 	if (cmd->pid < 0)
 	{
@@ -39,17 +38,11 @@ int pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 	if (cmd->pid == 0)
 	{
 		if (signal_and_pipe_redirect(cmd, in_fd, shell, pipefd) == -1)
-		{
-			//close_fd_exit(pipefd, *in_fd);
-			//clean_and_exit(shell, 1);
-			//return(-1);
-			printf("jamais ici\n");
-		}
+			return (-1);
 	}
 	handle_next_pipe(in_fd, cmd, pipefd);
 	return (cmd->pid);
 }
-
 
 int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 {
@@ -70,29 +63,73 @@ int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 	}
 	return (0);
 }
+
+int	creat_pipe(int *pipefd, t_cmd *cmd)
+{
+	if (cmd->next != NULL && cmd->cmd_args[0] != NULL
+		&& cmd->next->cmd_args[0] != NULL)
+	{
+		if (pipe(pipefd) == -1)
+			return (-1);
+	}
+	else if (cmd->next == NULL && cmd->cmd_args[0] == NULL)
+		return (1);
+	return (0);
+}
+
+// int	loop_exec_pipeline(t_cmd *cmd, int c_pipe, int last_pid)
+// {
+// 	int	redirect_only;
+
+// 	redirect_only = 0;
+// 	redirect_only = checker_redirection_only(cmd);
+// 	if (redirect_only == 0 && c_pipe == 0)
+// 	{
+// 		return (1);
+// 	}
+// 	else if (redirect_only == 0 && c_pipe == 1)
+// 		return (last_pid);
+// 	else if (redirect_only == -1)
+// 		return (-1);
+// 	return (0);
+// }
+
 int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 {
 	int	redirect_only;
 	int	last_pid;
+	int	c_pipe;
+	//int loop_return;
 
+	//loop_return = 0;
+	c_pipe = 0;
 	last_pid = 0;
 	redirect_only = 0;
 	while (cmd)
 	{
-		if (cmd->next)
-		{
-			if (pipe(pipefd) == -1)
-				return (-1);
-		}
+		c_pipe = creat_pipe(pipefd, cmd);
+		if (c_pipe == -1)
+			return (-1);
 		redirect_only = checker_redirection_only(cmd);
-		if (redirect_only == 0)
+		if (redirect_only == 0 && c_pipe == 0)
 		{
 			handle_next_pipe(in_fd, cmd, pipefd);
 			cmd = cmd->next;
 			continue ;
 		}
+		else if (redirect_only == 0 && c_pipe == 1)
+			return (last_pid);
 		else if (redirect_only == -1)
 			return (-1);
+		// loop_return = loop_exec_pipeline(cmd, c_pipe, last_pid);
+		// if (loop_return == 1)
+		// {
+		// 	handle_next_pipe(in_fd, cmd, pipefd);
+		// 	cmd = cmd->next;
+		// 	continue;
+		// }
+		// else if (loop_return == -1)
+		// 	return (-1);
 		last_pid = pipe_loop(shell, cmd, in_fd, pipefd);
 		if (last_pid == -1)
 			return (-1);
@@ -100,4 +137,3 @@ int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 	}
 	return (last_pid);
 }
-

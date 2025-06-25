@@ -6,7 +6,7 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/06/23 15:30:28 by engiusep         ###   ########.fr        #
+#    Updated: 2025/06/25 11:10:43 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ HEADERS = terminal.h \
 RM = rm -f
 
 FILES = terminal.c \
+		terminal_utils.c \
 		lexer/lexer.c \
 		lexer/lexer_utils.c \
 		lexer/quote_utils.c \

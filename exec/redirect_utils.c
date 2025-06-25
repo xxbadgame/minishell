@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 09:14:19 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/24 15:50:03 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/25 16:13:32 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	is_append_or_not(t_cmd *cmd)
 	}
 	if (cmd->outfile && cmd->append == 1)
 	{
-		fd = open(cmd->infile, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		fd = open(cmd->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (fd < 0)
 			return (perror("open append"), -1);
 		close(fd);

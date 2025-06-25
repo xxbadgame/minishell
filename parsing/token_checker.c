@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:40:57 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/19 12:39:55 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:03:55 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,35 @@ static int	handle_pipe(int *i, t_token *current_token, t_cmd **current_cmd)
 	return (0);
 }
 
+static int	checker_multi_file(t_token **current_token, t_cmd **current_cmd)
+{
+	int	fd;
+
+	if (handle_redirection(current_cmd, *current_token) == -1)
+		return (-1);
+	*current_token = (*current_token)->next;
+	if ((*current_token)->next && ((*current_token)->next->type == REDIR_OUT
+			|| (*current_token)->next->type == REDIR_APPEND))
+	{
+		fd = open((*current_cmd)->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (fd < 0)
+			return (perror("open outfile"), -1);
+		close(fd);
+		free((*current_cmd)->outfile);
+	}
+	if ((*current_token)->next && ((*current_token)->next->type == REDIR_IN
+			|| (*current_token)->next->type == HEREDOC))
+	{
+		fd = open((*current_cmd)->infile, O_RDONLY, 0644);
+		if (fd < 0)
+			return (perror("open infile"), -1);
+		close(fd);
+		free((*current_cmd)->infile);
+	}
+	*current_token = (*current_token)->next;
+	return (0);
+}
+
 int	command_checker(int *i, t_token **current_token, t_cmd **current_cmd)
 {
 	if ((*current_token)->type == WORD)
@@ -68,10 +97,8 @@ int	command_checker(int *i, t_token **current_token, t_cmd **current_cmd)
 		|| (*current_token)->type == REDIR_APPEND
 		|| (*current_token)->type == HEREDOC)
 	{
-		if (handle_redirection(current_cmd, *current_token) == -1)
+		if (checker_multi_file(current_token, current_cmd) == -1)
 			return (-1);
-		*current_token = (*current_token)->next;
-		*current_token = (*current_token)->next;
 	}
 	else if ((*current_token)->type == PIPE)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/24 15:50:58 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/25 11:08:49 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_shell
 	int				last_exit;
 }					t_shell;
 
+void				init_shell(t_shell *shell);
 // builtins
 int					builtin_cd(t_cmd *cmd, t_env *env);
 int					builtin_echo(t_cmd *cmd);
@@ -95,11 +96,11 @@ char				*clean_str(char *str);
 // exec
 int					no_child_pipe(t_cmd *cmd, t_shell *shell, int *pipefd,
 						int *in_fd);
-void	clean_and_exit(t_shell *shell, int status);
+void				clean_and_exit(t_shell *shell, int status);
 void				single_exit_checker(t_shell *shell);
 void				check_end_exec(t_shell *shell, int heredoc_fd);
 int					builtins_no_child(t_cmd *cmd, t_shell *shell);
-void			handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd);
+void				handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd);
 int					launch_execve(t_cmd *cmd, t_shell *shell);
 int					pipeline(t_shell *shell);
 int					exec_single_command(t_cmd *cmd, t_shell *shell);
