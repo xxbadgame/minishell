@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/25 16:44:55 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:53:22 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 	return (0);
 }
 
-int	creat_pipe(int *pipefd, t_cmd *cmd)
+int	creat_pipe(int *pipefd, t_cmd *cmd, int *last_pid)
 {
+	*last_pid = 0;
 	if (cmd->next != NULL && cmd->cmd_args[0] != NULL
 		&& cmd->next->cmd_args[0] != NULL)
 	{
@@ -77,59 +78,27 @@ int	creat_pipe(int *pipefd, t_cmd *cmd)
 	return (0);
 }
 
-// int	loop_exec_pipeline(t_cmd *cmd, int c_pipe, int last_pid)
-// {
-// 	int	redirect_only;
-
-// 	redirect_only = 0;
-// 	redirect_only = checker_redirection_only(cmd);
-// 	if (redirect_only == 0 && c_pipe == 0)
-// 	{
-// 		return (1);
-// 	}
-// 	else if (redirect_only == 0 && c_pipe == 1)
-// 		return (last_pid);
-// 	else if (redirect_only == -1)
-// 		return (-1);
-// 	return (0);
-// }
-
 int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 {
 	int	redirect_only;
 	int	last_pid;
 	int	c_pipe;
-	//int loop_return;
 
-	//loop_return = 0;
-	c_pipe = 0;
-	last_pid = 0;
-	redirect_only = 0;
 	while (cmd)
 	{
-		c_pipe = creat_pipe(pipefd, cmd);
+		c_pipe = creat_pipe(pipefd, cmd, &last_pid);
 		if (c_pipe == -1)
 			return (-1);
 		redirect_only = checker_redirection_only(cmd);
 		if (redirect_only == 0 && c_pipe == 0)
 		{
-			handle_next_pipe(in_fd, cmd, pipefd);
-			cmd = cmd->next;
+			loop_exec_pipeline(cmd, in_fd, pipefd);
 			continue ;
 		}
 		else if (redirect_only == 0 && c_pipe == 1)
 			return (last_pid);
 		else if (redirect_only == -1)
 			return (-1);
-		// loop_return = loop_exec_pipeline(cmd, c_pipe, last_pid);
-		// if (loop_return == 1)
-		// {
-		// 	handle_next_pipe(in_fd, cmd, pipefd);
-		// 	cmd = cmd->next;
-		// 	continue;
-		// }
-		// else if (loop_return == -1)
-		// 	return (-1);
 		last_pid = pipe_loop(shell, cmd, in_fd, pipefd);
 		if (last_pid == -1)
 			return (-1);
