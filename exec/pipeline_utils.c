@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/26 09:41:35 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:31:34 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 {
 	t_cmd	*tmp;
+
 	tmp = cmd;
 	while (tmp)
 	{

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/26 14:24:31 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:31:07 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	lexer_and_parsing(t_shell *shell)
 {
-	int lexer_code;
+	int	lexer_code;
 
 	lexer_code = lexer(shell);
 	if (lexer_code == -1)
 		return (free_tokens(shell), -1);
-	else if(lexer_code == 2)
-		return(2);
+	else if (lexer_code == 2)
+		return (2);
 	if (parsing_token(shell) == -1)
 		return (free(shell->line), free_tokens(shell), free_cmds(shell), -1);
 	return (0);
@@ -30,35 +30,24 @@ int	exec_no_pipelines(t_cmd *cmd, t_shell *shell)
 {
 	if (cmd != NULL && cmd->cmd_args[0] == NULL)
 	{
-		if (cmd->heredoc == 1 && cmd->cmd_args[0] == NULL && has_redirection(cmd))
+		if (cmd->heredoc == 1 && cmd->cmd_args[0] == NULL
+			&& has_redirection(cmd))
 		{
 			cmd->heredoc_fd = heredoc(cmd->infile, shell);
 			if (cmd->heredoc_fd == -1)
 				return (-1);
 		}
-		else if (cmd->heredoc == 0 && cmd->cmd_args[0] == NULL && has_redirection(cmd))
+		else if (cmd->heredoc == 0 && cmd->cmd_args[0] == NULL
+			&& has_redirection(cmd))
 		{
 			if (handle_redirection_only(cmd) == -1)
 				return (-1);
 		}
 		if (cmd->next == NULL)
-			return(0);
+			return (0);
 	}
-	if (cmd->next != NULL && cmd->next->cmd_args[0] == NULL)
-	{
-		if (cmd->next != NULL && cmd->next->cmd_args[0] == NULL && cmd->next->heredoc == 1 && has_redirection(cmd->next))
-		{
-			cmd->next->heredoc_fd = heredoc(cmd->next->infile, shell);
-			if (cmd->next->heredoc_fd == -1)
-				return (-1);
-		}
-		else if (cmd->next != NULL && cmd->next->cmd_args[0] == NULL && cmd->next->heredoc == 0 && has_redirection(cmd->next))
-		{
-			if (handle_redirection_only(cmd->next) == -1)
-				return (-1);
-		}
-		return (0);
-	}
+	if (check_next(cmd, shell) == -1)
+		return (-1);
 	if (exec_single_command(cmd, shell) == -1)
 		return (free_tokens(shell), free_cmds(shell), -1);
 	return (0);
@@ -68,13 +57,13 @@ int	exec(t_shell *shell)
 {
 	t_cmd	*cmd;
 	int		pipe_run;
-	int check_lexer_pars;
-	
+	int		check_lexer_pars;
+
 	pipe_run = 0;
 	check_lexer_pars = lexer_and_parsing(shell);
 	if (check_lexer_pars == -1)
 		return (-1);
-	if(check_lexer_pars == 2)
+	if (check_lexer_pars == 2)
 		return (2);
 	cmd = shell->cmds;
 	if (cmd->next != NULL && cmd->next->cmd_args[0] != NULL)
