@@ -6,7 +6,7 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/06/25 11:10:43 by engiusep         ###   ########.fr        #
+#    Updated: 2025/06/26 11:09:02 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ FILES = terminal.c \
 		lexer/symbol.c \
 		parsing/handle_parsing.c \
 		parsing/token_checker.c \
+		parsing/token_checker_utils.c \
 		parsing/parsing.c \
 		env/env.c \
 		exec/exec.c \
@@ -39,6 +40,7 @@ FILES = terminal.c \
 		exec/redirect_utils3.c \
 		exec/pipeline.c \
 		exec/pipeline_utils.c \
+		exec/pipeline_utils2.c \
 		free/freedom.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_env.c \

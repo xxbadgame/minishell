@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:50:58 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/23 15:07:14 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 10:30:57 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	parsing_token(t_shell *shell)
 	shell->cmds = current_cmd;
 	while (current_token)
 	{
+		printf("token : %s\n", current_token->value);
 		if (command_checker(&i, &current_token, &current_cmd) == -1)
 			return (-1);
 	}

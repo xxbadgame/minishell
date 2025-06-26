@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/25 16:53:14 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:09:57 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,8 @@ int					check_quote(char *str);
 int					in_quote(char *str, t_index_lexer *index, char **result,
 						t_shell *shell);
 // parsing
+int					inter_file(t_token **current_token, t_cmd **current_cmd,
+						int direct_symbol_type);
 char				*find_str_in_env(t_env *env, char *str);
 int					for_redir(t_cmd *current, t_token *tokens_list);
 int					for_append(t_cmd *current, t_token *tokens_list);

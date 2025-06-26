@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/23 15:35:37 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:24:41 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static int	synthax_checker(t_shell *shell)
 	next = shell->tokens->next;
 	while (current)
 	{
+		printf("hello\n");
 		flag_symbol = checker_special_symbole(current);
 		if (checker_flag_symbol(flag_symbol, next, previous) == -1)
 			return (-1);
@@ -95,12 +96,39 @@ static int	synthax_checker(t_shell *shell)
 	return (0);
 }
 
+static int primary_checker(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '<' && line[i + 1] != '<' 
+			&& line[i + 1] != ' ' && !ft_isalnum(line[i + 1]))
+			return (ft_putendl_fd("minishell: synthaxe error",2), -1);
+		else if ( line[i] == '>' && line[i + 1] != '>' 
+			&& line[i + 1] != ' ' && !ft_isalnum(line[i + 1]))
+			return (ft_putendl_fd("minishell: synthaxe error",2), -1);
+		else if ( line[i] == '<' && line[i + 1] == '<' 
+			&& line[i + 2] != ' ' && !ft_isalnum(line[i + 2]))
+			return (ft_putendl_fd("minishell: synthaxe error",2), -1);
+		else if (line[i] == '>' && line[i + 1] == '>' 
+			&& line[i + 2] != ' ' && !ft_isalnum(line[i + 2]))
+			return (ft_putendl_fd("minishell: synthaxe error",2), -1);
+		i++;
+	}
+	return (0);
+}
+
 int	lexer(t_shell *shell)
 {
 	t_index_lexer	index;
 
 	index.i = 0;
 	index.j = 0;
+	
+	if (primary_checker(shell->line) == -1)
+		return (2);
 	while (shell->line[index.i])
 	{
 		if (condi_lexer(&(shell->tokens), shell->line, &index, shell) == -1)
@@ -110,8 +138,8 @@ int	lexer(t_shell *shell)
 		return (-1);
 	if (synthax_checker(shell) == -1)
 	{
-		printf("sythaxe error\n");
-		return (-1);
+		ft_putendl_fd("minishell: synthaxe error",2);
+		return (2);
 	}
 	return (0);
 }

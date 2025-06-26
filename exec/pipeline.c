@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/25 15:38:09 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 09:42:02 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	pipeline(t_shell *shell)
 	pipefd[0] = 0;
 	pipefd[1] = 0;
 	if (check_all_arg_for_heredoc(cmd, shell) == -1)
-		return (close_fd_exit(pipefd, in_fd), -1);
+		return (-1);
 	last_pid = exec_pipeline(cmd, pipefd, shell, &in_fd);
 	if (last_pid == -1)
 		return (close_fd_exit(pipefd, in_fd), -1);

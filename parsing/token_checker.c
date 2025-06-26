@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:40:57 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/25 11:03:55 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:08:33 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,29 +57,19 @@ static int	handle_pipe(int *i, t_token *current_token, t_cmd **current_cmd)
 
 static int	checker_multi_file(t_token **current_token, t_cmd **current_cmd)
 {
-	int	fd;
+	int	direct_symbol_type;
 
+	direct_symbol_type = 0;
 	if (handle_redirection(current_cmd, *current_token) == -1)
 		return (-1);
+	if ((*current_token)->type == REDIR_OUT
+		|| (*current_token)->type == REDIR_APPEND)
+		direct_symbol_type = 1;
+	else if ((*current_token)->type == REDIR_IN
+		|| (*current_token)->type == HEREDOC)
+		direct_symbol_type = 2;
 	*current_token = (*current_token)->next;
-	if ((*current_token)->next && ((*current_token)->next->type == REDIR_OUT
-			|| (*current_token)->next->type == REDIR_APPEND))
-	{
-		fd = open((*current_cmd)->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (fd < 0)
-			return (perror("open outfile"), -1);
-		close(fd);
-		free((*current_cmd)->outfile);
-	}
-	if ((*current_token)->next && ((*current_token)->next->type == REDIR_IN
-			|| (*current_token)->next->type == HEREDOC))
-	{
-		fd = open((*current_cmd)->infile, O_RDONLY, 0644);
-		if (fd < 0)
-			return (perror("open infile"), -1);
-		close(fd);
-		free((*current_cmd)->infile);
-	}
+	inter_file(current_token, current_cmd, direct_symbol_type);
 	*current_token = (*current_token)->next;
 	return (0);
 }
