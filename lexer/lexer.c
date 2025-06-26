@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/26 14:48:47 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:01:15 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	add_token(t_token **tokens_list, t_token *new_token)
 static int	condi_lexer(t_token **tokens_list, char *str, t_index_lexer *index,
 		t_shell *shell)
 {
+	int code_read_word;
+	
 	if (str[index->i] == ' ' || str[index->i] == '\t')
 		(index->i)++;
 	else if (str[index->i] == '|')
@@ -66,8 +68,11 @@ static int	condi_lexer(t_token **tokens_list, char *str, t_index_lexer *index,
 	}
 	else
 	{
-		if (ft_read_word(tokens_list, str, index, shell) == -1)
+		code_read_word = ft_read_word(tokens_list, str, index, shell);
+		if (code_read_word == -1)
 			return (-1);
+		else if(code_read_word == 2)
+			return (2);
 	}
 	return (0);
 }
@@ -98,15 +103,19 @@ static int	synthax_checker(t_shell *shell)
 int	lexer(t_shell *shell)
 {
 	t_index_lexer	index;
-
+	int code_condi_lexer;
+	
 	index.i = 0;
 	index.j = 0;
 	if (primary_checker(shell->line) == -1)
 		return (2);
 	while (shell->line[index.i])
 	{
-		if (condi_lexer(&(shell->tokens), shell->line, &index, shell) == -1)
+		code_condi_lexer = condi_lexer(&(shell->tokens), shell->line, &index, shell);
+		if (code_condi_lexer == -1)
 			return (-1);
+		else if(code_condi_lexer == 2)
+			return (2);
 	}
 	if (shell->tokens == NULL)
 		return (-1);
