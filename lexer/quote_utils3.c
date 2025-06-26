@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:31:59 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/25 10:56:17 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:38:19 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,8 @@ int	env_var_checker(char *str)
 	if (str[0] == '$')
 	{
 		i++;
-		while (str[i] && str[i] != '$' && str[i] != ' '
-			&& str[i] != '\'' && str[i] != '"' && str[i] != '|'
-			&& str[i] != '>' && str[i] != '<'
+		while (str[i] && str[i] != '$' && str[i] != ' ' && str[i] != '\''
+			&& str[i] != '"' && str[i] != '|' && str[i] != '>' && str[i] != '<'
 			&& ft_strncmp(str + i, ">>", 2) != 0
 			&& ft_strncmp(str + i, "<<", 2) != 0)
 		{

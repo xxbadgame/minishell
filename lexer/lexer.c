@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/26 15:01:15 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:41:14 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,32 +47,24 @@ void	add_token(t_token **tokens_list, t_token *new_token)
 static int	condi_lexer(t_token **tokens_list, char *str, t_index_lexer *index,
 		t_shell *shell)
 {
-	int code_read_word;
-	
+	int	code_read_word;
+	int	special_result;
+
 	if (str[index->i] == ' ' || str[index->i] == '\t')
 		(index->i)++;
-	else if (str[index->i] == '|')
-	{
-		if (ft_pipe(tokens_list, index) == -1)
-			return (-1);
-	}
-	else if (str[index->i + 1] && check_symbole_redirect(str, index) == 1)
-	{
-		if (ft_redir(str, tokens_list, &index->i) == -1)
-			return (-1);
-	}
-	else if (str[index->i + 1] && check_symbole_append_heredoc(str, index) == 1)
-	{
-		if (ft_heredoc_or_append(str, tokens_list, &index->i) == -1)
-			return (-1);
-	}
 	else
 	{
-		code_read_word = ft_read_word(tokens_list, str, index, shell);
-		if (code_read_word == -1)
+		special_result = handle_special_symbols(tokens_list, str, index);
+		if (special_result == -1)
 			return (-1);
-		else if(code_read_word == 2)
-			return (2);
+		else if (special_result == 1)
+		{
+			code_read_word = ft_read_word(tokens_list, str, index, shell);
+			if (code_read_word == -1)
+				return (-1);
+			else if (code_read_word == 2)
+				return (2);
+		}
 	}
 	return (0);
 }
@@ -103,18 +95,19 @@ static int	synthax_checker(t_shell *shell)
 int	lexer(t_shell *shell)
 {
 	t_index_lexer	index;
-	int code_condi_lexer;
-	
+	int				code_condi_lexer;
+
 	index.i = 0;
 	index.j = 0;
 	if (primary_checker(shell->line) == -1)
 		return (2);
 	while (shell->line[index.i])
 	{
-		code_condi_lexer = condi_lexer(&(shell->tokens), shell->line, &index, shell);
+		code_condi_lexer = condi_lexer(&(shell->tokens), shell->line, &index,
+				shell);
 		if (code_condi_lexer == -1)
 			return (-1);
-		else if(code_condi_lexer == 2)
+		else if (code_condi_lexer == 2)
 			return (2);
 	}
 	if (shell->tokens == NULL)

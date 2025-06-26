@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/26 14:32:30 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:40:48 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ int					exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell,
 void				close_fd_exit(int *pipefd, int in_fd);
 
 // lexer
+int					handle_special_symbols(t_token **tokens_list, char *str,
+						t_index_lexer *index);
 int					primary_checker(char *line);
 int					checker_flag_symbol(int flag_symbol, t_token *next,
 						t_token *previous);

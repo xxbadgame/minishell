@@ -6,7 +6,7 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/06/26 11:09:02 by engiusep         ###   ########.fr        #
+#    Updated: 2025/06/26 15:41:52 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ FILES = terminal.c \
 		parsing/handle_parsing.c \
 		parsing/token_checker.c \
 		parsing/token_checker_utils.c \
+		lexer/lexer_utils3.c  \
 		parsing/parsing.c \
 		env/env.c \
 		exec/exec.c \
