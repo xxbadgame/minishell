@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/26 14:32:38 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:48:47 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static int	synthax_checker(t_shell *shell)
 	next = shell->tokens->next;
 	while (current)
 	{
-		printf("hello\n");
 		flag_symbol = checker_special_symbole(current);
 		if (checker_flag_symbol(flag_symbol, next, previous) == -1)
 			return (-1);
@@ -113,7 +112,7 @@ int	lexer(t_shell *shell)
 		return (-1);
 	if (synthax_checker(shell) == -1)
 	{
-		ft_putendl_fd("minishell: synthaxe error", 2);
+		ft_putendl_fd("minishell: synthax error", 2);
 		return (2);
 	}
 	return (0);

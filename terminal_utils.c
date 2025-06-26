@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:08:09 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/26 14:31:22 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:49:13 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,5 @@ int	check_next(t_cmd *cmd, t_shell *shell)
 		}
 		return (0);
 	}
+	return (0);
 }
