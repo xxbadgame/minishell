@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/26 15:40:48 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/27 10:18:12 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_index_lexer
 {
 	int				i;
 	int				j;
+	int				flag_symbole;
 }					t_index_lexer;
 
 typedef struct s_shell
@@ -139,11 +140,12 @@ int					exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell,
 void				close_fd_exit(int *pipefd, int in_fd);
 
 // lexer
+int					primary_check_quote(char *line, int *i);
 int					handle_special_symbols(t_token **tokens_list, char *str,
 						t_index_lexer *index);
 int					primary_checker(char *line);
-int					checker_flag_symbol(int flag_symbol, t_token *next,
-						t_token *previous);
+int					checker_flag_symbol(t_index_lexer *index, int flag_symbol,
+						t_token *next, t_token *previous);
 int					env_var_checker(char *str);
 void				cut_quote(char *str, t_index_lexer *index, char **result,
 						t_shell *t_shell);
@@ -171,6 +173,7 @@ int					dollar_var_env(char **result, t_index_lexer *index,
 int					start_loop(char *str, t_index_lexer *index, char **result,
 						t_shell *shell);
 void				end_loop(char **result, char *str, t_index_lexer *index);
+void				end_loop2(char **result, char *str, t_index_lexer *index);
 void				after_dollar_checker(t_index_lexer *index, char **result,
 						t_shell *shell);
 int					env_var_checker(char *str);

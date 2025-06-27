@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:40:18 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/26 15:40:54 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/27 10:17:27 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,24 @@ int	handle_special_symbols(t_token **tokens_list, char *str,
 	}
 	else
 		return (1);
+	return (0);
+}
+
+int	primary_check_quote(char *line, int *i)
+{
+	char	quote;
+
+	quote = '\0';
+	if (line[*i] == '\'' || line[*i] == '"')
+	{
+		quote = line[*i];
+		(*i)++;
+		while (line[*i] && line[*i] != quote)
+			(*i)++;
+		if (!line[*i])
+			return (ft_putendl_fd("minishell: unclose quote", 2), -1);
+		(*i)++;
+		return (2);
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/26 15:35:57 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/27 10:11:02 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,18 @@ int	in_quote_var_env(char **result, t_shell *shell, t_index_lexer *index,
 	return (0);
 }
 
+static	void	checker_micro_symbol(t_index_lexer *index, char *str)
+{
+	if (str[index->i] == '<' || str[index->i] == '>' || str[index->i] == '|')
+		index->flag_symbole = 1;
+}
+
 int	in_quote(char *str, t_index_lexer *index, char **result, t_shell *shell)
 {
 	if (str[index->i] == '"' || str[index->i] == '\'')
 	{
 		index->i++;
+		checker_micro_symbol(index, str);
 		while (str[index->i] && str[index->i] != '\'' && str[index->i] != '"')
 		{
 			if (str[index->i + 1] && str[index->i] == '$'
@@ -76,23 +83,6 @@ int	check_char(char *str, int i)
 		&& ft_strncmp(str + i, "<<", 2) != 0)
 		return (1);
 	return (0);
-}
-
-void	end_loop2(char **result, char *str, t_index_lexer *index)
-{
-	char	*temp;
-
-	if (str[index->i] == ';')
-	{
-		index->i++;
-		return ;
-	}
-	temp = (*result);
-	(*result) = ft_joinchar(temp, str[index->i]);
-	if (!(*result))
-		return ;
-	free(temp);
-	index->i++;
 }
 
 void	cut_quote(char *str, t_index_lexer *index, char **result,

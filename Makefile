@@ -6,11 +6,11 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/06/26 15:41:52 by engiusep         ###   ########.fr        #
+#    Updated: 2025/06/27 10:20:55 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell_prog
+NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 HEADERS = terminal.h \

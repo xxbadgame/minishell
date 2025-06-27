@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:31:59 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/26 15:38:19 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/27 10:10:17 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,23 @@ void	end_loop(char **result, char *str, t_index_lexer *index)
 {
 	char	*temp;
 
+	temp = (*result);
+	(*result) = ft_joinchar(temp, str[index->i]);
+	if (!(*result))
+		return ;
+	free(temp);
+	index->i++;
+}
+
+void	end_loop2(char **result, char *str, t_index_lexer *index)
+{
+	char	*temp;
+
+	if (str[index->i] == ';')
+	{
+		index->i++;
+		return ;
+	}
 	temp = (*result);
 	(*result) = ft_joinchar(temp, str[index->i]);
 	if (!(*result))

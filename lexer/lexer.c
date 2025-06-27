@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/26 15:41:14 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/27 09:59:02 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	condi_lexer(t_token **tokens_list, char *str, t_index_lexer *index,
 	return (0);
 }
 
-static int	synthax_checker(t_shell *shell)
+static int	synthax_checker(t_index_lexer *index, t_shell *shell)
 {
 	t_token	*previous;
 	t_token	*current;
@@ -82,7 +82,7 @@ static int	synthax_checker(t_shell *shell)
 	while (current)
 	{
 		flag_symbol = checker_special_symbole(current);
-		if (checker_flag_symbol(flag_symbol, next, previous) == -1)
+		if (checker_flag_symbol(index, flag_symbol, next, previous) == -1)
 			return (-1);
 		previous = current;
 		if (next != NULL)
@@ -99,6 +99,7 @@ int	lexer(t_shell *shell)
 
 	index.i = 0;
 	index.j = 0;
+	index.flag_symbole = 0;
 	if (primary_checker(shell->line) == -1)
 		return (2);
 	while (shell->line[index.i])
@@ -112,7 +113,7 @@ int	lexer(t_shell *shell)
 	}
 	if (shell->tokens == NULL)
 		return (-1);
-	if (synthax_checker(shell) == -1)
+	if (synthax_checker(&index, shell) == -1)
 	{
 		ft_putendl_fd("minishell: synthax error", 2);
 		return (2);
