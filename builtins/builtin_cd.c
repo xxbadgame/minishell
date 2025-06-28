@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/28 08:53:24 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/28 12:46:30 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int	builtin_cd(t_cmd *cmd, t_env *env)
 	if (check_path_cmd(cmd) == 1)
 		return (0);
 	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return(perror("error retrieving current directory"),-1);
 	if (handle_oldpwd(cwd, env) == -1)
 		return (-1);
 	new_path = ft_strjoin(cwd, "/");
