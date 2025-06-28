@@ -6,11 +6,13 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/28 08:56:07 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/28 11:16:52 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "terminal.h"
+
+volatile sig_atomic_t	g_sigint = 0;
 
 int	lexer_and_parsing(t_shell *shell)
 {
@@ -89,6 +91,12 @@ int	exec(t_shell *shell)
 
 int	loop_readline(t_shell *shell)
 {
+	if (g_sigint)
+	{
+		g_sigint = 0;
+		shell->last_exit = 130;
+		return (0);
+	}
 	shell->line = readline("minishell$ ");
 	if (!shell->line)
 	{

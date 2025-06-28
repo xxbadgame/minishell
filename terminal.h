@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/28 08:24:00 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/28 11:08:19 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+extern volatile sig_atomic_t g_sigint;
 
 typedef struct s_env
 {

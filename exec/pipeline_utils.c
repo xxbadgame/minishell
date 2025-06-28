@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/28 08:24:44 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/28 10:41:41 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ int	pipe_loop(t_shell *shell, t_cmd *cmd, int *in_fd, int *pipefd)
 		return (-1);
 	cmd->pid = fork();
 	if (cmd->pid < 0)
-	{
-		perror("fork");
-		return (-1);
-	}
+		return (perror("fork"), -1);
 	if (cmd->pid == 0)
 	{
 		if (signal_and_pipe_redirect(cmd, in_fd, shell, pipefd) == -1)
@@ -93,6 +90,7 @@ int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 		if (redirect_only == 0 && c_pipe == 0)
 		{
 			loop_exec_pipeline(&cmd, in_fd, pipefd);
+			cmd = cmd->next;
 			continue ;
 		}
 		else if (redirect_only == 0 && c_pipe == 1)

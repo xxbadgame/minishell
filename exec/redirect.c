@@ -6,13 +6,13 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/28 08:55:04 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/28 11:09:18 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
 
-volatile int	g_heredoc_sigint = 0;
+//volatile int	g_sigint = 0;
 
 int	redirect_right(char *filename)
 {
@@ -62,7 +62,7 @@ int	heredoc_loop(char **line, t_shell *shell, char *stop_word, int *pipefd)
 {
 	write(1, "heredoc> ", 9);
 	*line = get_next_line(STDIN_FILENO);
-	if (g_heredoc_sigint)
+	if (g_sigint)
 		return (2);
 	if (!*line)
 		return (2);
@@ -86,14 +86,14 @@ int	heredoc(char *stop_word, t_shell *shell)
 	setup_signals(&sa_old, &sa_new);
 	if (pipe(pipefd) == -1)
 		return (-1);
-	while (!g_heredoc_sigint)
+	while (!g_sigint)
 	{
 		if (heredoc_loop(&line, shell, stop_word, pipefd) == 2)
 			break ;
 	}
 	close(pipefd[1]);
 	sigaction(SIGINT, &sa_old, NULL);
-	if (g_heredoc_sigint)
+	if (g_sigint)
 	{
 		close(pipefd[0]);
 		return (-1);
