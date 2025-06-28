@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/28 12:49:55 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/28 12:52:01 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,7 @@ int	in_quote(char *str, t_index_lexer *index, char **result, t_shell *shell)
 		index->i++;
 		checker_micro_symbol(index, str);
 		while (str[index->i] && str[index->i] != '\'')
-		{
 			end_loop(result, str, index);
-		}
 		index->i++;
 		return (1);
 	}
