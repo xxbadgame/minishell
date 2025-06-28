@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/26 14:31:07 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/28 07:01:28 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ int	exec_no_pipelines(t_cmd *cmd, t_shell *shell)
 	}
 	if (check_next(cmd, shell) == -1)
 		return (-1);
-	if (exec_single_command(cmd, shell) == -1)
-		return (free_tokens(shell), free_cmds(shell), -1);
+	if (cmd->cmd_args[0] != NULL)
+	{
+		if (exec_single_command(cmd, shell) == -1)
+			return (free_tokens(shell), free_cmds(shell), -1);
+	}
 	return (0);
 }
 
