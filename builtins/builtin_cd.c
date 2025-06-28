@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/25 16:19:03 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/28 08:53:24 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	check_path_cmd(t_cmd *cmd)
 		if (cmd->cmd_args[1][0] == '/')
 		{
 			if (chdir(cmd->cmd_args[1]) == -1)
-				return (perror("dir"), 1);
+				return (perror("dir"), -1);
 			return (1);
 		}
 	}
@@ -107,7 +107,7 @@ int	builtin_cd(t_cmd *cmd, t_env *env)
 	if (!new_path)
 		return (free(cwd), -1);
 	if (chdir(new_path) == -1)
-		return (free(cwd), free(new_path), perror("dir"), 0);
+		return (free(cwd), free(new_path), perror("dir"), -1);
 	if (handle_pwd(env) == -1)
 		return (-1);
 	return (free(new_path), free(cwd), 0);

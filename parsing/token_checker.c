@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:40:57 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/26 11:08:33 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/28 08:41:19 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ static int	checker_multi_file(t_token **current_token, t_cmd **current_cmd)
 		|| (*current_token)->type == HEREDOC)
 		direct_symbol_type = 2;
 	*current_token = (*current_token)->next;
-	inter_file(current_token, current_cmd, direct_symbol_type);
+	if (inter_file(current_token, current_cmd, direct_symbol_type) == -1)
+		return (-1);
 	*current_token = (*current_token)->next;
 	return (0);
 }

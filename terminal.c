@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/28 07:01:28 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/28 08:56:07 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	exec(t_shell *shell)
 	t_cmd	*cmd;
 	int		pipe_run;
 	int		check_lexer_pars;
+	int code_exec_no_pipelines;
 
 	pipe_run = 0;
 	check_lexer_pars = lexer_and_parsing(shell);
@@ -69,7 +70,7 @@ int	exec(t_shell *shell)
 	if (check_lexer_pars == 2)
 		return (2);
 	cmd = shell->cmds;
-	if (cmd->next != NULL && cmd->next->cmd_args[0] != NULL)
+	if (cmd->next && (cmd->next->cmd_args[0] || cmd->next->next))
 	{
 		pipe_run = pipeline(shell);
 		if (pipe_run == -1)
@@ -77,8 +78,11 @@ int	exec(t_shell *shell)
 	}
 	else
 	{
-		if (exec_no_pipelines(cmd, shell) == -1)
+		code_exec_no_pipelines = exec_no_pipelines(cmd, shell);
+		if (code_exec_no_pipelines == -1)
 			return (-1);
+		else if (code_exec_no_pipelines == 2)
+			return (2);
 	}
 	return (0);
 }
@@ -114,9 +118,9 @@ int	loop_readline(t_shell *shell)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-	int		check_loop;
+	//int		check_loop;
 
-	check_loop = 0;
+	//check_loop = 0;
 	(void)argc;
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
@@ -133,9 +137,10 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		check_loop = loop_readline(shell);
-		if (check_loop == -1)
-			return (free_env(shell), free(shell), clear_history(), -1);
+		loop_readline(shell);
+		//check_loop = loop_readline(shell);
+		//if (check_loop == -1)
+		//	return (free_env(shell), free(shell), clear_history(), -1);
 	}
 	return (free_env(shell), free(shell), clear_history(), 0);
 }

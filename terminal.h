@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/27 10:18:12 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/28 08:24:00 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int					add_in_env(char **origin_env, char **dest_env, int *i);
 char				*clean_str(char *str);
 
 // exec
-void				loop_exec_pipeline(t_cmd *cmd, int *in_fd, int *pipefd);
+void				loop_exec_pipeline(t_cmd **cmd, int *in_fd, int *pipefd);
 int					no_child_pipe(t_cmd *cmd, t_shell *shell, int *pipefd,
 						int *in_fd);
 void				clean_and_exit(t_shell *shell, int status);

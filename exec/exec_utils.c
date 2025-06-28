@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 10:36:03 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/25 16:19:42 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/28 08:14:02 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ void	handle_next_pipe(int *in_fd, t_cmd *cmd, int *pipefd)
 		close(pipefd[1]);
 		*in_fd = pipefd[0];
 	}
-	else
-	{
-		close(pipefd[0]);
-		close(pipefd[1]);
-	}
+	// else
+	// {
+	// 	close(pipefd[0]);
+	// 	close(pipefd[1]);
+	// }
 }

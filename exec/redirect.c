@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/25 10:02:42 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/28 08:55:04 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ int	redirect_left(char *filename)
 	int	fd;
 
 	if (access(filename, F_OK) != 0)
-	{
-		perror("redirect error");
-		return (-1);
-	}
+		return (perror("redirect error"), -1);
 	fd = open(filename, O_RDONLY, 0644);
 	if (fd < 0)
 		return (-1);

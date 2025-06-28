@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/26 14:31:34 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/28 08:24:44 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 		redirect_only = checker_redirection_only(cmd);
 		if (redirect_only == 0 && c_pipe == 0)
 		{
-			loop_exec_pipeline(cmd, in_fd, pipefd);
+			loop_exec_pipeline(&cmd, in_fd, pipefd);
 			continue ;
 		}
 		else if (redirect_only == 0 && c_pipe == 1)
