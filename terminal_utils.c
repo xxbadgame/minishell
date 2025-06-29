@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:08:09 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/26 14:49:13 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:22:39 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_next(t_cmd *cmd, t_shell *shell)
 			if (handle_redirection_only(cmd->next) == -1)
 				return (-1);
 		}
-		return (0);
+		return (1);
 	}
 	return (0);
 }
