@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/29 13:16:18 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/29 13:39:40 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 int	creat_pipe(int *pipefd, t_cmd *cmd, int *last_pid)
 {
 	*last_pid = 0;
-	if (cmd->next != NULL && cmd->next->cmd_args[0] != NULL)
+	if (cmd->next != NULL)
 	{
 		if (pipe(pipefd) == -1)
 			return (-1);

@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/29 13:12:06 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/29 13:43:22 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	loop_readline(t_shell *shell)
 		return (0);
 	}
 	shell->line = readline("minishell$ ");
-	printf("line : %s\n", shell->line);
 	if (!shell->line)
 	{
 		free_env(shell);
@@ -138,6 +137,7 @@ int	main(int argc, char **argv, char **envp)
 		return (perror("env failed"), -1);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGPIPE, SIG_IGN);
 	while (1)
 	{
 		loop_readline(shell);
