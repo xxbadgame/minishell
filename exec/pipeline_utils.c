@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/28 12:35:53 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/29 12:50:51 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ int	creat_pipe(int *pipefd, t_cmd *cmd, int *last_pid)
 		if (pipe(pipefd) == -1)
 			return (-1);
 	}
-	else if (cmd->next == NULL && cmd->cmd_args[0] == NULL)
-		return (1);
 	return (0);
 }
 

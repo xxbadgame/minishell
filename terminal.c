@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/29 11:05:43 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/29 12:52:07 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,17 @@ int	lexer_and_parsing(t_shell *shell)
 
 int	exec_no_pipelines(t_cmd *cmd, t_shell *shell)
 {
-	int	code_check_next;
-	int	devnull;
-	int	save_stdout;
-
-	devnull = -1;
-	save_stdout = -1;
 	if (cmd != NULL && cmd->cmd_args[0] == NULL)
 	{
-		if (cmd->heredoc == 1 && has_redirection(cmd))
+		if (cmd->heredoc == 1 && cmd->cmd_args[0] == NULL
+			&& has_redirection(cmd))
 		{
 			cmd->heredoc_fd = heredoc(cmd->infile, shell);
 			if (cmd->heredoc_fd == -1)
 				return (-1);
 		}
-		else if (cmd->heredoc == 0 && has_redirection(cmd))
+		else if (cmd->heredoc == 0 && cmd->cmd_args[0] == NULL
+			&& has_redirection(cmd))
 		{
 			if (handle_redirection_only(cmd) == -1)
 				return (-1);
@@ -52,42 +48,10 @@ int	exec_no_pipelines(t_cmd *cmd, t_shell *shell)
 		if (cmd->next == NULL)
 			return (0);
 	}
-	code_check_next = check_next(cmd, shell);
-	if (code_check_next == -1)
-		return (-1);
-	if (code_check_next == 1)
-	{
-		save_stdout = dup(STDOUT_FILENO);
-		devnull = open("/dev/null", O_WRONLY);
-		if (devnull == -1)
-		{
-			if (save_stdout != -1)
-			{
-				close(save_stdout);
-				save_stdout = -1;
-			} 
-			perror("open");
-			clean_and_exit(shell, 1);
-		}
-		dup2(devnull, STDOUT_FILENO);
-		close(devnull);
-	}
 	if (cmd->cmd_args[0] != NULL)
 	{
 		if (exec_single_command(cmd, shell) == -1)
-		{
-			if (save_stdout != -1)
-			{
-				dup2(save_stdout, STDOUT_FILENO);
-				close(save_stdout);
-			}
 			return (free_tokens(shell), free_cmds(shell), -1);
-		}
-	}
-	if (save_stdout != -1)
-	{
-		dup2(save_stdout, STDOUT_FILENO);
-		close(save_stdout);
 	}
 	return (0);
 }
@@ -97,7 +61,7 @@ int	exec(t_shell *shell)
 	t_cmd	*cmd;
 	int		pipe_run;
 	int		check_lexer_pars;
-	int		code_exec_no_pipelines;
+	int code_exec_no_pipelines;
 
 	pipe_run = 0;
 	check_lexer_pars = lexer_and_parsing(shell);
@@ -106,7 +70,7 @@ int	exec(t_shell *shell)
 	if (check_lexer_pars == 2)
 		return (2);
 	cmd = shell->cmds;
-	if (cmd->next && (cmd->next->cmd_args[0] || cmd->next->next))
+	if (cmd->next)
 	{
 		pipe_run = pipeline(shell);
 		if (pipe_run == -1)
@@ -160,9 +124,9 @@ int	loop_readline(t_shell *shell)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
+	//int		check_loop;
 
-	// int		check_loop;
-	// check_loop = 0;
+	//check_loop = 0;
 	(void)argc;
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
@@ -180,8 +144,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		loop_readline(shell);
-		// check_loop = loop_readline(shell);
-		// if (check_loop == -1)
+		//check_loop = loop_readline(shell);
+		//if (check_loop == -1)
 		//	return (free_env(shell), free(shell), clear_history(), -1);
 	}
 	return (free_env(shell), free(shell), clear_history(), 0);

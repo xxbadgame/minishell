@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/28 11:08:19 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/29 12:51:57 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,6 @@ int					check_quote(char *str);
 int					in_quote(char *str, t_index_lexer *index, char **result,
 						t_shell *shell);
 // parsing
-int					check_next(t_cmd *cmd, t_shell *shell);
 int					inter_file(t_token **current_token, t_cmd **current_cmd,
 						int direct_symbol_type);
 char				*find_str_in_env(t_env *env, char *str);
