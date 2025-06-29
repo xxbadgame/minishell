@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/29 12:50:51 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/29 13:16:18 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 			tmp->heredoc_fd = heredoc(tmp->infile, shell);
 			if (tmp->heredoc_fd == -1)
 				return (-1);
-			if (tmp->next == NULL)
-				close(tmp->heredoc_fd);
+			// if (tmp->next == NULL)
+			// 	close(tmp->heredoc_fd);
 		}
 		tmp = tmp->next;
 	}

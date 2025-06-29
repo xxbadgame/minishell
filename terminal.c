@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/29 12:52:07 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/29 13:12:06 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	exec(t_shell *shell)
 	t_cmd	*cmd;
 	int		pipe_run;
 	int		check_lexer_pars;
-	int code_exec_no_pipelines;
 
 	pipe_run = 0;
 	check_lexer_pars = lexer_and_parsing(shell);
@@ -78,11 +77,8 @@ int	exec(t_shell *shell)
 	}
 	else
 	{
-		code_exec_no_pipelines = exec_no_pipelines(cmd, shell);
-		if (code_exec_no_pipelines == -1)
+		if (exec_no_pipelines(cmd, shell) == -1)
 			return (-1);
-		else if (code_exec_no_pipelines == 2)
-			return (2);
 	}
 	return (0);
 }
@@ -96,6 +92,7 @@ int	loop_readline(t_shell *shell)
 		return (0);
 	}
 	shell->line = readline("minishell$ ");
+	printf("line : %s\n", shell->line);
 	if (!shell->line)
 	{
 		free_env(shell);
