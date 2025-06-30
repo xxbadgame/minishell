@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/30 10:49:42 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:46:44 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 int	creat_pipe(int *pipefd, t_cmd *cmd, int *last_pid)
 {
 	*last_pid = 0;
+	if (cmd->next && cmd->next->cmd_args[0] == NULL)
+		signal(SIGPIPE, SIG_IGN);
 	if (cmd->next != NULL)
 	{
 		if (pipe(pipefd) == -1)
@@ -88,13 +90,13 @@ int	exec_pipeline(t_cmd *cmd, int *pipefd, t_shell *shell, int *in_fd)
 			continue ;
 		}
 		else if (redirect_only == 0 && c_pipe == 1)
-			return (last_pid);
+			return (signal(SIGPIPE, SIG_DFL), last_pid);
 		else if (redirect_only == -1)
-			return (-1);
+			return (signal(SIGPIPE, SIG_DFL), -1);
 		last_pid = pipe_loop(shell, cmd, in_fd, pipefd);
 		if (last_pid == -1)
-			return (-1);
+			return (signal(SIGPIPE, SIG_DFL), -1);
 		cmd = cmd->next;
 	}
-	return (last_pid);
+	return (signal(SIGPIPE, SIG_DFL), last_pid);
 }

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/30 13:05:19 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:42:54 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,14 @@ int	lexer(t_shell *shell)
 	index.flag_symbole = 0;
 	if (primary_checker(shell->line) == -1)
 		return (-1);
-	while (shell->line[index.i])
+	while (shell->line[index.i] != '\0')
 	{
 		code_condi_lexer = condi_lexer(&(shell->tokens), shell->line, &index,
 				shell);
 		if (code_condi_lexer == -1)
 			return (-1);
+		if (index.i > ft_strlen(shell->line))
+			break ;
 	}
 	if (shell->tokens == NULL)
 		return (0);

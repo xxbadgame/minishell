@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/30 12:49:39 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:37:41 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	in_quote_var_env(char **result, t_shell *shell, t_index_lexer *index,
 	if (!var_in_env)
 	{
 		index->i += env_var_checker(str + index->i);
-		return (1);
+		return (free(temp[1]), 1);
 	}
 	temp[2] = ft_strndup(temp[0], ft_strlen(temp[0]));
 	if (!temp[2])

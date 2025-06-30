@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:00:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/30 13:50:15 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:49:50 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	checker_flag_symbol(t_index_lexer *index, int flag_symbol, t_token *next,
 			index->flag_symbole = 0;
 			return (0);
 		}
-		if (!next)
+		if (!next || next->type != WORD)
 			return (-1);
-		if (!previous && !next)
+		if (!previous && (!next || next->type != WORD))
 			return (-1);
 	}
 	else if (flag_symbol == 2)
@@ -68,7 +68,7 @@ int	checker_flag_symbol(t_index_lexer *index, int flag_symbol, t_token *next,
 			index->flag_symbole = 0;
 			return (0);
 		}
-		if (!previous || !next || next->type != WORD)
+		if (!previous || !next)
 			return (-1);
 	}
 	return (0);

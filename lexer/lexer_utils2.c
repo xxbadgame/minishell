@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils3.c                                     :+:      :+:    :+:   */
+/*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:40:18 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/27 10:17:27 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:20:00 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ int	primary_check_quote(char *line, int *i)
 	char	quote;
 
 	quote = '\0';
+	if (line[*i] == ';')
+	{
+		ft_putendl_fd("not interpret ';'", 2);
+		return (-1);
+	}
 	if (line[*i] == '\'' || line[*i] == '"')
 	{
 		quote = line[*i];

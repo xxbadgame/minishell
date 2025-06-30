@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:28:27 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/30 12:51:55 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:39:33 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	dollar_var_env(char **result, t_index_lexer *index, char *str,
 	char	*var_in_env;
 
 	var_in_env = malloc_var_in_env(str, shell, index);
-	if (!var_in_env)
+	if (!var_in_env || var_in_env[0] == '\0')
 		return (-1);
 	while (var_in_env[index->j] && var_in_env[index->j] == ' ')
 		index->j++;
@@ -84,6 +84,8 @@ int	start_loop(char *str, t_index_lexer *index, char **result, t_shell *shell)
 	int	exit_quote;
 
 	exit_quote = in_quote(str, index, result, shell);
+	if (index->i >= ft_strlen(str))
+		return (2);
 	if (str[index->i] == '\0' && exit_quote)
 		return (2);
 	if (check_char2(str, index->i) && exit_quote)

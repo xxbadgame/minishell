@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/30 12:58:40 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:05:25 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ int	main(int argc, char **argv, char **envp)
 		return (perror("env failed"), -1);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGPIPE, SIG_IGN);
 	while (1)
 	{
 		if (loop_readline(shell) == -1)
