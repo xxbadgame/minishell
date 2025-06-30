@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/27 10:11:11 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:52:05 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	ft_read_word(t_token **tokens_list, char *str, t_index_lexer *index,
 
 	result = malloc(1);
 	if (!result)
-		return (-1);
+		clean_and_exit(shell, 1);
 	result[0] = '\0';
 	token = NULL;
 	if (check_quote(str) == -1)
-		return (free(result), 2);
+		return (free(result), -1);
 	cut_quote(str, index, &result, shell);
 	token = create_token(result, WORD);
 	if (!token)

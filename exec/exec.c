@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:56:08 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/28 08:54:12 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/30 11:53:08 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,27 @@ int	redirect_choice_single(t_cmd *cmd, int heredoc_fd)
 int	exec_single_command(t_cmd *cmd, t_shell *shell)
 {
 	int	pid;
-	int	heredoc_fd;
 	int	builtin_no_child;
 
-	heredoc_fd = -1;
 	builtin_no_child = builtins_no_child(cmd, shell);
 	if (builtin_no_child == 0)
 		return (0);
 	else if (builtin_no_child == -1)
 		return (-1);
 	if (cmd->heredoc == 1)
-		heredoc_fd = heredoc(cmd->infile, shell);
+	{
+		cmd->heredoc_fd = heredoc(cmd->infile, shell);
+		if (cmd->heredoc_fd == -1)
+			return (-1);
+	}
 	pid = fork();
 	if (pid < 0)
 		return (perror("pid"), -1);
 	else if (pid == 0)
 	{
-		if (signal_and_single_redirect(cmd, shell, heredoc_fd) == -1)
+		if (signal_and_single_redirect(cmd, shell, cmd->heredoc_fd) == -1)
 			return (-1);
 	}
-	check_end_exec(shell, heredoc_fd);
+	check_end_exec(shell, cmd->heredoc_fd);
 	return (0);
 }

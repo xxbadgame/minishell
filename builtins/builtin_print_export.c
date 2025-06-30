@@ -6,11 +6,48 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:27:44 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/19 12:35:57 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:50:47 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	while (*s1 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
+
+void	sort_env(t_env *env)
+{
+	int		i;
+	int		sorted;
+	char	*tmp;
+
+	if (!env)
+		return ;
+	sorted = 0;
+	while (!sorted)
+	{
+		sorted = 1;
+		i = 0;
+		while (env->env_cpy[i] && env->env_cpy[i + 1])
+		{
+			if (ft_strcmp(env->env_cpy[i], env->env_cpy[i + 1]) > 0)
+			{
+				tmp = env->env_cpy[i];
+				env->env_cpy[i] = env->env_cpy[i + 1];
+				env->env_cpy[i + 1] = tmp;
+				sorted = 0;
+			}
+			i++;
+		}
+	}
+}
 
 char	*clean_str(char *str)
 {
@@ -66,6 +103,7 @@ int	builtin_export_env(t_env *env)
 	int		equal_flag;
 
 	i = 0;
+	sort_env(env);
 	while (env->env_cpy[i])
 	{
 		equal_flag = 0;

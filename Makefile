@@ -6,7 +6,7 @@
 #    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/06/27 10:20:55 by engiusep         ###   ########.fr        #
+#    Updated: 2025/06/30 10:45:44 by engiusep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,15 @@ FILES = terminal.c \
 		terminal_utils.c \
 		lexer/lexer.c \
 		lexer/lexer_utils.c \
+		lexer/lexer_utils2.c  \
 		lexer/quote_utils.c \
 		lexer/quote_utils2.c \
 		lexer/quote_utils3.c \
+		lexer/quote_utils4.c \
 		lexer/symbol.c \
 		parsing/handle_parsing.c \
 		parsing/token_checker.c \
 		parsing/token_checker_utils.c \
-		lexer/lexer_utils3.c  \
 		parsing/parsing.c \
 		env/env.c \
 		exec/exec.c \
@@ -55,32 +56,32 @@ FILES = terminal.c \
 		builtins/builtin_export_utils.c \
 		signal/signal_handle.c\
 		
-		
-
 OBJ_DIR = obj
 DIRS = $(addprefix $(OBJ_DIR)/, lexer parsing env exec free builtins signal)
 OBJS = $(addprefix $(OBJ_DIR)/, $(FILES:.c=.o))
 LIBFT = libft/libft.a
 
-LIBFT_SRC = \
-	libft/ft_strncmp.c \
-	libft/ft_strlen.c \
-	libft/ft_split.c \
-	libft/ft_strjoin.c \
-	libft/ft_joinchar.c \
-	libft/ft_strncat.c \
-	libft/ft_strcpy.c \
-	libft/free_tab.c \
-	libft/ft_substr.c \
-	libft/ft_strndup.c \
-	libft/get_next_line/get_next_line.c \
-	libft/tab_len.c \
-	libft/ft_strchr.c \
-	libft/ft_itoa.c \
-	libft/print_error.c \
-	libft/ft_putendl_fd.c \
-	libft/ft_putstr_fd.c \
-	libft/libft.h
+LIBFT_SRC = libft/ft_strncmp.c \
+			libft/ft_strlen.c \
+			libft/ft_split.c \
+			libft/ft_strjoin.c \
+			libft/ft_joinchar.c \
+			libft/ft_strncat.c \
+			libft/ft_strcpy.c \
+			libft/free_tab.c \
+			libft/ft_substr.c \
+			libft/ft_strndup.c \
+			libft/get_next_line/get_next_line.c \
+			libft/tab_len.c \
+			libft/ft_strchr.c	\
+			libft/ft_itoa.c \
+			libft/print_error.c \
+			libft/ft_putendl_fd.c \
+			libft/ft_putstr_fd.c \
+			libft/ft_isalpha.c \
+			libft/ft_isnum.c \
+			libft/ft_atoi.c \
+			libft/ft_isalnum.c \
 
 all: $(NAME)
 

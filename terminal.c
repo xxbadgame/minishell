@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/29 13:43:22 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/30 12:58:40 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	lexer_and_parsing(t_shell *shell)
 	lexer_code = lexer(shell);
 	if (lexer_code == -1)
 		return (free_tokens(shell), -1);
-	else if (lexer_code == 2)
-		return (2);
 	if (parsing_token(shell) == -1)
 		return (free(shell->line), free_tokens(shell), free_cmds(shell), -1);
 	return (0);
@@ -66,8 +64,6 @@ int	exec(t_shell *shell)
 	check_lexer_pars = lexer_and_parsing(shell);
 	if (check_lexer_pars == -1)
 		return (-1);
-	if (check_lexer_pars == 2)
-		return (2);
 	cmd = shell->cmds;
 	if (cmd->next)
 	{
@@ -85,13 +81,12 @@ int	exec(t_shell *shell)
 
 int	loop_readline(t_shell *shell)
 {
+	shell->line = readline("minishell$ ");
 	if (g_sigint)
 	{
 		g_sigint = 0;
 		shell->last_exit = 130;
-		return (0);
 	}
-	shell->line = readline("minishell$ ");
 	if (!shell->line)
 	{
 		free_env(shell);
@@ -110,19 +105,13 @@ int	loop_readline(t_shell *shell)
 			return (-1);
 		}
 	}
-	free_tokens(shell);
-	free_cmds(shell);
-	free(shell->line);
-	shell->line = NULL;
-	return (0);
+	return (free_tokens(shell), free_cmds(shell), free(shell->line), 0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-	//int		check_loop;
 
-	//check_loop = 0;
 	(void)argc;
 	(void)argv;
 	shell = malloc(sizeof(t_shell));
@@ -140,10 +129,8 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGPIPE, SIG_IGN);
 	while (1)
 	{
-		loop_readline(shell);
-		//check_loop = loop_readline(shell);
-		//if (check_loop == -1)
-		//	return (free_env(shell), free(shell), clear_history(), -1);
+		if (loop_readline(shell) == -1)
+			shell->last_exit = 1;
 	}
 	return (free_env(shell), free(shell), clear_history(), 0);
 }

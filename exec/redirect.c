@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/28 11:09:18 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/30 11:50:18 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ int	heredoc(char *stop_word, t_shell *shell)
 	setup_signals(&sa_old, &sa_new);
 	if (pipe(pipefd) == -1)
 		return (-1);
-	while (!g_sigint)
+	while (g_sigint != 1)
 	{
 		if (heredoc_loop(&line, shell, stop_word, pipefd) == 2)
 			break ;
 	}
 	close(pipefd[1]);
 	sigaction(SIGINT, &sa_old, NULL);
-	if (g_sigint)
+	if (g_sigint == 1)
 	{
 		close(pipefd[0]);
 		return (-1);

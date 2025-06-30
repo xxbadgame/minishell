@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/28 12:46:30 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/30 13:41:11 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,13 @@ static int	check_path_cmd(t_cmd *cmd)
 	return (0);
 }
 
-int	builtin_cd(t_cmd *cmd, t_env *env)
+static int	end_cd(char *cwd, t_env *env, t_cmd *cmd)
 {
-	char	*cwd;
 	char	*new_path;
 	char	*temp;
 
-	if (check_path_cmd(cmd) == 1)
-		return (0);
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		return(perror("error retrieving current directory"),-1);
 	if (handle_oldpwd(cwd, env) == -1)
-		return (-1);
+		return (free(cwd), -1);
 	new_path = ft_strjoin(cwd, "/");
 	if (!new_path)
 		return (free(cwd), -1);
@@ -112,5 +106,35 @@ int	builtin_cd(t_cmd *cmd, t_env *env)
 		return (free(cwd), free(new_path), perror("dir"), -1);
 	if (handle_pwd(env) == -1)
 		return (-1);
-	return (free(new_path), free(cwd), 0);
+	free(new_path);
+	free(cwd);
+	return (0);
+}
+
+int	builtin_cd(t_cmd *cmd, t_env *env)
+{
+	char	*cwd;
+	char	*new_path;
+
+	if (check_path_cmd(cmd) == 1)
+		return (0);
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		ft_putendl_fd("cd: error retrieving current directory", 2);
+		new_path = find_str_in_env(env, "OLDPWD");
+		if (!new_path)
+			return (-1);
+		if (chdir(new_path) == -1)
+			return (free(new_path), perror("dir"), -1);
+		if (handle_pwd(env) == -1)
+			return (-1);
+		free(new_path);
+	}
+	else
+	{
+		if (end_cd(cwd, env, cmd) == -1)
+			return (-1);
+	}
+	return (0);
 }

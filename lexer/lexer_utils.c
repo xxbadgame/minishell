@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:00:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/27 10:18:26 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:50:15 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	checker_flag_symbol(t_index_lexer *index, int flag_symbol, t_token *next,
 			index->flag_symbole = 0;
 			return (0);
 		}
-		if (!previous || !next)
+		if (!previous || !next || next->type != WORD)
 			return (-1);
 	}
 	return (0);
@@ -77,12 +77,16 @@ int	checker_flag_symbol(t_index_lexer *index, int flag_symbol, t_token *next,
 int	primary_checker(char *line)
 {
 	int	i;
+	int	code_primary_check;
 
 	i = 0;
 	while (line[i])
 	{
-		if (primary_check_quote(line, &i) == 2)
+		code_primary_check = primary_check_quote(line, &i);
+		if (code_primary_check == 2)
 			continue ;
+		else if (code_primary_check == -1)
+			return (-1);
 		if (line[i] == '<' && line[i + 1] != '<' && line[i + 1] != ' '
 			&& !ft_isalnum(line[i + 1]))
 			return (ft_putendl_fd("minishell: synthax error", 2), -1);
@@ -92,10 +96,9 @@ int	primary_checker(char *line)
 		else if (line[i] == '<' && line[i + 1] == '<' && line[i + 2] != ' '
 			&& !ft_isalnum(line[i + 2]))
 			return (ft_putendl_fd("minishell: synthax error", 2), -1);
-		else if (line[i] == '>' && line[i + 1] == '>' && line[i + 2] != ' '
+		else if (line[i++] == '>' && line[i + 1] == '>' && line[i + 2] != ' '
 			&& !ft_isalnum(line[i + 2]))
 			return (ft_putendl_fd("minishell: synthax error", 2), -1);
-		i++;
 	}
 	return (0);
 }

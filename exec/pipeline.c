@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:13:39 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/29 13:39:16 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/30 10:50:33 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,8 @@ int	pipeline(t_shell *shell)
 	cmd->pid = 0;
 	pipefd[0] = 0;
 	pipefd[1] = 0;
-	// ici on ouvre les fd pour les heredoc il en reste 1 à la fin
 	if (check_all_arg_for_heredoc(cmd, shell) == -1)
 		return (-1);
-	// ici on créer les pipes
 	last_pid = exec_pipeline(cmd, pipefd, shell, &in_fd);
 	if (last_pid == -1)
 		return (close_fd_exit(pipefd, in_fd), -1);

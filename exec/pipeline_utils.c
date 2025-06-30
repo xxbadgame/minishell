@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:28:25 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/29 13:39:40 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/30 10:49:42 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ int	check_all_arg_for_heredoc(t_cmd *cmd, t_shell *shell)
 			tmp->heredoc_fd = heredoc(tmp->infile, shell);
 			if (tmp->heredoc_fd == -1)
 				return (-1);
-			// if (tmp->next == NULL)
-			// 	close(tmp->heredoc_fd);
 		}
 		tmp = tmp->next;
 	}

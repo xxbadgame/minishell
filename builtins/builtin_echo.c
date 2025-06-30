@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 08:57:37 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/28 13:01:59 by yannis           ###   ########.fr       */
+/*   Updated: 2025/06/30 10:51:11 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	is_echo_n(const char *s)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	if (s[i] != '-')
 		return (0);
 	i++;
@@ -27,7 +29,9 @@ int	is_echo_n(const char *s)
 
 static void	print_echo_args(t_cmd *cmd, int i)
 {
-	int	first = 1;
+	int	first;
+
+	first = 1;
 	while (cmd->cmd_args[i])
 	{
 		if (!first)
@@ -40,9 +44,11 @@ static void	print_echo_args(t_cmd *cmd, int i)
 
 int	builtin_echo(t_cmd *cmd)
 {
-	int	i = 1;
-	int	newline = 1;
+	int	i;
+	int	newline;
 
+	i = 1;
+	newline = 1;
 	while (cmd->cmd_args[i] && is_echo_n(cmd->cmd_args[i]))
 	{
 		newline = 0;
