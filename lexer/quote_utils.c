@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/30 14:37:41 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:28:00 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,27 @@ static	void	checker_micro_symbol(t_index_lexer *index, char *str)
 
 int	in_quote(char *str, t_index_lexer *index, char **result, t_shell *shell)
 {
+	int count_quote;
+	
+	count_quote = 0;
 	if (str[index->i] == '"')
 	{
 		index->i++;
 		checker_micro_symbol(index, str);
-		while (str[index->i] && str[index->i] != '"')
+		while (str[index->i] && (str[index->i] != '"' || count_quote != check_quote(str)))
 		{
+			if ((str[index->i] == '\'' || str[index->i] == '"') 
+				&& str[index->i + 1] && str[index->i + 1] == ' '
+				&& count_quote % 2 == 0)
+			{
+				break;
+			}
+			if (str[index->i] == '\'' || str[index->i] == '"')
+			{
+				index->i++;
+				count_quote++;
+				continue;
+			}
 			if (check_lex_in_loop(str, index, result, shell) == 2)
 				continue ;
 		}
@@ -66,8 +81,16 @@ int	in_quote(char *str, t_index_lexer *index, char **result, t_shell *shell)
 	{
 		index->i++;
 		checker_micro_symbol(index, str);
-		while (str[index->i] && str[index->i] != '\'')
+		while (str[index->i] && (str[index->i] != '\'' || count_quote != check_quote(str)))
+		{
+			if (str[index->i] == '\'' || str[index->i] == '"')
+			{
+				index->i++;
+				count_quote++;
+				continue;
+			}
 			end_loop(result, str, index);
+		}
 		index->i++;
 		return (1);
 	}

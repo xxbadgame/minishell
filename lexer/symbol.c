@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/30 13:52:05 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:25:17 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	ft_read_word(t_token **tokens_list, char *str, t_index_lexer *index,
 	if (!token)
 		return (free(result), -1);
 	add_token(tokens_list, token);
+	printf("token : %s\n", token->value);
 	return (0);
 }
 
