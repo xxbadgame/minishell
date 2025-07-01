@@ -65,7 +65,7 @@ int	in_quote(char *str, t_index_lexer *index, char **result, t_shell *shell)
 			{
 				break;
 			}
-			if (str[index->i] == '\'' || str[index->i] == '"')
+			if (str[index->i] == '"')
 			{
 				index->i++;
 				count_quote++;
@@ -83,7 +83,13 @@ int	in_quote(char *str, t_index_lexer *index, char **result, t_shell *shell)
 		checker_micro_symbol(index, str);
 		while (str[index->i] && (str[index->i] != '\'' || count_quote != check_quote(str)))
 		{
-			if (str[index->i] == '\'' || str[index->i] == '"')
+			if ((str[index->i] == '\'' || str[index->i] == '"') 
+				&& str[index->i + 1] && str[index->i + 1] == ' '
+				&& count_quote % 2 == 0)
+			{
+				break;
+			}
+			if (str[index->i] == '\'')
 			{
 				index->i++;
 				count_quote++;
