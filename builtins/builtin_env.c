@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:07:33 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/05 09:40:33 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:42:48 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ int	builtin_env(t_env *env, t_cmd *cmd)
 
 	i = 0;
 	j = 1;
+	if(cmd->cmd_args[1] != NULL)
+	{
+		print_error("env:",cmd->cmd_args[1],": No such file or directory\n");
+		return (-1);
+	}
 	while (env->env_cpy[i])
 	{
 		if (ft_strchr(env->env_cpy[i], '=') != 0)

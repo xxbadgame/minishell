@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/30 15:05:25 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:52:54 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	loop_readline(t_shell *shell)
 		free_env(shell);
 		free(shell);
 		write(2, "exit\n", 5);
-		exit(0);
+		exit(shell->last_exit);
 	}
 	if ((*shell->line) != '\0')
 	{

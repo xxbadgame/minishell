@@ -6,13 +6,11 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:47:31 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/30 10:25:03 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:47:31 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
-
-//volatile int	g_sigint = 0;
 
 void	handle_sigint(int sig)
 {
