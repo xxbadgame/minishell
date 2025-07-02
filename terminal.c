@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:08 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/01 14:52:54 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:02:46 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	exec(t_shell *shell)
 
 int	loop_readline(t_shell *shell)
 {
+	int temp;
 	shell->line = readline("minishell$ ");
 	if (g_sigint)
 	{
@@ -89,21 +90,17 @@ int	loop_readline(t_shell *shell)
 	}
 	if (!shell->line)
 	{
+		temp = shell->last_exit;
 		free_env(shell);
 		free(shell);
 		write(2, "exit\n", 5);
-		exit(shell->last_exit);
+		exit(temp);
 	}
 	if ((*shell->line) != '\0')
 	{
 		add_history(shell->line);
 		if (exec(shell) == -1)
-		{
-			free_tokens(shell);
-			free_cmds(shell);
-			free(shell->line);
-			return (-1);
-		}
+			return (free(shell->line),free_tokens(shell), free_cmds(shell),-1);
 	}
 	return (free_tokens(shell), free_cmds(shell), free(shell->line), 0);
 }

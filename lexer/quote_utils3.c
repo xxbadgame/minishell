@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:31:59 by engiusep          #+#    #+#             */
-/*   Updated: 2025/07/02 15:49:02 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:55:32 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	check_quote(char *str)
 		}
 		j++;
 	}
-	printf("nb quote : %d\n", simple_quote + double_quote);
 	return (simple_quote + double_quote);
 }
 
