@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:20:00 by engiusep          #+#    #+#             */
-/*   Updated: 2025/07/01 14:59:42 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/02 09:45:29 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	check_path_cmd(t_cmd *cmd)
 	if (cmd->cmd_args[1] == NULL)
 		return (0);
 	if (cmd->cmd_args[2] != NULL)
-		return (ft_putendl_fd("cd : to many arguments", 2), 1);
+		return (ft_putendl_fd("cd : to many arguments", 2), -1);
 	if (cmd->cmd_args[1] != NULL)
 	{
 		if (cmd->cmd_args[1][0] == '/')

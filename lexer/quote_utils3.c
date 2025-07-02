@@ -6,35 +6,79 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:31:59 by engiusep          #+#    #+#             */
-/*   Updated: 2025/07/01 15:44:31 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:49:02 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../terminal.h"
+
+int	check_quote_simple(char *str)
+{
+	int	j;
+	int	simple_quote;
+
+	simple_quote = 0;
+	j = 0;
+	while (str[j] && (str[j] != ' ' || simple_quote % 2 != 0))
+	{
+		if (str[j] == '\'')
+			simple_quote++;
+		j++;
+	}
+	return (simple_quote);
+}
+
+int	check_quote_double(char *str)
+{
+	int	j;
+	int	double_quote;
+
+	double_quote = 0;
+	j = 0;
+	while (str[j] && (str[j] != ' ' || double_quote % 2 != 0))
+	{
+		if (str[j] == '"')
+			double_quote++;
+		j++;
+	}
+	return (double_quote);
+}
 
 int	check_quote(char *str)
 {
 	int	j;
 	int	simple_quote;
 	int	double_quote;
+	char c_first;
 
 	double_quote = 0;
 	simple_quote = 0;
 	j = 0;
+	c_first = str[j];
 	while (str[j])
 	{
 		if (str[j] == '\'')
 			simple_quote++;
 		if (str[j] == '"')
 			double_quote++;
+		if (c_first == '"')
+		{
+			if (str[j] == ' ' && double_quote % 2 != 0)
+				j++;
+			else if (str[j] == ' ' && double_quote % 2 == 0)
+				break;
+		}
+		else if (c_first == '\'')
+		{
+			if (str[j] == ' ' && simple_quote % 2 != 0)
+				j++;
+			else if (str[j] == ' ' && simple_quote % 2 == 0)
+				break;
+		}
 		j++;
 	}
-	if (simple_quote % 2 == 0 && double_quote % 2 == 0 && (simple_quote != 0
-			|| double_quote != 0))
-		return (simple_quote + double_quote);
-	else if (simple_quote % 2 != 0 || double_quote % 2 != 0)
-		return (-1);
-	return (0);
+	printf("nb quote : %d\n", simple_quote + double_quote);
+	return (simple_quote + double_quote);
 }
 
 int	env_var_checker(char *str)

@@ -6,7 +6,7 @@
 /*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/06/30 10:55:34 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:43:36 by engiusep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,6 @@ int								checker_flag_symbol(t_index_lexer *index,
 int								env_var_checker(char *str);
 void							cut_quote(char *str, t_index_lexer *index,
 									char **result, t_shell *t_shell);
-int								check_quote(char *str);
 int								lexer(t_shell *shell);
 t_token							*create_token(char *str, t_token_type type);
 void							add_token(t_token **tokens_list,
@@ -200,6 +199,8 @@ void							after_dollar_checker(t_index_lexer *index,
 									char **result, t_shell *shell);
 int								env_var_checker(char *str);
 int								check_quote(char *str);
+int								check_quote_simple(char *str);
+int								check_quote_double(char *str);
 int								in_quote(char *str, t_index_lexer *index,
 									char **result, t_shell *shell);
 // parsing
