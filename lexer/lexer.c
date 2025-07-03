@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/07/03 10:30:53 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/03 11:47:36 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ int	lexer(t_shell *shell)
 	index.flag_symbole = 0;
 	index.expand_heredoc = 0;
 	if (primary_checker(shell->line) == -1)
+	{
+		shell->last_exit = 2;
 		return (-1);
+	}
 	while (shell->line[index.i] != '\0')
 	{
 		code_condi_lexer = condi_lexer(&(shell->tokens), shell->line, &index,
@@ -115,7 +118,10 @@ int	lexer(t_shell *shell)
 	if (synthax_checker(&index, shell) == -1)
 	{
 		ft_putendl_fd("minishell: synthax error", 2);
-		return (-1);
+		{
+			shell->last_exit = 2;
+			return (-1);
+		}
 	}
 	return (0);
 }
