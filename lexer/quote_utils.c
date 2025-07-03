@@ -6,7 +6,7 @@
 /*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/03 10:14:18 by yannis           ###   ########.fr       */
+/*   Updated: 2025/07/03 10:55:26 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,6 @@ int	check_char(char *str, int i)
 void	cut_quote(char *str, t_index_lexer *index, char **result,
 		t_shell *shell)
 {
-	int	flag_var_env;
-
 	while (check_char(str, index->i))
 	{
 		if (start_loop(str, index, result, shell) == 1)
@@ -161,11 +159,8 @@ void	cut_quote(char *str, t_index_lexer *index, char **result,
 		else if (str[index->i + 1] && str[index->i] == '$'
 			&& env_var_checker(str + index->i) != 0 && index->expand_heredoc == 0)
 		{
-			flag_var_env = dollar_var_env(result, index, str, shell);
-			if (flag_var_env == 1)
-				continue ;
-			if (flag_var_env == 2)
-				break ;
+			if (in_quote_var_env(result, shell, index, str) == 1)
+				continue;
 		}
 		else
 			end_loop2(result, str, index);
