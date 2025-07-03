@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+         #
+#    By: yannis <yannis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:44:10 by engiusep          #+#    #+#              #
-#    Updated: 2025/06/30 10:45:44 by engiusep         ###   ########.fr        #
+#    Updated: 2025/07/03 11:55:04 by yannis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,11 +92,12 @@ $(LIBFT): $(LIBFT_SRC)
 	make -C libft
 
 $(OBJ_DIR)/%.o: %.c $(HEADERS) Makefile | $(DIRS)
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 	
 $(DIRS):
 	@mkdir -p $@
+
+-include $(OBJS:.o=.d)
 
 clean:
 	$(RM) -r $(OBJ_DIR)
