@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:20:14 by engiusep          #+#    #+#             */
-/*   Updated: 2025/07/02 09:33:38 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:30:53 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	lexer(t_shell *shell)
 	index.i = 0;
 	index.j = 0;
 	index.flag_symbole = 0;
+	index.expand_heredoc = 0;
 	if (primary_checker(shell->line) == -1)
 		return (-1);
 	while (shell->line[index.i] != '\0')

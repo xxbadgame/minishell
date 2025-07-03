@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:52:59 by yannis            #+#    #+#             */
-/*   Updated: 2025/07/02 15:26:38 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:14:18 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	in_quote_var_env(char **result, t_shell *shell, t_index_lexer *index,
 	return (0);
 }
 
-// static	void	checker_micro_symbol(t_index_lexer *index, char *str)
-// {
-// 	if (str[index->i] == '<' || str[index->i] == '>' || str[index->i] == '|')
-// 		index->flag_symbole = 1;
-// }
+static	void	checker_micro_symbol(t_index_lexer *index, char *str)
+{
+	if (str[index->i] == '<' || str[index->i] == '>' || str[index->i] == '|')
+		index->flag_symbole = 1;
+}
 
 int	double_quote_loop(char *str, t_index_lexer *index, char **result,
 		t_shell *shell)
@@ -54,20 +54,9 @@ int	double_quote_loop(char *str, t_index_lexer *index, char **result,
 	int	count_quote;
 
 	count_quote = 0;
-	// checker_micro_symbol(index, str);
+	checker_micro_symbol(index, str);
 	while (str[index->i] && str[index->i] != '"')
 	{
-		// if (str[index->i] == '"' && str[index->i + 1]
-		// 	&& str[index->i + 1] == ' ' && count_quote_double != double_q)
-		// 	break ;
-		// if (str[index->i] == '"')
-		// {
-		// 	index->i++;
-		// 	if(str[index->i] == '\'')
-		// 		break ;
-		// 	count_quote_double++;
-		// 	continue ;
-		// }
 		if (str[index->i] == '\'')
 			count_quote++;
 		if (check_lex_in_loop(str, index, result, shell) == 2)
@@ -81,18 +70,9 @@ int	simple_quote_loop(char *str, t_index_lexer *index, char **result)
 	int	count_quote;
 
 	count_quote = 0;
-	// checker_micro_symbol(index, str);
+	checker_micro_symbol(index, str);
 	while (str[index->i] && str[index->i] != '\'')
 	{
-		// if (str[index->i] == '\'' && str[index->i + 1]
-		// 	&& str[index->i + 1] == ' ' && count_quote_simple != simple_q)
-		// 	break ;
-		// if (str[index->i] == '\'')
-		// {
-		// 	index->i++;
-		// 	count_quote_simple++;
-		// 	continue ;
-		// }
 		if (str[index->i] == '"')
 			count_quote++;
 		end_loop(result, str, index);
@@ -170,16 +150,16 @@ void	cut_quote(char *str, t_index_lexer *index, char **result,
 
 	while (check_char(str, index->i))
 	{
-		if (start_loop(str, index, result, shell) == 2)
+		if (start_loop(str, index, result, shell) == 1)
 			break ;
-		if (str[index->i + 1] && str[index->i] == '$' && ft_isalpha(str[index->i
-				+ 1]) == 0)
+		if (str[index->i + 1] && str[index->i] == '$' 
+			&& ft_isalpha(str[index->i + 1]) == 0 && index->expand_heredoc == 0)
 			index->i += 2;
-		else if (str[index->i + 1] && str[index->i] == '$' && str[index->i
-			+ 1] == '?')
+		else if (str[index->i + 1] && str[index->i] == '$' 
+			&& str[index->i + 1] == '?' && index->expand_heredoc == 0)
 			after_dollar_checker(index, result, shell);
 		else if (str[index->i + 1] && str[index->i] == '$'
-			&& env_var_checker(str + index->i) != 0)
+			&& env_var_checker(str + index->i) != 0 && index->expand_heredoc == 0)
 		{
 			flag_var_env = dollar_var_env(result, index, str, shell);
 			if (flag_var_env == 1)

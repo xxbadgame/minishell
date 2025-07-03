@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   symbol.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:51:52 by engiusep          #+#    #+#             */
-/*   Updated: 2025/07/02 15:55:49 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:16:31 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_read_word(t_token **tokens_list, char *str, t_index_lexer *index,
 	if (!token)
 		return (free(result), -1);
 	add_token(tokens_list, token);
+	index->expand_heredoc = 0;
 	return (0);
 }
 
@@ -77,23 +78,24 @@ int	ft_redir(char *str, t_token **tokens_list, int *i)
 	return (add_token(tokens_list, token), 0);
 }
 
-int	ft_heredoc_or_append(char *str, t_token **tokens_list, int *i)
+int	ft_heredoc_or_append(char *str, t_token **tokens_list, t_index_lexer *index)
 {
 	t_token	*token;
 	char	*temp;
 
 	token = NULL;
 	temp = NULL;
-	if (str[*i] == '<' && str[*i + 1] == '<')
+	if (str[index->i] == '<' && str[index->i + 1] == '<')
 	{
 		temp = ft_strndup("<<", 2);
 		if (!temp)
 			return (-1);
+		index->expand_heredoc = 1;
 		token = create_token(temp, HEREDOC);
 		if (!token)
 			return (free(temp), -1);
 	}
-	else if ((str[*i] == '>' && str[*i + 1] == '>'))
+	else if ((str[index->i] == '>' && str[index->i + 1] == '>'))
 	{
 		temp = ft_strndup(">>", 2);
 		if (!temp)
@@ -102,6 +104,6 @@ int	ft_heredoc_or_append(char *str, t_token **tokens_list, int *i)
 		if (!token)
 			return (free(temp), -1);
 	}
-	(*i) += 2;
+	index->i += 2;
 	return (add_token(tokens_list, token), 0);
 }

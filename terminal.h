@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:20:39 by ynzue-es          #+#    #+#             */
-/*   Updated: 2025/07/02 12:43:36 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/03 09:58:03 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_index_lexer
 	int							i;
 	int							j;
 	int							flag_symbole;
+	int							expand_heredoc;
 }								t_index_lexer;
 
 typedef struct s_shell
@@ -175,7 +176,7 @@ int								ft_pipe(t_token **tokens_list,
 int								ft_redir(char *str, t_token **tokens_list,
 									int *i);
 int								ft_heredoc_or_append(char *str,
-									t_token **tokens_list, int *i);
+									t_token **tokens_list, t_index_lexer *lexer);
 int								check_symbole_append_heredoc(char *str,
 									t_index_lexer *index);
 int								check_symbole_redirect(char *str,

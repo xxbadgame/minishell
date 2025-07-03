@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:40:18 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/30 14:20:00 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/03 09:54:52 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	handle_special_symbols(t_token **tokens_list, char *str,
 	}
 	else if (str[index->i + 1] && check_symbole_append_heredoc(str, index) == 1)
 	{
-		if (ft_heredoc_or_append(str, tokens_list, &index->i) == -1)
+		if (ft_heredoc_or_append(str, tokens_list, index) == -1)
 			return (-1);
 	}
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:19:18 by yannis            #+#    #+#             */
-/*   Updated: 2025/06/30 11:50:18 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:24:57 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int	heredoc_loop(char **line, t_shell *shell, char *stop_word, int *pipefd)
 	if (!*line)
 		return (2);
 	*line = str_trim_nl(*line);
-	line_checker(line, shell);
 	if (is_stop_word(*line, stop_word))
 		return (free(*line), 2);
+	line_checker(line, shell);
 	write(pipefd[1], *line, ft_strlen(*line));
 	write(pipefd[1], "\n", 1);
 	free(*line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: engiusep <engiusep@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yannis <yannis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:28:27 by engiusep          #+#    #+#             */
-/*   Updated: 2025/06/30 15:39:33 by engiusep         ###   ########.fr       */
+/*   Updated: 2025/07/03 09:49:41 by yannis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ int	start_loop(char *str, t_index_lexer *index, char **result, t_shell *shell)
 
 	exit_quote = in_quote(str, index, result, shell);
 	if (index->i >= ft_strlen(str))
-		return (2);
+		return (1);
 	if (str[index->i] == '\0' && exit_quote)
-		return (2);
+		return (1);
 	if (check_char2(str, index->i) && exit_quote)
-		return (2);
+		return (1);
 	return (0);
 }
